@@ -1,6 +1,6 @@
 {
   "name": "iter",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "description": "",
   "scripts": {
     "build": "rollup -c",
@@ -13,16 +13,17 @@
   "author": "ykrods",
   "license": "MIT",
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "*",
-    "dexie": "*",
-    "prettier": "*",
-    "rollup": "*",
-    "rollup-plugin-css-only": "^3.1.0",
-    "rollup-plugin-svelte": "^7.1.0",
-    "svelte": "*",
-    "svelte-mui": "*",
-    "svelte-spa-history-router": "^1.1.0",
-    "tiny-esm-test-runner": "*",
-    "ulid": "^2.3.0"
+    "@rollup/plugin-node-resolve": "11.2.1",
+    "dexie": "3.0.3",
+    "prettier": "2.2.1",
+    "puppeteer": "2.1.0",
+    "rollup": "2.45.1",
+    "rollup-plugin-css-only": "3.1.0",
+    "rollup-plugin-svelte": "7.1.0",
+    "svelte": "3.37.0",
+    "svelte-mui": "0.3.3-7",
+    "svelte-spa-history-router": "1.1.1",
+    "tiny-esm-test-runner": "1.2.2",
+    "ulid": "2.3.0"
   }
 }
