@@ -1,4 +1,5 @@
 import Dexie from "dexie";
+import "dexie-export-import";
 
 import { getDatabaseIds, getDBName, getDB } from "../db.js";
 
@@ -16,12 +17,25 @@ export class Project {
     this.id = id;
   }
 
-  url(rel="") {
+  get db() {
+    if (this._db === undefined) {
+      this._db = getDB(this.id);
+    }
+    return this._db;
+  }
+
+  url(rel = "") {
     return `/${this.id}${rel}`;
   }
 
   async save() {
-    this._db = getDB(this.id);
-    await this._db.open();
+    await this.db.open();
+  }
+
+  export() {
+    return this.db.export();
+  }
+  async delete() {
+    await this.db.delete();
   }
 }

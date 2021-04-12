@@ -7,6 +7,6 @@
 <svelte:head>
   <title>Wiki @ { projectId } | iter</title>
 </svelte:head>
-<main id="Journal">
+<main id="Wiki">
   Wiki
 </main>

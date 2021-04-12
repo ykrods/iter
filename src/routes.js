@@ -1,4 +1,4 @@
-import { Project } from "./models/project.js"
+import { Project } from "./models/project.js";
 import { currentProject, projects } from "./stores.js";
 
 import Top from "./pages/Top.svelte";
@@ -7,7 +7,6 @@ import Journal from "./pages/Journal.svelte";
 import Issues from "./pages/Issues.svelte";
 import Wiki from "./pages/Wiki.svelte";
 import Settings from "./pages/Settings.svelte";
-
 
 function topGuard(from, to, next) {
   currentProject.set(null);

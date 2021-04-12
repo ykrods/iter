@@ -14,3 +14,23 @@ export const projects = (() => {
 })();
 
 export const currentProject = writable(null);
+
+export const snackbarMessage = (() => {
+  const { subscribe, set } = writable(null);
+
+  return {
+    subscribe,
+    info(message) {
+      set({ message, level: "info" });
+    },
+    warning(message) {
+      set({ message, level: "warning" });
+    },
+    error(message) {
+      set({ message, level: "error" });
+    },
+    clear() {
+      set(null);
+    },
+  };
+})();
