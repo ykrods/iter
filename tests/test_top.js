@@ -28,7 +28,7 @@ export async function testCreateProject() {
     await page.type("input[name='id']", "example");
     await page.click('#add');
 
-    await page.waitForSelector("main#ProjectTop");
+    await page.waitForSelector("main#Journal");
     ok((await page.url()).includes('/example'));
 
     // back to top
@@ -36,7 +36,7 @@ export async function testCreateProject() {
     await page.waitForSelector("a[href='/example']");
 
     await page.click("a[href='/example']")
-    await page.waitForSelector("main#ProjectTop");
+    await page.waitForSelector("main#Journal");
     ok((await page.url()).includes('/example'));
   });
 }

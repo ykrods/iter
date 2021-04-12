@@ -7,6 +7,6 @@
 <svelte:head>
   <title>{ projectId } | iter</title>
 </svelte:head>
-<main id="ProjectTop">
-  ProjectTop
+<main id="Journal">
+  Journal
 </main>

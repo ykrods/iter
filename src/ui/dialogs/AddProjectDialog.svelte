@@ -14,7 +14,7 @@
   async function onCreateButtonPushed() {
     const project = new Project(id);
     await project.save();
-    push(project.url);
+    push(project.url());
   }
 </script>
 <Dialog width="500" bind:visible={visible}>

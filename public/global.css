@@ -13,6 +13,18 @@
   --bs-100: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px,
             rgba(0, 0, 0, 0.05) 0px 1px 4px 0px,
             rgba(0, 0, 0, 0.05) 0px 2px 8px 0px;
+
+  /* svelte-mui vars */
+  --color: #333;
+  --alternate: #fff;
+  --bg-color: #fbfbfa;
+  --primary: #1976d2;
+  --accent: #f50057;
+  --divider: rgba(0, 0, 0, 0.1);
+  --bg-popover: #EEE;
+  --border: #dfdfdf;
+  --label: rgba(0, 0, 0, 0.3755);
+  --bg-input-filled: rgba(0, 0, 0, 0.0555);
 }
 
 body {

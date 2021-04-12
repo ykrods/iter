@@ -1,7 +1,7 @@
 <script>
   import { Router } from "svelte-spa-history-router";
 
-  import { currentProject } from "./stores.js";
+  import { currentProject, projects } from "./stores.js";
   import routes from "./routes.js"
 
   import Header from "./ui/Header.svelte";
@@ -19,9 +19,6 @@
 </div>
 
 <style>
-  .app {
-    font-size: 18px;
-  }
   .mainContainer {
     display: flex;
     justify-content: center;

@@ -24,7 +24,7 @@
     {:else}
       <div class="selection-card--header">Available projects:</div>
       {#each $projects as project }
-        <div><a use:link href={ project.url }>{ project.id }</a></div>
+        <div><a use:link href={ project.url() }>{ project.id }</a></div>
       {/each}
     {/if}
     <div class="selection-card--footer">
@@ -35,5 +35,5 @@
 <AddProjectDialog bind:visible={showAddProjectDialog} />
 <style>
   #Top { text-align: center; }
-  p.welcome { font-size: 3em; }
+  p.welcome { font-size: 3.2em; }
 </style>

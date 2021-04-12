@@ -16,8 +16,8 @@ export class Project {
     this.id = id;
   }
 
-  get url() {
-    return `/${this.id}`;
+  url(rel="") {
+    return `/${this.id}${rel}`;
   }
 
   async save() {
