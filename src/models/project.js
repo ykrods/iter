@@ -32,6 +32,9 @@ export class Project {
     await this.db.open();
   }
 
+  import(blob) {
+    return this.db.import(blob, { acceptNameDiff: true });
+  }
   export() {
     return this.db.export();
   }

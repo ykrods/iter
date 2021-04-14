@@ -8,10 +8,6 @@
   export let target = null;
   export let message = 'Are you sure?';
 
-  function onCancelPushed() {
-    visible = false;
-  }
-
   async function onDeletePushed() {
     visible = false;
     dispatch('do-delete', target);
@@ -23,7 +19,7 @@
   <div slot="title">Confirmation</div>
   <p>{message}</p>
   <div slot="actions" class="actions center">
-    <Button on:click={onCancelPushed}>Cancel</Button>
+    <Button on:click={() => { visible = false; }}>Cancel</Button>
     <Button color="var(--danger, red)" on:click={onDeletePushed}>Delete</Button>
   </div>
 </Dialog>

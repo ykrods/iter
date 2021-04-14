@@ -5,9 +5,11 @@
   import { currentProject, snackbarMessage } from "../stores.js";
 
   import DeleteConfirmationDialog from "../ui/dialogs/DeleteConfirmationDialog.svelte"
+  import ImportFromJsonDialog from "../ui/dialogs/ImportFromJsonDialog.svelte";
 
   let projectId = $currentProject.id;
   let showDeleteConfirmation = false;
+  let showImportFromJsonDialog = false;
 
   async function onExportAsJsonPushed() {
     const blob = await $currentProject.export();
@@ -44,16 +46,31 @@
 </svelte:head>
 <main id="Settings" class="card">
   <h1>Settings</h1>
+  <h2>Import</h2>
+  <p>
+    <Button
+      outlined
+      on:click={() => { showImportFromJsonDialog = true; }}
+    >Import from json</Button>
+  </p>
+  <h2>Export</h2>
   <p>
     <Button outlined on:click={onExportAsJsonPushed}>Export as json</Button>
   </p>
   <p>
     <Button outlined disabled on:click={onExportAsZipPushed}>Export as zip</Button>
   </p>
+  <h2>Danger</h2>
   <p>
-    <Button outlined style="color: var(--danger);" on:click={onDeletePushed}>Delete</Button>
+    <Button
+      outlined
+      color="var(--danger, red)"
+      on:click={onDeletePushed}
+    >Delete</Button>
   </p>
 </main>
 <DeleteConfirmationDialog
   bind:visible={showDeleteConfirmation}
   on:do-delete={deleteProject} />
+<ImportFromJsonDialog
+  bind:visible={showImportFromJsonDialog}/>
