@@ -34,3 +34,6 @@ export const snackbarMessage = (() => {
     },
   };
 })();
+
+// issue list filter
+export const selectedStatuses = writable(["OPEN"]);

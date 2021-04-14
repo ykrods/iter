@@ -1,11 +1,11 @@
 <script>
   import { currentProject } from "../stores.js";
 
-  let projectId = $currentProject.id;
+  let project = $currentProject;
 </script>
 
 <svelte:head>
-  <title>Wiki @ { projectId } | iter</title>
+  <title>Wiki @ { project.id } | iter</title>
 </svelte:head>
 <main id="Wiki">
   Wiki

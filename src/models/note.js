@@ -1,7 +1,8 @@
-import { buildUpdates } from "./base.js";
+import { BaseModel } from "./base.js";
 
-export class Note {
+export class Note extends BaseModel {
   constructor({ body }) {
+    super();
     this.body = body;
   }
 
@@ -10,7 +11,7 @@ export class Note {
   }
 
   async save(project) {
-    const updates = buildUpdates(this);
+    const updates = super.buildUpdates();
     await project.db.notes.put(updates);
     Object.assign(this, updates);
   }

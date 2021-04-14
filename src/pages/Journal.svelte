@@ -2,12 +2,12 @@
   import { currentProject } from "../stores.js";
   import { Note } from "../models/note.js";
 
-  let projectId = $currentProject.id;
-  let listPromise = Note.list($currentProject, 10);
+  let project = $currentProject;
+  let listPromise = Note.list(project, 10);
 </script>
 
 <svelte:head>
-  <title>{ projectId } | iter</title>
+  <title>{ project.id } | iter</title>
 </svelte:head>
 <main id="Journal">
   <div class="card">

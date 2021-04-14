@@ -1,10 +1,17 @@
 import { ulid } from 'ulid';
 
-export function buildUpdates(model) {
-  const updates = Object.assign({}, model);
-  updates.id = updates.id || ulid();
-  updates.created_at = updates.created_at || new Date();
-  updates.updated_at = new Date();
+export class BaseModel {
+  /**
+   * Build data object to save
+   */
+  buildUpdates() {
+    // console.log(JSON.stringify(this));
 
-  return updates;
+    const updates = Object.assign({}, this, {
+      id: this.id || ulid(),
+      created_at: this.created_at || new Date(),
+      updated_at: new Date(),
+    });
+    return updates;
+  }
 }

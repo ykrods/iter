@@ -4,7 +4,7 @@ import { currentProject, projects } from "./stores.js";
 import Top from "./pages/Top.svelte";
 import NotFound from "./pages/NotFound.svelte";
 import Journal from "./pages/Journal.svelte";
-import Issues from "./pages/Issues.svelte";
+import IssueList from "./pages/IssueList.svelte";
 import Wiki from "./pages/Wiki.svelte";
 import Settings from "./pages/Settings.svelte";
 
@@ -39,7 +39,7 @@ function projectRoutes(childRoutes) {
 export default [{ path: "/", component: Top, guard: topGuard }].concat(
   projectRoutes([
     { path: "", component: Journal },
-    { path: "/issues", component: Issues },
+    { path: "/issues", component: IssueList },
     { path: "/wiki", component: Wiki },
     { path: "/settings", component: Settings },
   ]),

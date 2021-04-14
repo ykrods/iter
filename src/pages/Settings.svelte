@@ -7,16 +7,16 @@
   import DeleteConfirmationDialog from "../ui/dialogs/DeleteConfirmationDialog.svelte"
   import ImportFromJsonDialog from "../ui/dialogs/ImportFromJsonDialog.svelte";
 
-  let projectId = $currentProject.id;
+  let project = $currentProject;
   let showDeleteConfirmation = false;
   let showImportFromJsonDialog = false;
 
   async function onExportAsJsonPushed() {
-    const blob = await $currentProject.export();
+    const blob = await project.export();
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement("a");
-    a.download = `${projectId}.json`;
+    a.download = `${project.id}.json`;
     a.href = url;
     document.body.appendChild(a);
     a.click();
@@ -35,14 +35,14 @@
   }
   async function deleteProject() {
 
-    await $currentProject.delete();
-    snackbarMessage.info(`Delete "${projectId}"`);
+    await project.delete();
+    snackbarMessage.info(`Delete "${project.id}"`);
     push("/");
   }
 </script>
 
 <svelte:head>
-  <title>Settings @ { projectId } | iter</title>
+  <title>Settings @ { project.id } | iter</title>
 </svelte:head>
 <main id="Settings" class="card">
   <h1>Settings</h1>

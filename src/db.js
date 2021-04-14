@@ -1,5 +1,6 @@
 import Dexie from "dexie";
 
+import { Issue } from "./models/issue.js";
 import { Note } from "./models/note.js";
 
 const prefix = "iter-";
@@ -14,7 +15,9 @@ export function getDB(id) {
     notes: "id, created_at, updated_at",
   });
 
+  db.issues.mapToClass(Issue);
   db.notes.mapToClass(Note);
+
   return db;
 }
 
