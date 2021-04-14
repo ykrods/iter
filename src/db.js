@@ -1,5 +1,7 @@
 import Dexie from "dexie";
 
+import { Note } from "./models/note.js";
+
 const prefix = "iter-";
 
 export function getDB(id) {
@@ -12,6 +14,7 @@ export function getDB(id) {
     notes: "id, created_at, updated_at",
   });
 
+  db.notes.mapToClass(Note);
   return db;
 }
 

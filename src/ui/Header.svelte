@@ -4,6 +4,9 @@
 
   import { currentProject, projects } from "../stores.js";
 
+  import AddNoteDialog from "./dialogs/AddNoteDialog.svelte"
+
+  let showAddNoteDialog = false;
   let menuReloadPromise = Promise.resolve();
 
   function menuReload() {
@@ -34,11 +37,13 @@
     <a class="nav-link" use:link href={$currentProject.url()}>Journal</a>
     <a class="nav-link" use:link href={$currentProject.url("/issues")}>Issues</a>
     <a class="nav-link" use:link href={$currentProject.url("/wiki")}>Wiki</a>
+    <Button icon on:click={() => { showAddNoteDialog = true; }}>N+</Button>
     <span class="right">
       <Button icon on:click={onSettingsPushed}>SE</Button>
     </span>
   {/if}
 </header>
+<AddNoteDialog bind:visible={showAddNoteDialog} />
 
 <style>
   header {
