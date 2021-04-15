@@ -18,12 +18,12 @@
     "dexie-export-import": "1.0.0",
     "prettier": "2.2.1",
     "puppeteer": "2.1.0",
-    "rollup": "2.45.1",
+    "rollup": "2.45.2",
     "rollup-plugin-css-only": "3.1.0",
     "rollup-plugin-svelte": "7.1.0",
     "svelte": "3.37.0",
     "svelte-mui": "0.3.3-7",
-    "svelte-spa-history-router": "1.1.1",
+    "svelte-spa-history-router": "2.0.0",
     "tiny-esm-test-runner": "1.2.2",
     "ulid": "2.3.0"
   }

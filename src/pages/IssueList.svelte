@@ -5,10 +5,10 @@
   import AddButton from "../ui/buttons/AddButton.svelte";
   import { Issue, ISSUE_STATUSES } from "../models/issue.js";
 
-  import { currentProject, selectedStatuses } from "../stores.js";
+  import { selectedStatuses } from "../stores.js";
   import FormatDate from "../presentation/FormatDate.svelte";
 
-  let project = $currentProject;
+  export let project;
   let issuesPromise = Promise.resolve([]);
 
   $: issuesPromise = Issue.list(project, { statuses: $selectedStatuses }, 20);

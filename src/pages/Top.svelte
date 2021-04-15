@@ -2,10 +2,9 @@
   import { Button } from "svelte-mui";
   import { link } from "svelte-spa-history-router";
 
-  import { projects } from "../stores.js"
-
   import AddProjectDialog from "../ui/dialogs/AddProjectDialog.svelte";
 
+  export let projects = [];
   let showAddProjectDialog = false;
 
   function onClickAddProject() {
@@ -19,11 +18,11 @@
 <main id="Top">
   <p class="welcome">Welcome to iter app</p>
   <div class="selection-card">
-    {#if $projects.length == 0 }
+    {#if projects.length == 0 }
       <div class="selection-card--header">Let's start your project!</div>
     {:else}
       <div class="selection-card--header">Available projects:</div>
-      {#each $projects as project }
+      {#each projects as project }
         <div><a use:link href={ project.url() }>{ project.id }</a></div>
       {/each}
     {/if}

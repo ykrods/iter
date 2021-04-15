@@ -2,15 +2,16 @@
   import { Button, Icon, Menu, Menuitem } from "svelte-mui";
   import { push, link } from "svelte-spa-history-router";
 
-  import { currentProject, projects } from "../stores.js";
+  import { currentProject } from "../stores.js";
+  import { Project } from "../models/project.js";
 
   import AddNoteDialog from "./dialogs/AddNoteDialog.svelte"
 
   let showAddNoteDialog = false;
-  let menuReloadPromise = Promise.resolve();
+  let projectsPromise = Promise.resolve();
 
   function menuReload() {
-    menuReloadPromise = projects.reload();
+    projectsPromise = Project.list();
   }
 
   function onSettingsPushed() {
@@ -28,8 +29,8 @@
           <Icon path="M 2 7 L 12 17 L 22 7z" style="margin: 0 -4px 0 8px;" />
         </Button>
       </div>
-      {#await menuReloadPromise then _ }
-        {#each $projects as project}
+      {#await projectsPromise then projects }
+        {#each projects as project}
           <Menuitem href={ project.url() }>{ project.id }</Menuitem>
         {/each}
       {/await}

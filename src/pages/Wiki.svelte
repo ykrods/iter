@@ -1,7 +1,5 @@
 <script>
-  import { currentProject } from "../stores.js";
-
-  let project = $currentProject;
+  export let project;
 </script>
 
 <svelte:head>

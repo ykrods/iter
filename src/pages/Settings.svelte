@@ -2,12 +2,13 @@
   import { Button } from "svelte-mui";
   import { push } from "svelte-spa-history-router";
 
-  import { currentProject, snackbarMessage } from "../stores.js";
+  import { snackbarMessage } from "../stores.js";
 
   import DeleteConfirmationDialog from "../ui/dialogs/DeleteConfirmationDialog.svelte"
   import ImportFromJsonDialog from "../ui/dialogs/ImportFromJsonDialog.svelte";
 
-  let project = $currentProject;
+  export let project;
+
   let showDeleteConfirmation = false;
   let showImportFromJsonDialog = false;
 

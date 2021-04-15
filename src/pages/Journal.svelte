@@ -1,8 +1,7 @@
 <script>
-  import { currentProject } from "../stores.js";
   import { Note } from "../models/note.js";
 
-  let project = $currentProject;
+  export let project;
   let listPromise = Note.list(project, 10);
 </script>
 
