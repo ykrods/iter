@@ -29,6 +29,10 @@ export class Issue extends BaseModel {
     });
   }
 
+  static get(project, id) {
+    return project.db.issues.get(id);
+  }
+
   async save(project) {
     const updates = super.buildUpdates();
     await project.db.issues.put(updates);

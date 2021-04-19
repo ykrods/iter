@@ -1,11 +1,13 @@
 import { redirect } from "svelte-spa-history-router";
 
 import { Project } from "./models/project.js";
+import { Issue as IssueModel } from "./models/issue.js";
 import { currentProject } from "./stores.js";
 
 import Top from "./pages/Top.svelte";
 import NotFound from "./pages/NotFound.svelte";
 import Journal from "./pages/Journal.svelte";
+import Issue from "./pages/Issue.svelte";
 import IssueList from "./pages/IssueList.svelte";
 import Wiki from "./pages/Wiki.svelte";
 import Settings from "./pages/Settings.svelte";
@@ -28,6 +30,21 @@ function ensureProject(component) {
   };
 }
 
+async function issueResolver(route) {
+  // it's a bit complex...
+  const p = ensureProject(Issue);
+  const result = await p(route);
+  if (result !== Issue) {
+    return result;
+  }
+  const issue = await IssueModel.get(route.props.project, route.params.issueId);
+  if (!issue) {
+    return NotFound;
+  }
+  route.props.issue = issue;
+  return Issue;
+}
+
 export default [
   {
     path: "/",
@@ -44,6 +61,10 @@ export default [
   {
     path: "/(?<projectId>[0-9a-z-]+)/issues",
     resolver: ensureProject(IssueList),
+  },
+  {
+    path: "/(?<projectId>[0-9a-z-]+)/issues/(?<issueId>[0-9A-Z]+)",
+    resolver: issueResolver,
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/wiki",
