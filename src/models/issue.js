@@ -8,7 +8,6 @@ export const ISSUE_STATUSES = {
 };
 
 export class Issue extends BaseModel {
-
   constructor({ title, body, status }) {
     super();
     this.title = title;
@@ -19,12 +18,12 @@ export class Issue extends BaseModel {
   static list(project, filter = {}, n = undefined) {
     let query = project.db.issues;
     if (filter.statuses) {
-      query = query.where('status').anyOf(filter.statuses)
+      query = query.where("status").anyOf(filter.statuses);
     }
-    return query.reverse().sortBy('_', (ary) => {
+    return query.reverse().sortBy("_", (ary) => {
       return ary.sort((a, b) => {
         const i = new Date(1970, 1, 1);
-        return  ((a.updated_at || i) < (b.updated_at || i));
+        return (a.updated_at || i) < (b.updated_at || i);
       });
     });
   }

@@ -7,7 +7,7 @@ export class Note extends BaseModel {
   }
 
   static list(project, n) {
-    return project.db.notes.reverse().sortBy('id');
+    return project.db.notes.reverse().sortBy("id");
   }
 
   async save(project) {
