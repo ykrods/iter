@@ -6,7 +6,7 @@ import importText from './rollup-plugin-import-text.js';
 
 const production = !process.env.ROLLUP_WATCH;
 
-export default {
+export default [{
   input: 'src/main.js',
   output: {
     sourcemap: true,
@@ -42,4 +42,28 @@ export default {
     chokidar: false,
     clearScreen: false,
   },
-};
+}, {
+  input: 'src/converter/worker.js',
+  output: {
+    sourcemap: true,
+    format: 'iife',
+    name: 'converter',
+    file: 'public/converter.js'
+  },
+  external: [],
+  plugins: [
+    // make text importable as module
+    importText({ extensions: ['py']}),
+
+    // to import packages in node_modules
+    nodeResolve({
+      browser: true,
+      dedupe: ['svelte']
+    }),
+  ],
+  watch: {
+    include: 'src/converter/**',
+    chokidar: false,
+    clearScreen: false,
+  },
+}];

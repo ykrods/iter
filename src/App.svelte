@@ -6,6 +6,9 @@
 
   import Header from "./ui/Header.svelte";
   import Snackbar from "./ui/Snackbar.svelte";
+
+  // start worker setup
+  import { rst2html } from "./converter/client.js";
 </script>
 
 <div class="app">
