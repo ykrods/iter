@@ -38,6 +38,10 @@ export class Issue extends BaseModel {
     Object.assign(this, updates);
   }
 
+  async delete(project) {
+    await project.db.issues.delete(this.id);
+  }
+
   get shorten_id() {
     return this.id.substring(10, 15);
   }

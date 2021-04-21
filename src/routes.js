@@ -8,6 +8,7 @@ import Top from "./pages/Top.svelte";
 import NotFound from "./pages/NotFound.svelte";
 import Journal from "./pages/Journal.svelte";
 import Issue from "./pages/Issue.svelte";
+import IssueEdit from "./pages/IssueEdit.svelte";
 import IssueList from "./pages/IssueList.svelte";
 import Wiki from "./pages/Wiki.svelte";
 import Settings from "./pages/Settings.svelte";
@@ -60,6 +61,10 @@ export default [
   {
     path: "/(?<projectId>[0-9a-z-]+)/issues",
     resolver: ensureProject(IssueList),
+  },
+  {
+    path: "/(?<projectId>[0-9a-z-]+)/issues/new",
+    resolver: ensureProject(IssueEdit),
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/issues/(?<issueId>[0-9A-Z]+)",
