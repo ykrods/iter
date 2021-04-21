@@ -34,7 +34,6 @@
   <div>status: {issue.status_disp}</div>
   <div>created at: <FormatDateTime value={ issue.created_at }/></div>
   <div>updated at: <FormatDateTime value={ issue.updated_at }/></div>
-  <div>{ issue.body }</div>
   <RstViewer rst={issue.body}/>
   <DeleteConfirmationDialog
     bind:visible={showDeleteConfirmation}

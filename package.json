@@ -16,6 +16,7 @@
     "@rollup/plugin-node-resolve": "11.2.1",
     "dexie": "3.0.3",
     "dexie-export-import": "1.0.0",
+    "dompurify": "2.2.7",
     "prettier": "2.2.1",
     "promise-job-queue": "github:ykrods/promise-job-queue",
     "puppeteer": "2.1.0",
