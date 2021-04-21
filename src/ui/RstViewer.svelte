@@ -1,28 +1,32 @@
 <script>
+  import { tick } from "svelte";
+
   import DOMPurify from "dompurify/dist/purify.es.js";
   import { push } from "svelte-spa-history-router";
 
   import { rst2html } from "../converter/client.js";
 
   export let rst;
+  let html;
 
-  $: promise = refresh(rst);
+  $: refresh(rst);
 
-  function refresh(rst) {
+  async function refresh(rst) {
     if (typeof rst !== 'string' || rst === '') {
-      return Promise.resolve();
+      html = null;
+      return;
     }
-    return rst2html(rst);
-  }
+    const h = await rst2html(rst);
+    console.log(h);
+    html = DOMPurify.sanitize(h);
+    console.log(html);
 
-  // Render mermaid diagram if contained
-  /*
-  $: if (typeof html === 'string' && html.includes('mermaid')) {
-    tick().then(() => {
-      mermaid.init();
-    });
+    // Render mermaid diagram if contained
+    if (typeof html === 'string' && html.includes('mermaid')) {
+      await tick();
+      window.mermaid.init();
+    }
   }
-  */
 
   function captureClick(event) {
     if (event.target.tagName !== 'A') {
@@ -45,7 +49,7 @@
   }
 </script>
 <div>
-  {#await promise then html}
-    {@html DOMPurify.sanitize(html)}
-  {/await}
+  {#if html}
+    {@html html}
+  {/if}
 </div>

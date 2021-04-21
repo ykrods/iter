@@ -1,0 +1,29 @@
+/* reStructuredText */
+.document pre.code {
+  border: 1px solid #555;
+  padding: 20px;
+}
+
+.document a.reference {
+  color: #0000EE;
+  text-decoration: underline;
+}
+.document a.reference:visited {
+  color: #551A8B;
+  text-decoration: underline;
+}
+.document li > p {
+  margin: 3px;
+}
+
+.document table {
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+.document th, .document td {
+  border: 1px solid #CCC;
+  padding: 5px;
+}
+.document th {
+  background-color: #EEE;
+}

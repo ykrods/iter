@@ -8,6 +8,7 @@
  */
 import { Queue } from "promise-job-queue";
 import publish_parts from "./publish_parts.py";
+import mermaid from "./mermaid.py";
 
 /**
  * Queue roles
@@ -35,7 +36,10 @@ async function setup() {
 
   await self.languagePluginLoader;
   await pyodide.loadPackage("docutils");
-  const ret = pyodide.runPython(publish_parts);
+  await pyodide.loadPackage("Pygments");
+  pyodide.runPython(publish_parts);
+  pyodide.runPython(mermaid);
+  pyodide.runPython("setup_mermaid()")
   console.log("ready");
 }
 
