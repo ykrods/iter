@@ -81,10 +81,6 @@ export default [
     resolver: ensureProject({ resolver: issueResolver }),
   },
   {
-    path: "/(?<projectId>[0-9a-z-]+)/wiki",
-    resolver: ensureProject({ resolver: wikiResolver }),
-  },
-  {
     path: "/(?<projectId>[0-9a-z-]+)/wiki/(?<path>.*)",
     resolver: ensureProject({ resolver: wikiResolver }),
   },

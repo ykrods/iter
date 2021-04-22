@@ -2,7 +2,13 @@
   import { Button, Menu, Menuitem } from 'svelte-mui';
   import { push } from "svelte-spa-history-router";
 
+  import { WikiPage } from "../models/wiki_page.js";
+  import DeleteConfirmationDialog from "../ui/dialogs/DeleteConfirmationDialog.svelte";
+  import MenuButton from "../ui/buttons/MenuButton.svelte";
   import WikiPageForm from '../ui/forms/WikiPageForm.svelte';
+  import RstViewer from "../ui/RstViewer.svelte";
+  import BreadCrumb from '../ui/BreadCrumb.svelte';
+
   export let project;
   export let wikiPage;
 
@@ -21,6 +27,10 @@
       push(project.url(`wiki/${newPage.path}`));
     }
   }
+  async function doDelete() {
+    await wikiPage.delete(project);
+    wikiPage = new WikiPage({ path: wikiPage.path, body: "" });
+  }
 </script>
 
 <svelte:head>
@@ -28,7 +38,26 @@
 </svelte:head>
 <main id="Wiki" class="card">
   {#if !editing && wikiPage.body}
-    hyouzi { wikiPage.body }
+    <BreadCrumb path={wikiPage.path} {project}/>
+    <Menu origin="top right">
+      <div slot="activator">
+        <MenuButton />
+      </div>
+      <Menuitem on:click={() => { editing = true; }}>Edit</Menuitem>
+      <Menuitem
+        style="color: var(--danger);"
+        on:click={() => { showDeleteConfirmation = true; }}
+      >Delete</Menuitem>
+    </Menu>
+
+    <RstViewer rst={ wikiPage.body }/>
+
+    <DeleteConfirmationDialog
+      bind:visible={showDeleteConfirmation}
+      message="Delete the wiki '{wikiPage ? wikiPage.path: ''}' ?"
+      on:do-delete={doDelete}
+    />
+
   {:else if !editing}
     <p>
       Page does not exist.
@@ -38,7 +67,8 @@
     <WikiPageForm
       on:save={onSave}
       on:cancel={() => { editing = false; }}
-      {...wikiPage}
+      path={wikiPage.path}
+      body={wikiPage.body}
     />
   {/if}
 </main>

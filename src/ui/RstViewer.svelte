@@ -48,7 +48,7 @@
     }
   }
 </script>
-<div>
+<div on:click={captureClick}>
   {#if html}
     {@html html}
   {/if}
