@@ -1,6 +1,6 @@
 import { ulid } from "ulid";
 
-export class BaseModel {
+export class UlidModel {
   /**
    * Build data object to save
    */

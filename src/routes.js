@@ -2,6 +2,8 @@ import { redirect } from "svelte-spa-history-router";
 
 import { Project } from "./models/project.js";
 import { Issue as IssueModel } from "./models/issue.js";
+import { WikiPage } from "./models/wiki_page.js";
+
 import { currentProject } from "./stores.js";
 
 import Top from "./pages/Top.svelte";
@@ -13,7 +15,7 @@ import IssueList from "./pages/IssueList.svelte";
 import Wiki from "./pages/Wiki.svelte";
 import Settings from "./pages/Settings.svelte";
 
-function ensureProject(component) {
+function ensureProject({ component, resolver }) {
   return async (route) => {
     const id = route.params.projectId;
 
@@ -26,23 +28,31 @@ function ensureProject(component) {
     const project = new Project(id);
     currentProject.set(project);
     route.props.project = project;
-    return component;
+
+    if (component) {
+      return component;
+    }
+    if (resolver) {
+      return await resolver(route);
+    }
+    throw new Error("Wrong Arguments");
   };
 }
 
 async function issueResolver(route) {
-  // it's a bit complex...
-  const p = ensureProject(Issue);
-  const result = await p(route);
-  if (result !== Issue) {
-    return result;
-  }
   const issue = await IssueModel.get(route.props.project, route.params.issueId);
   if (!issue) {
     return NotFound;
   }
   route.props.issue = issue;
   return Issue;
+}
+
+async function wikiResolver(route) {
+  const path = route.params.path || 'Home';
+  const wikiPage = await WikiPage.get(route.props.project, path);
+  route.props.wikiPage = wikiPage || new WikiPage({ path, body: "" });
+  return Wiki;
 }
 
 export default [
@@ -56,27 +66,31 @@ export default [
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)",
-    resolver: ensureProject(Journal),
+    resolver: ensureProject({ component: Journal }),
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/issues",
-    resolver: ensureProject(IssueList),
+    resolver: ensureProject({ component: IssueList }),
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/issues/new",
-    resolver: ensureProject(IssueEdit),
+    resolver: ensureProject({ component: IssueEdit }),
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/issues/(?<issueId>[0-9A-Z]+)",
-    resolver: issueResolver,
+    resolver: ensureProject({ resolver: issueResolver }),
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/wiki",
-    resolver: ensureProject(Wiki),
+    resolver: ensureProject({ resolver: wikiResolver }),
+  },
+  {
+    path: "/(?<projectId>[0-9a-z-]+)/wiki/(?<path>.*)",
+    resolver: ensureProject({ resolver: wikiResolver }),
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/settings",
-    resolver: ensureProject(Settings),
+    resolver: ensureProject({ component: Settings }),
   },
   { path: ".*", component: NotFound },
 ];

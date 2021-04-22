@@ -1,6 +1,6 @@
-import { BaseModel } from "./base.js";
+import { UlidModel } from "./base.js";
 
-export class Note extends BaseModel {
+export class Note extends UlidModel {
   constructor({ body }) {
     super();
     this.body = body;

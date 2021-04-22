@@ -1,4 +1,4 @@
-import { BaseModel } from "./base.js";
+import { UlidModel } from "./base.js";
 
 export const ISSUE_STATUSES = {
   OPEN: "Open",
@@ -7,7 +7,7 @@ export const ISSUE_STATUSES = {
   CLOSED: "Closed",
 };
 
-export class Issue extends BaseModel {
+export class Issue extends UlidModel {
   constructor({ title, body, status }) {
     super();
     this.title = title;

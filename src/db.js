@@ -2,6 +2,7 @@ import Dexie from "dexie";
 
 import { Issue } from "./models/issue.js";
 import { Note } from "./models/note.js";
+import { WikiPage } from "./models/wiki_page.js";
 
 const prefix = "iter-";
 
@@ -10,13 +11,13 @@ export function getDB(id) {
 
   db.version(1).stores({
     issues: "id, title, status, created_at, updated_at",
-  });
-  db.version(2).stores({
     notes: "id, created_at, updated_at",
+    wiki_pages: "path, created_at, updated_at",
   });
 
   db.issues.mapToClass(Issue);
   db.notes.mapToClass(Note);
+  db.wiki_pages.mapToClass(WikiPage);
 
   return db;
 }
