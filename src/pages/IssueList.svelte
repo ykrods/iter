@@ -35,11 +35,11 @@
 
   <table>
     <tr>
-      <th style="width: 12%">id</th>
-      <th style="width: 43%">title</th>
+      <th style="width: 11%">id</th>
+      <th style="width: 40%">title</th>
       <th style="width: 15%;" class="prop">status</th>
-      <th style="width: 15%;" class="prop">created at</th>
-      <th style="width: 15%;" class="prop">updated at</th>
+      <th style="width: 17%;" class="prop">created at</th>
+      <th style="width: 17%;" class="prop">updated at</th>
     </tr>
     {#await issuesPromise then issues}
     {#each issues as issue }

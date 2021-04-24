@@ -59,6 +59,7 @@
     />
 
   {:else if !editing}
+    <BreadCrumb path={wikiPage.path} {project}/>
     <p>
       Page does not exist.
       <Button on:click={() => { editing = true; }}>Create</Button>

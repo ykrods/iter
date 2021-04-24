@@ -1,6 +1,6 @@
 /* reStructuredText */
-.document pre.code {
-  border: 1px solid #555;
+.document pre.code, .document pre.literal-block {
+  border: 1px solid #888;
   padding: 20px;
 }
 
@@ -16,6 +16,7 @@
   margin: 3px;
 }
 
+/* table */
 .document table {
   border-collapse: collapse;
   margin: 0 auto;
@@ -26,4 +27,27 @@
 }
 .document th {
   background-color: #EEE;
+}
+
+/* admonition */
+.document div.admonition {
+  margin: 7px 0;
+  padding: 7px;
+  background-color: #F6F6F6;
+}
+.document p.admonition-title {
+  margin: 0px 10px 5px 0px;
+  font-weight: bold;
+}
+.document div.admonition > :last-child {
+  margin-bottom: 0;
+}
+.document div.note, .document div.tip {
+  border-left: 7px solid #3A4;
+}
+.document div.attention {
+  border-left: 7px solid #D56;
+}
+.document div.warning {
+  border-left: 7px solid #F6E60C;
 }
