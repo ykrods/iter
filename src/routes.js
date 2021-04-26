@@ -13,6 +13,7 @@ import Issue from "./pages/Issue.svelte";
 import IssueEdit from "./pages/IssueEdit.svelte";
 import IssueList from "./pages/IssueList.svelte";
 import Wiki from "./pages/Wiki.svelte";
+import NoteList from "./pages/NoteList.svelte";
 import Settings from "./pages/Settings.svelte";
 
 function ensureProject({ component, resolver }) {
@@ -83,6 +84,10 @@ export default [
   {
     path: "/(?<projectId>[0-9a-z-]+)/wiki/(?<path>.*)",
     resolver: ensureProject({ resolver: wikiResolver }),
+  },
+  {
+    path: "/(?<projectId>[0-9a-z-]+)/notes",
+    resolver: ensureProject({ component: NoteList }),
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/settings",

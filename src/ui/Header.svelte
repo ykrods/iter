@@ -38,6 +38,7 @@
     <a class="nav-link" use:link href={$currentProject.url()}>Journal</a>
     <a class="nav-link" use:link href={$currentProject.url("/issues")}>Issues</a>
     <a class="nav-link" use:link href={$currentProject.url("/wiki/")}>Wiki</a>
+    <a class="nav-link" use:link href={$currentProject.url("/notes")}>Notes</a>
     <Button icon on:click={() => { showAddNoteDialog = true; }}>N+</Button>
     <span class="right">
       <Button icon on:click={onSettingsPushed}>SE</Button>
