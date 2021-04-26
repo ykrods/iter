@@ -35,7 +35,6 @@
         {/each}
       {/await}
     </Menu>
-    <a class="nav-link" use:link href={$currentProject.url()}>Journal</a>
     <a class="nav-link" use:link href={$currentProject.url("/issues")}>Issues</a>
     <a class="nav-link" use:link href={$currentProject.url("/wiki/")}>Wiki</a>
     <a class="nav-link" use:link href={$currentProject.url("/notes")}>Notes</a>

@@ -8,7 +8,6 @@ import { currentProject } from "./stores.js";
 
 import Top from "./pages/Top.svelte";
 import NotFound from "./pages/NotFound.svelte";
-import Journal from "./pages/Journal.svelte";
 import Issue from "./pages/Issue.svelte";
 import IssueEdit from "./pages/IssueEdit.svelte";
 import IssueList from "./pages/IssueList.svelte";
@@ -64,10 +63,6 @@ export default [
       route.props.projects = await Project.list();
       return Top;
     },
-  },
-  {
-    path: "/(?<projectId>[0-9a-z-]+)",
-    resolver: ensureProject({ component: Journal }),
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/issues",
