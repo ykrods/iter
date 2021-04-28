@@ -1,5 +1,6 @@
 <script>
   import { ulid } from 'ulid';
+  import { onMount } from "svelte";
   import { Button, Dialog } from 'svelte-mui';
 
   import TextArea from '../../mui/TextArea.svelte';
@@ -7,14 +8,21 @@
   import { currentProject } from "../../stores.js";
 
   export let visible = false;
+
+  export let note = null;
   export let body = "";
 
-  function onCancelButtonPushed() {
-    visible = false;
-  }
+  let title = "";
+  onMount(() => {
+    title = (note === null) ? "Add new note" : "Edit note";
+  });
 
   async function onCreateButtonPushed() {
-    const note = new Note({ body });
+    if (note) {
+      note.body = body;
+    } else {
+      note = new Note({ body });
+    }
     await note.save($currentProject);
 
     body = "";
@@ -22,7 +30,7 @@
   }
 </script>
 <Dialog width="500" bind:visible={visible}>
-  <div slot="title">Add new note</div>
+  <div slot="title">{ title }</div>
   <div>
     <TextArea
       bind:value={body}
@@ -34,7 +42,7 @@
     />
   </div>
   <div slot="actions" class="actions center">
-    <Button on:click={onCancelButtonPushed}>Cancel</Button>
+    <Button on:click={() => { visible = false; }}>Cancel</Button>
     <Button on:click={onCreateButtonPushed}>Add</Button>
   </div>
 </Dialog>

@@ -23,7 +23,7 @@
     {:else}
       <div class="selection-card--header">Available projects:</div>
       {#each projects as project }
-        <div><a use:link href={ project.url() }>{ project.id }</a></div>
+        <div><a use:link href={ project.url("/issues") }>{ project.id }</a></div>
       {/each}
     {/if}
     <div class="selection-card--footer">

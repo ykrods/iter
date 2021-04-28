@@ -1,5 +1,4 @@
 import Dexie from "dexie";
-import "dexie-export-import";
 
 import { getDatabaseIds, getDBName, getDB } from "../db.js";
 

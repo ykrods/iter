@@ -5,7 +5,7 @@
   import { currentProject } from "../stores.js";
   import { Project } from "../models/project.js";
 
-  import AddNoteDialog from "./dialogs/AddNoteDialog.svelte"
+  import EditNoteDialog from "./dialogs/EditNoteDialog.svelte"
 
   let showAddNoteDialog = false;
   let projectsPromise = Promise.resolve();
@@ -44,7 +44,7 @@
     </span>
   {/if}
 </header>
-<AddNoteDialog bind:visible={showAddNoteDialog} />
+<EditNoteDialog bind:visible={showAddNoteDialog} />
 
 <style>
   header {

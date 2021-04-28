@@ -1,4 +1,6 @@
 import Dexie from "dexie";
+import "dexie-export-import";
+import 'dexie-observable';
 
 import { Issue } from "./models/issue.js";
 import { Note } from "./models/note.js";
@@ -14,6 +16,9 @@ export function getDB(id) {
     notes: "id, created_at, updated_at",
     wiki_pages: "path, created_at, updated_at",
   });
+
+  // for upgrading dexie-observable
+  db.version(2).stores({});
 
   db.issues.mapToClass(Issue);
   db.notes.mapToClass(Note);

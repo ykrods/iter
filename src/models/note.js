@@ -15,4 +15,8 @@ export class Note extends UlidModel {
     await project.db.notes.put(updates);
     Object.assign(this, updates);
   }
+
+  async delete(project) {
+    await project.db.notes.delete(this.id);
+  }
 }

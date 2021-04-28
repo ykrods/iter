@@ -1,0 +1,43 @@
+<script>
+  import { Menu, Menuitem } from "svelte-mui";
+
+  import { currentProject } from "../../stores.js";
+
+  import DeleteConfirmationDialog from '../dialogs/DeleteConfirmationDialog.svelte';
+  import EditNoteDialog from "../dialogs/EditNoteDialog.svelte"
+  import MenuButton from "../buttons/MenuButton.svelte";
+
+  export let note;
+
+  let showEditDialog = false;
+  let showDeleteConfirmation = false;
+
+  async function doDelete() {
+    await note.delete($currentProject);
+  }
+</script>
+
+<div class="card item">
+  <Menu origin="top right">
+    <div slot="activator">
+      <MenuButton />
+    </div>
+    <Menuitem on:click={ () => { showEditDialog = true; }}>Edit</Menuitem>
+    <Menuitem
+      style="color: var(--danger, red);"
+      on:click={ () => { showDeleteConfirmation = true; }}
+    >Delete</Menuitem>
+  </Menu>
+  <pre>{ note.body }</pre>
+  <EditNoteDialog bind:visible={showEditDialog} {note} body={note.body}/>
+  <DeleteConfirmationDialog
+    bind:visible={showDeleteConfirmation}
+    message="Delete this note?"
+    on:do-delete={doDelete}
+  />
+</div>
+
+<style>
+  .item { margin: 10px 0; }
+  pre { white-space: pre-wrap ; }
+</style>
