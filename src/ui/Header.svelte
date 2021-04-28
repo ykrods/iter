@@ -5,9 +5,11 @@
   import { currentProject } from "../stores.js";
   import { Project } from "../models/project.js";
 
-  import EditNoteDialog from "./dialogs/EditNoteDialog.svelte"
+  import EditNoteDialog from "./dialogs/EditNoteDialog.svelte";
+  import SearchDialog from "./dialogs/SearchDialog.svelte";
 
   let showAddNoteDialog = false;
+  let showSearchDialog = false;
   let projectsPromise = Promise.resolve();
 
   function menuReload() {
@@ -39,12 +41,14 @@
     <a class="nav-link" use:link href={$currentProject.url("/wiki/")}>Wiki</a>
     <a class="nav-link" use:link href={$currentProject.url("/notes")}>Notes</a>
     <Button icon on:click={() => { showAddNoteDialog = true; }}>N+</Button>
+    <Button icon on:click={() => { showSearchDialog = true; }}>SA</Button>
     <span class="right">
       <Button icon on:click={onSettingsPushed}>SE</Button>
     </span>
   {/if}
 </header>
 <EditNoteDialog bind:visible={showAddNoteDialog} />
+<SearchDialog bind:visible={showSearchDialog} />
 
 <style>
   header {

@@ -19,4 +19,10 @@ export class Note extends UlidModel {
   async delete(project) {
     await project.db.notes.delete(this.id);
   }
+
+  get heading() {
+    const n = 30;
+    const suffix = (n < this.body.length) ? "..." : "";
+    return this.body.replace("\n"," ").substring(0, n) + suffix;
+  }
 }
