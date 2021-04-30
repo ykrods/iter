@@ -26,7 +26,7 @@
     "rollup-plugin-svelte": "7.1.0",
     "svelte": "3.37.0",
     "svelte-mui": "0.3.3-7",
-    "svelte-spa-history-router": "2.0.0",
+    "svelte-spa-history-router": "github:ykrods/svelte-spa-history-router",
     "tiny-esm-test-runner": "1.2.2",
     "ulid": "2.3.0"
   }
