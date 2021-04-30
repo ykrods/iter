@@ -1,5 +1,5 @@
 <script>
-  import { Dialog } from 'svelte-mui';
+  import { Dialog, Button } from 'svelte-mui';
   import { push } from "svelte-spa-history-router";
 
   import { currentProject } from "../../stores.js";
@@ -18,7 +18,10 @@
 
 <Dialog bind:visible width="600">
   <div slot="title">
-    Search:<input class="searchInput" type="text" bind:this={searchInput} bind:value={searchText} />
+    Search:
+    <input class="searchInput" type="text" bind:this={searchInput} bind:value={searchText} />
+    <Button on:click={() => { searchText = "";}}>clear</Button>
+    <Button icon on:click={() => { visible = false;}}>x</Button>
   </div>
   {#await resultsPromise then results}
     {#if 0 < results.length }

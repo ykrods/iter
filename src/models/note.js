@@ -6,6 +6,10 @@ export class Note extends UlidModel {
     this.body = body;
   }
 
+  static get(project, id) {
+    return project.db.notes.get(id);
+  }
+
   static list(project, n) {
     return project.db.notes.reverse().sortBy("id");
   }
