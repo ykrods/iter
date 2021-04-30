@@ -28,4 +28,10 @@ export class WikiPage {
     });
     return updates;
   }
+
+  get heading() {
+    const n = 30;
+    const suffix = (n < this.body.length) ? "..." : "";
+    return this.body.replace("\n"," ").substring(0, n) + suffix;
+  }
 }
