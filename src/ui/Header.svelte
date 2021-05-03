@@ -37,9 +37,10 @@
         {/each}
       {/await}
     </Menu>
+    <a class="nav-link" use:link href={$currentProject.url("/notes")}>Notes</a>
     <a class="nav-link" use:link href={$currentProject.url("/issues")}>Issues</a>
     <a class="nav-link" use:link href={$currentProject.url("/wiki/")}>Wiki</a>
-    <a class="nav-link" use:link href={$currentProject.url("/notes")}>Notes</a>
+    <a class="nav-link" use:link href={$currentProject.url("/files")}>Files</a>
     <Button icon on:click={() => { showAddNoteDialog = true; }}>N+</Button>
     <Button icon on:click={() => { showSearchDialog = true; }}>SA</Button>
     <span class="right">

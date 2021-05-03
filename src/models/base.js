@@ -1,17 +1,25 @@
 import { ulid } from "ulid";
 
-export class UlidModel {
+export class BaseModel {
   /**
    * Build data object to save
    */
   buildUpdates() {
-    // console.log(JSON.stringify(this));
-
     const updates = Object.assign({}, this, {
-      id: this.id || ulid(),
       created_at: this.created_at || new Date(),
       updated_at: new Date(),
     });
+    return updates;
+  }
+}
+
+export class UlidModel extends BaseModel {
+  /**
+   * Build data object to save
+   */
+  buildUpdates() {
+    const updates = super.buildUpdates();
+    updates.id = this.id || ulid();
     return updates;
   }
 }

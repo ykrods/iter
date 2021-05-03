@@ -1,5 +1,8 @@
-export class WikiPage {
+import { BaseModel } from "./base.js";
+
+export class WikiPage extends BaseModel {
   constructor({ path, body }) {
+    super();
     this.path = path;
     this.body = body;
   }
@@ -16,17 +19,6 @@ export class WikiPage {
 
   async delete(project) {
     await project.db.wiki_pages.delete(this.path);
-  }
-
-  /**
-   * Build data object to save
-   */
-  buildUpdates() {
-    const updates = Object.assign({}, this, {
-      created_at: this.created_at || new Date(),
-      updated_at: new Date(),
-    });
-    return updates;
   }
 
   get heading() {

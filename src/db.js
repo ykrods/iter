@@ -5,6 +5,7 @@ import 'dexie-observable';
 import { Issue } from "./models/issue.js";
 import { Note } from "./models/note.js";
 import { WikiPage } from "./models/wiki_page.js";
+import { Upload } from "./models/upload.js";
 
 const prefix = "iter-";
 
@@ -20,9 +21,14 @@ export function getDB(id) {
   // for upgrading dexie-observable
   db.version(2).stores({});
 
+  db.version(3).stores({
+    uploads: "name, created_at, updated_at",
+  });
+
   db.issues.mapToClass(Issue);
   db.notes.mapToClass(Note);
   db.wiki_pages.mapToClass(WikiPage);
+  db.uploads.mapToClass(Upload);
 
   return db;
 }
