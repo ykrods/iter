@@ -1,4 +1,8 @@
 /* reStructuredText */
+.document img {
+  width: 100%;
+}
+
 .document pre.code, .document pre.literal-block {
   border: 1px solid #888;
   padding: 20px;
