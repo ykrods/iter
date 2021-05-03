@@ -10,7 +10,7 @@
 
   async function onDeletePushed() {
     visible = false;
-    dispatch('do-delete', target);
+    dispatch('deleteConfirmed', target);
   }
 
 </script>

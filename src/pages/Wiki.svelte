@@ -27,7 +27,7 @@
       push(project.url(`wiki/${newPage.path}`));
     }
   }
-  async function doDelete() {
+  async function onDeleteConfirmed() {
     await wikiPage.delete(project);
     wikiPage = new WikiPage({ path: wikiPage.path, body: "" });
   }
@@ -55,7 +55,7 @@
     <DeleteConfirmationDialog
       bind:visible={showDeleteConfirmation}
       message="Delete the wiki '{wikiPage ? wikiPage.path: ''}' ?"
-      on:do-delete={doDelete}
+      on:deleteConfirmed={onDeleteConfirmed}
     />
 
   {:else if !editing}

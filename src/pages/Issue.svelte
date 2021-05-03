@@ -20,7 +20,7 @@
     editing = false;
   }
 
-  async function doDelete() {
+  async function onDeleteConfirmed() {
     await issue.delete(project);
     push(project.url("/issues"));
   }
@@ -51,7 +51,7 @@
     <DeleteConfirmationDialog
       bind:visible={showDeleteConfirmation}
       message="Delete the issue '{issue ? issue.title: ''}' ?"
-      on:do-delete={doDelete}
+      on:deleteConfirmed={onDeleteConfirmed}
     />
   {:else}
     <IssueForm

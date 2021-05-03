@@ -59,4 +59,4 @@
 </main>
 <DeleteConfirmationDialog
   bind:visible={showDeleteConfirmation}
-  on:do-delete={onDeleteConfirmed}/>
+  on:deleteConfirmed={onDeleteConfirmed}/>

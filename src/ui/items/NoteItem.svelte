@@ -12,7 +12,7 @@
   let showEditDialog = false;
   let showDeleteConfirmation = false;
 
-  async function doDelete() {
+  async function onDeleteConfirmed() {
     await note.delete($currentProject);
   }
 </script>
@@ -33,7 +33,7 @@
   <DeleteConfirmationDialog
     bind:visible={showDeleteConfirmation}
     message="Delete this note?"
-    on:do-delete={doDelete}
+    on:deleteConfirmed={onDeleteConfirmed}
   />
 </div>
 

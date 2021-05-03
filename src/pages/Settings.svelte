@@ -31,11 +31,7 @@
     // TODO
   }
 
-  function onDeletePushed() {
-    showDeleteConfirmation = true;
-  }
-  async function deleteProject() {
-
+  async function onDeleteConfirmed() {
     await project.delete();
     snackbarMessage.info(`Delete "${project.id}"`);
     push("/");
@@ -66,12 +62,12 @@
     <Button
       outlined
       color="var(--danger, red)"
-      on:click={onDeletePushed}
+      on:click={() => { showDeleteConfirmation = true; }}
     >Delete</Button>
   </p>
 </main>
 <DeleteConfirmationDialog
   bind:visible={showDeleteConfirmation}
-  on:do-delete={deleteProject} />
+  on:deleteConfirmed={onDeleteConfirmed} />
 <ImportFromJsonDialog
   bind:visible={showImportFromJsonDialog}/>
