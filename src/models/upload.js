@@ -14,6 +14,10 @@ export class Upload extends BaseModel {
     Object.assign(this, updates);
   }
 
+  delete(project) {
+    return project.db.uploads.delete(this.name);
+  }
+
   static list(project) {
     return project.db.uploads.toArray();
   }
