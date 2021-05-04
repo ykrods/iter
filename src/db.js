@@ -6,6 +6,7 @@ import { Issue } from "./models/issue.js";
 import { Note } from "./models/note.js";
 import { WikiPage } from "./models/wiki_page.js";
 import { Upload } from "./models/upload.js";
+import { CachedHTML } from "./models/cached_html.js";
 
 const prefix = "iter-";
 
@@ -25,10 +26,15 @@ export function getDB(id) {
     uploads: "name, created_at, updated_at",
   });
 
+  db.version(4).stores({
+    cached_htmls: "key, created_at, updated_at",
+  });
+
   db.issues.mapToClass(Issue);
   db.notes.mapToClass(Note);
   db.wiki_pages.mapToClass(WikiPage);
   db.uploads.mapToClass(Upload);
+  db.cached_htmls.mapToClass(CachedHTML);
 
   return db;
 }
