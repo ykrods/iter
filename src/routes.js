@@ -1,14 +1,14 @@
 import { redirect } from "svelte-spa-history-router";
 
 import { Project } from "./models/project.js";
-import { Issue as IssueModel } from "./models/issue.js";
+import { Issue } from "./models/issue.js";
 import { WikiPage } from "./models/wiki_page.js";
 
 import { currentProject } from "./stores.js";
 
 import Top from "./pages/Top.svelte";
 import NotFound from "./pages/NotFound.svelte";
-import Issue from "./pages/Issue.svelte";
+import IssueView from "./pages/IssueView.svelte";
 import IssueEdit from "./pages/IssueEdit.svelte";
 import IssueList from "./pages/IssueList.svelte";
 import Wiki from "./pages/Wiki.svelte";
@@ -41,12 +41,12 @@ function ensureProject({ component, resolver }) {
 }
 
 async function issueResolver(route) {
-  const issue = await IssueModel.get(route.props.project, route.params.issueId);
+  const issue = await Issue.get(route.props.project, route.params.issueId);
   if (!issue) {
     return NotFound;
   }
   route.props.issue = issue;
-  return Issue;
+  return IssueView;
 }
 
 async function wikiResolver(route) {
