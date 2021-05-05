@@ -7,6 +7,7 @@
   import DeleteConfirmationDialog from '../dialogs/DeleteConfirmationDialog.svelte';
   import EditNoteDialog from "../dialogs/EditNoteDialog.svelte"
   import MenuButton from "../buttons/MenuButton.svelte";
+  import FormatDateTime from "../../presentation/FormatDateTime.svelte";
 
   export let note;
 
@@ -36,6 +37,8 @@
     message="Delete this note?"
     on:deleteConfirmed={onDeleteConfirmed}
   />
+  created at <FormatDateTime value={ note.created_at }/>
+  updated at <FormatDateTime value={ note.updated_at }/>
 </div>
 
 <style>
