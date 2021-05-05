@@ -34,5 +34,7 @@
 <AddProjectDialog bind:visible={showAddProjectDialog} />
 <style>
   #Top { text-align: center; }
-  p.welcome { font-size: 3.2em; }
+  p.welcome {
+    font-size: 3.2em;
+  }
 </style>

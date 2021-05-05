@@ -14,14 +14,7 @@
 <div class="app">
   <Header />
   <div class="mainContainer">
-    {#if $currentProject }
-      <aside>
-        <div class="card">side</div>
-      </aside>
-    {/if}
-    <div class="main">
-      <Router {routes}/>
-    </div>
+    <Router {routes}/>
   </div>
   <footer>powered by iter</footer>
   <Snackbar/>
@@ -29,23 +22,15 @@
 
 <style>
   .mainContainer {
-    display: flex;
-    justify-content: center;
-    min-height: calc(100vh - var(--header-height) - var(--footer-height) - 30px);
-    margin: 15px 0;
-  }
-  .mainContainer > aside {
-    flex: 0 0 200px;
-    margin: 0 15px 0 10px;
-  }
-  .mainContainer > .main {
-    flex: 1;
-    max-width: 650px;
-    margin: 0;
+    min-height: calc(100vh - var(--header-height) - var(--footer-height) - 15px);
+    padding-top: var(--header-height);
+    width: 640px;
+    margin: 0 auto;
   }
   footer {
+    margin-top: 15px;
     height: var(--footer-height);
-    color: #33;
+    color: #333;
     text-align: center;
     font-size: 0.9em;
   }

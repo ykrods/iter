@@ -5,7 +5,7 @@
  */
 :root {
   --header-height: 48px;
-  --footer-height: 18px;
+  --footer-height: 22px;
   /* box-shadow per elevation */
   --bs-50: rgba(0, 0, 0, 0.02) 0px 1px 2px 0px,
            rgba(0, 0, 0, 0.02) 0px 1px 2px 0px,
@@ -34,7 +34,6 @@
 
 body {
     margin: 0;
-    padding: var(--header-height) 0 0 0;
     box-sizing: border-box;
     font-family: sans-serif;
     font-size: 16px;
@@ -83,6 +82,7 @@ table td.prop {
 /* --- UI --- */
 
 .card {
+  margin: 10px;
   padding: 10px 20px;
   background-color: white;
   box-shadow: var(--bs-50);
