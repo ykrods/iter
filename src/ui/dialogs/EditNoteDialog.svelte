@@ -27,6 +27,7 @@
 
     body = "";
     visible = false;
+    note = null;
   }
 </script>
 <Dialog width="500" bind:visible={visible}>
