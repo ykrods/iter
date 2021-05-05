@@ -69,5 +69,11 @@
 <div on:click={captureClick}>
   {#if html}
     {@html html}
+  {:else}
+    <pre>{ rst }</pre>
   {/if}
 </div>
+
+<style>
+  pre { white-space: pre-wrap ; }
+</style>

@@ -8,10 +8,12 @@
   import FormatDate from "../presentation/FormatDate.svelte";
 
   export let project;
-  let notesPromise = Promise.resolve([]);
+  let notesPromise = buildQuery();
 
   // reload if modified
-  $: if ($dbEvents.some((event) => event.model === "Note") || $currentURL) {
+  $: if ($dbEvents.some((event) => event.model === "Note")
+         || $currentURL.searchParams.get("id")
+         || $currentURL.searchParams.get("offset")) {
     notesPromise = buildQuery();
   }
 
@@ -20,7 +22,7 @@
     if (id) {
       return [(await Note.get(project, id))];
     }
-    return Note.list(project);
+    return Note.list(project, { limit: 20 });
   }
 </script>
 

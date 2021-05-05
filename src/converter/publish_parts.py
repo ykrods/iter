@@ -12,9 +12,14 @@ settings_overrides = {
 }
 
 def rst2html(rst):
-    result = publish_parts(
-        source=rst,
-        writer=Writer(),
-        settings_overrides=settings_overrides,
-    )
-    return result['html_body']
+    try:
+        result = publish_parts(
+            source=rst,
+            writer=Writer(),
+            settings_overrides=settings_overrides,
+        )
+        return result['html_body']
+    except Exception:
+        # Exceptions may be thrown when parsing fails,
+        # but the error is output by docutils, so there is nothing to do.
+        return None

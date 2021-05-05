@@ -3,6 +3,7 @@
 
   import { currentProject } from "../../stores.js";
 
+  import RstViewer from "../RstViewer.svelte";
   import DeleteConfirmationDialog from '../dialogs/DeleteConfirmationDialog.svelte';
   import EditNoteDialog from "../dialogs/EditNoteDialog.svelte"
   import MenuButton from "../buttons/MenuButton.svelte";
@@ -28,7 +29,7 @@
       on:click={ () => { showDeleteConfirmation = true; }}
     >Delete</Menuitem>
   </Menu>
-  <pre>{ note.body }</pre>
+  <RstViewer rst={ note.body }/>
   <EditNoteDialog bind:visible={showEditDialog} {note} body={note.body}/>
   <DeleteConfirmationDialog
     bind:visible={showDeleteConfirmation}
@@ -39,5 +40,4 @@
 
 <style>
   .item { margin: 10px 0; }
-  pre { white-space: pre-wrap ; }
 </style>
