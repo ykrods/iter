@@ -14,21 +14,19 @@
 
   async function onExportAsJsonPushed() {
     const blob = await project.export();
+    download(`${project.id}.json`, blob);
+  }
+
+  function download(name, blob) {
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement("a");
-    a.download = `${project.id}.json`;
+    a.download = name;
     a.href = url;
     document.body.appendChild(a);
     a.click();
     a.remove();
-    setTimeout(() => {
-      URL.revokeObjectURL(url);
-    }, 30000);
-  }
-
-  function onExportAsZipPushed() {
-    // TODO
+    setTimeout(() => { URL.revokeObjectURL(url); }, 30000);
   }
 
   async function onDeleteConfirmed() {
@@ -53,9 +51,6 @@
   <h2>Export</h2>
   <p>
     <Button outlined on:click={onExportAsJsonPushed}>Export as json</Button>
-  </p>
-  <p>
-    <Button outlined disabled on:click={onExportAsZipPushed}>Export as zip</Button>
   </p>
   <h2>Danger</h2>
   <p>
