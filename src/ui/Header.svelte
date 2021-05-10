@@ -33,7 +33,7 @@
       </div>
       {#await projectsPromise then projects }
         {#each projects as project}
-          <Menuitem href={ project.url() }>{ project.id }</Menuitem>
+          <Menuitem on:click={ push(project.url("/issues")) }>{ project.id }</Menuitem>
         {/each}
       {/await}
     </Menu>
