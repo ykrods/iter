@@ -17,19 +17,31 @@
 
   let notesPromise = Promise.resolve([]);
 
-  // reload if modified
-  $: if ($dbEvents.some((event) => event.model === "Note")
-         || $currentURL.searchParams.get("id")
-         || page ) {
-    refresh();
+  let needsToReload = true;
+
+  $: if ($currentURL.pathname.includes("notes")) {
+    needsToReload = true;
   }
 
-  async function refresh() {
+  $: if ($dbEvents.some((event) => event.model === "Note")) {
+    needsToReload = true;
+  }
+
+  $: if (page) {
+    needsToReload = true;
+  }
+
+  $: if (needsToReload) {
+    reload();
+  }
+
+  async function reload() {
     numOfPages = Math.ceil((await Note.totalCount(project)) / pageSize);
     if (numOfPages < page) {
       page = 1;
     }
-    notesPromise = buildQuery();
+    notesPromise = buildQuery()
+    notesPromise.then(() => { needsToReload = false; });
   }
 
   async function buildQuery() {

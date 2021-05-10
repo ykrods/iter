@@ -63,14 +63,23 @@ export const dbEvents = (() => {
   return {
     subscribe,
     listen(_db) {
-      db = _db;
-      // ? How to remove listener
-      db.on('changes', (changes) => {
+      if (db && (db.name === _db.name)) {
+        return;
+      }
+
+      const onChange = (changes) => {
         const events = changes.map(change2event).filter(e => e);
         if (events.length) {
           set(events);
         }
-      });
+      }
+
+      if (db) {
+        db.on("changes").unsubscribe(onChange);
+        db.close();
+      }
+      db = _db;
+      db.on('changes', onChange);
     }
   };
 })();
