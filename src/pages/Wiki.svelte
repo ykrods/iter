@@ -2,7 +2,9 @@
   import { Button, Menu, Menuitem } from 'svelte-mui';
   import { push } from "svelte-spa-history-router";
 
+  import { snackbarMessage } from "../stores.js";
   import { WikiPage } from "../models/wiki_page.js";
+
   import DeleteConfirmationDialog from "../ui/dialogs/DeleteConfirmationDialog.svelte";
   import MenuButton from "../ui/buttons/MenuButton.svelte";
   import WikiPageForm from '../ui/forms/WikiPageForm.svelte';
@@ -23,8 +25,12 @@
 
     } else {
       const newPage = new WikiPage(event.detail);
-      await newPage.save(project);
-      push(project.url(`wiki/${newPage.path}`));
+      try {
+        await newPage.save(project);
+        push(project.url(`wiki/${newPage.path}`));
+      } catch (e) {
+        snackbarMessage.error(e.toString());
+      }
     }
   }
   async function onDeleteConfirmed() {

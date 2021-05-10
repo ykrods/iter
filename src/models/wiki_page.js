@@ -1,3 +1,4 @@
+import { sanitize } from "../file.js";
 import { BaseModel } from "./base.js";
 
 export class WikiPage extends BaseModel {
@@ -13,6 +14,15 @@ export class WikiPage extends BaseModel {
 
   async save(project) {
     const updates = this.buildUpdates();
+    updates.path = updates.path.split("/")
+      .map(p => sanitize(p))
+      .filter(o => o)
+      .join("/");
+
+    if( !updates.path ) {
+      throw new Error("Invalid path");
+    }
+
     await project.db.wiki_pages.put(updates);
     Object.assign(this, updates);
   }

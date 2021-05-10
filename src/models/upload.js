@@ -1,3 +1,4 @@
+import { sanitize } from "../file.js";
 import { BaseModel } from "./base.js";
 
 // Avoid naming "File", but it is practically File.
@@ -10,6 +11,12 @@ export class Upload extends BaseModel {
 
   async save(project) {
     const updates = this.buildUpdates();
+    updates.name = sanitize(updates.name);
+
+    if( !updates.name ) {
+      throw new Error("Invalid filename");
+    }
+
     await project.db.uploads.put(updates);
     Object.assign(this, updates);
   }
