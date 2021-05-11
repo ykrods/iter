@@ -1,6 +1,6 @@
 import { assert } from 'tiny-esm-test-runner';
 
-import { browserFixture } from "./fixtures.js";
+import { browserFixture } from "../fixtures.js";
 
 const { is, isNot, ok, ng } = assert;
 
@@ -28,15 +28,15 @@ export async function testCreateProject() {
     await page.type("input[name='id']", "example");
     await page.click('#add');
 
-    await page.waitForSelector("main#Journal");
-    ok((await page.url()).includes('/example'));
+    await page.waitForSelector("main#IssueList");
+    ok((await page.url()).includes('/example/issues'));
 
     // back to top
     await page.goto(serverUrl);
-    await page.waitForSelector("a[href='/example']");
+    await page.waitForSelector("a[href='/example/issues']");
 
-    await page.click("a[href='/example']")
-    await page.waitForSelector("main#Journal");
-    ok((await page.url()).includes('/example'));
+    await page.click("a[href='/example/issues']")
+    await page.waitForSelector("main#IssueList");
+    ok((await page.url()).includes('/example/issues'));
   });
 }

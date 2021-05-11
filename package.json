@@ -6,7 +6,7 @@
     "build": "rollup -c",
     "build:watch": "rollup -c -w",
     "server": "node server.js",
-    "test": "run-tiny-esm-test-runner tests/test_*.js",
+    "test": "run-tiny-esm-test-runner tests/*/test_*.js",
     "format": "prettier --write 'src/**/*.js'"
   },
   "type": "module",
