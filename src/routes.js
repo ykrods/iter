@@ -3,6 +3,7 @@ import { redirect } from "svelte-spa-history-router";
 import { Project } from "./models/project.js";
 import { Issue } from "./models/issue.js";
 import { WikiPage } from "./models/wiki_page.js";
+import { Note } from "./models/note.js";
 
 import { currentProject } from "./stores.js";
 
@@ -13,6 +14,7 @@ import IssueEdit from "./pages/IssueEdit.svelte";
 import IssueList from "./pages/IssueList.svelte";
 import Wiki from "./pages/Wiki.svelte";
 import NoteList from "./pages/NoteList.svelte";
+import NoteView from "./pages/NoteView.svelte";
 import FileList from "./pages/FileList.svelte";
 import Settings from "./pages/Settings.svelte";
 
@@ -38,6 +40,15 @@ function ensureProject({ component, resolver }) {
     }
     throw new Error("Wrong Arguments");
   };
+}
+
+async function noteResolver(route) {
+  const note = await Note.get(route.props.project, route.params.noteId);
+  if (!note) {
+    return NotFound;
+  }
+  route.props.note = note;
+  return NoteView;
 }
 
 async function issueResolver(route) {
@@ -84,6 +95,10 @@ export default [
   {
     path: "/(?<projectId>[0-9a-z-]+)/notes",
     resolver: ensureProject({ component: NoteList }),
+  },
+  {
+    path: "/(?<projectId>[0-9a-z-]+)/notes/(?<noteId>[0-9A-Z]+)",
+    resolver: ensureProject({ resolver: noteResolver }),
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/files",

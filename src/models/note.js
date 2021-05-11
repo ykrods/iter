@@ -37,9 +37,17 @@ export class Note extends UlidModel {
     await project.db.notes.delete(this.id);
   }
 
+  // for search result
   get heading() {
     const n = 30;
     const suffix = (n < this.body.length) ? "..." : "";
     return this.body.replace("\n"," ").substring(0, n) + suffix;
+  }
+
+  // for listed items
+  get heading_long() {
+    const n = 140;
+    const suffix = (n < this.body.length) ? "..." : "";
+    return this.body.substring(0, n) + suffix;
   }
 }

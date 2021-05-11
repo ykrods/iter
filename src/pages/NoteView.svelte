@@ -1,25 +1,29 @@
 <script>
+  import { link } from "svelte-spa-history-router";
   import { Menu, Menuitem } from "svelte-mui";
 
-  import { currentProject } from "../../stores.js";
+  import DeleteConfirmationDialog from '../ui/dialogs/DeleteConfirmationDialog.svelte';
+  import EditNoteDialog from "../ui/dialogs/EditNoteDialog.svelte"
+  import MenuButton from "../ui/buttons/MenuButton.svelte";
+  import RstViewer from "../ui/RstViewer.svelte";
+  import FormatDateTime from "../presentation/FormatDateTime.svelte";
 
-  import RstViewer from "../RstViewer.svelte";
-  import DeleteConfirmationDialog from '../dialogs/DeleteConfirmationDialog.svelte';
-  import EditNoteDialog from "../dialogs/EditNoteDialog.svelte"
-  import MenuButton from "../buttons/MenuButton.svelte";
-  import FormatDateTime from "../../presentation/FormatDateTime.svelte";
-
+  export let project;
   export let note;
 
   let showEditDialog = false;
   let showDeleteConfirmation = false;
 
   async function onDeleteConfirmed() {
-    await note.delete($currentProject);
+    await note.delete(project);
   }
 </script>
 
-<div class="card item">
+<svelte:head>
+  <title>{ note.heading } @ { project.id } | iter</title>
+</svelte:head>
+<main id="NoteView" class="card">
+  <div><a use:link href={ project.url("/notes") }>notes</a> / { note.id }</div>
   <Menu origin="top right">
     <div slot="activator">
       <MenuButton />
@@ -39,8 +43,5 @@
   />
   created at <FormatDateTime value={ note.created_at }/>
   updated at <FormatDateTime value={ note.updated_at }/>
-</div>
 
-<style>
-  .item { margin: 10px 0; }
-</style>
+</main>

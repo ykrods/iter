@@ -33,7 +33,7 @@ export async function search(project, input) {
     return {
       model: "Note",
       displayText: note.heading, // TODO: should be matched statement.
-      url: project.url(`/notes?id=${note.id}`),
+      url: project.url(`/notes/${note.id}`),
     };
   }));
   return ret;
