@@ -16,7 +16,10 @@
   <title>top | iter</title>
 </svelte:head>
 <main id="Top">
-  <p class="welcome">Welcome to iter app</p>
+  <p class="welcome">Iter: Portable project management application</p>
+  <p>Iter is a personal project management application <br/>for that requires no registration.</p>
+  <p>All data are stored into browser (indexedDB), <br/>and you can import / export data any time you like.</p>
+  <p>NOTICE: Iter is still expeirmental / in the beta release stage.</p>
   <div class="selection-card">
     {#if projects.length == 0 }
       <div class="selection-card--header">Let's start your project!</div>
@@ -35,6 +38,6 @@
 <style>
   #Top { text-align: center; }
   p.welcome {
-    font-size: 3.2em;
+    font-size: 2.8em;
   }
 </style>

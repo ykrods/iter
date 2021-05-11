@@ -22,7 +22,7 @@
 </script>
 
 <header>
-  <div class="logo"><a class="nav-link" use:link href="/">iter</a></div>
+  <div class="logo"><a class="nav-link" use:link href="/">iter(β)</a></div>
   {#if $currentProject }
     <Menu origin="top left">
       <div slot="activator">
