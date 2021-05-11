@@ -1,6 +1,6 @@
 <script>
   import { Button, Menu, Menuitem } from 'svelte-mui';
-  import { push } from "svelte-spa-history-router";
+  import { push, link } from "svelte-spa-history-router";
 
   import IssueForm from "../ui/forms/IssueForm.svelte";
   import MenuButton from '../ui/buttons/MenuButton.svelte'
@@ -30,6 +30,7 @@
   <title>{issue.title } @ { project.id } | iter</title>
 </svelte:head>
 <main id="Issue" class="card">
+  <div><a use:link href={ project.url("/issues") }>issues</a> / { issue.id }</div>
   {#if !editing }
 
     <Menu origin="top right">
