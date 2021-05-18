@@ -1,5 +1,8 @@
 import { ulid } from "ulid";
 
+/**
+ * Generic model, independent of ID generation method
+ */
 export class BaseModel {
   /**
    * Build data object to save

@@ -1,4 +1,4 @@
-import { UlidModel } from "./base.js";
+import { BaseModel } from "./base.js";
 
 export const ISSUE_STATUSES = {
   OPEN: "Open",
@@ -7,7 +7,7 @@ export const ISSUE_STATUSES = {
   CLOSED: "Closed",
 };
 
-export class Issue extends UlidModel {
+export class Issue extends BaseModel {
   constructor({ title, body, status }) {
     super();
     this.title = title;
@@ -29,11 +29,17 @@ export class Issue extends UlidModel {
   }
 
   static get(project, id) {
-    return project.db.issues.get(id);
+    return project.db.issues.get(parseInt(id, 10));
   }
 
   async save(project) {
     const updates = super.buildUpdates();
+    if (!updates.id) {
+      // XXX: id is reused when last record has deleted
+      const last = await project.db.issues.orderBy('id').last();
+      updates.id = last && last.id + 1 || 1;
+    }
+
     await project.db.issues.put(updates);
     Object.assign(this, updates);
   }
@@ -42,9 +48,6 @@ export class Issue extends UlidModel {
     await project.db.issues.delete(this.id);
   }
 
-  get shorten_id() {
-    return this.id.substring(10, 15);
-  }
   get status_disp() {
     return ISSUE_STATUSES[this.status];
   }

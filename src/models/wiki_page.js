@@ -16,7 +16,7 @@ export class WikiPage extends BaseModel {
     const updates = this.buildUpdates();
     updates.path = updates.path.split("/")
       .map(p => sanitize(p))
-      .filter(o => o)
+      .filter(o => o) // ignore empty
       .join("/");
 
     if( !updates.path ) {

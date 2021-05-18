@@ -7,9 +7,13 @@
   let files;
 
   async function onCreateButtonPushed() {
-    await $currentProject.import(files[0]);
-    snackbarMessage.info("success to import");
-    visible = false;
+    try {
+      await $currentProject.import(files[0]);
+      snackbarMessage.info("success to import");
+      visible = false;
+    } catch (e) {
+      snackbarMessage.error(e);
+    }
   }
 
 </script>

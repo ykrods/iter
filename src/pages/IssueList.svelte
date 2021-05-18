@@ -46,7 +46,7 @@
     <tr>
       <!-- svelte-ignore a11y-missing-attribute -->
       <td>
-        <a use:link href={project.url(`/issues/${issue.id}`)}>{issue.shorten_id}</a>
+        <a use:link href={project.url(`/issues/${issue.id}`)}>{issue.id}</a>
       </td>
       <!-- svelte-ignore a11y-missing-attribute -->
       <td>

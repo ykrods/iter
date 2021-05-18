@@ -85,7 +85,7 @@ export default [
     resolver: ensureProject({ component: IssueEdit }),
   },
   {
-    path: "/(?<projectId>[0-9a-z-]+)/issues/(?<issueId>[0-9A-Z]+)",
+    path: "/(?<projectId>[0-9a-z-]+)/issues/(?<issueId>[0-9]+)",
     resolver: ensureProject({ resolver: issueResolver }),
   },
   {
