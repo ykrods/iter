@@ -2,6 +2,11 @@
   import { Button, Icon, Menu, Menuitem } from "svelte-mui";
   import { push, link } from "svelte-spa-history-router";
 
+  import CaretDown from "@fortawesome/fontawesome-free/svgs/solid/caret-down.svg";
+  import Cog from "@fortawesome/fontawesome-free/svgs/solid/cog.svg";
+  import FileAlt from "@fortawesome/fontawesome-free/svgs/regular/file-alt.svg";
+  import Search from "@fortawesome/fontawesome-free/svgs/solid/search.svg";
+
   import { currentProject } from "../stores.js";
   import { Project } from "../models/project.js";
 
@@ -28,7 +33,7 @@
       <div slot="activator">
         <Button on:click={menuReload}>
           { $currentProject.id }
-          <Icon path="M 2 7 L 12 17 L 22 7z" style="margin: 0 -4px 0 8px;" />
+          <Icon><svelte:component this={CaretDown}/></Icon>
         </Button>
       </div>
       {#await projectsPromise then projects }
@@ -41,10 +46,16 @@
     <a class="nav-link" use:link href={$currentProject.url("/issues")}>Issues</a>
     <a class="nav-link" use:link href={$currentProject.url("/wiki/")}>Wiki</a>
     <a class="nav-link" use:link href={$currentProject.url("/files")}>Files</a>
-    <Button icon on:click={() => { showAddNoteDialog = true; }}>N+</Button>
-    <Button icon on:click={() => { showSearchDialog = true; }}>SA</Button>
+    <Button icon dense on:click={() => { showAddNoteDialog = true; }}>
+      <svelte:component this={FileAlt}/>
+    </Button>
+    <Button icon dense on:click={() => { showSearchDialog = true; }}>
+      <svelte:component this={Search}/>
+    </Button>
     <span class="right">
-      <Button icon on:click={onSettingsPushed}>SE</Button>
+      <Button icon dense on:click={onSettingsPushed}>
+        <svelte:component this={Cog}/>
+      </Button>
     </span>
   {/if}
 </header>

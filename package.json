@@ -13,6 +13,7 @@
   "author": "ykrods",
   "license": "MIT",
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "5.15.3",
     "@rollup/plugin-node-resolve": "11.2.1",
     "dexie": "3.0.3",
     "dexie-export-import": "1.0.0",
