@@ -74,7 +74,10 @@
 </main>
 
 <style>
-  pre { white-space: pre-wrap ; }
+  pre {
+    font-family: monospace;
+    white-space: pre-wrap ;
+  }
   .item {
     display: flex;
     margin: 10px 0 0 0;
