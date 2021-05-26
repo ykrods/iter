@@ -1,12 +1,12 @@
 import { assert } from 'tiny-esm-test-runner';
 
-import { browserFixture } from "../fixtures.js";
+import { browserTest } from "../fixtures.js";
 
-const { is, isNot, ok, ng } = assert;
+const { is, ok } = assert;
 
 
 export async function testVisit() {
-  await browserFixture(async (browser, page, serverUrl) => {
+  await browserTest(async (page, serverUrl) => {
     await page.goto(serverUrl);
 
     await page.waitForSelector('main#Top');
@@ -18,7 +18,7 @@ export async function testVisit() {
 // Context: no project
 // Describe: visit top page and create new project
 export async function testCreateProject() {
-  await browserFixture(async (browser, page, serverUrl) => {
+  await browserTest(async (page, serverUrl) => {
     await page.goto(serverUrl);
 
     await page.waitForSelector('main#Top');

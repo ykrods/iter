@@ -46,14 +46,14 @@
     <a class="nav-link" use:link href={$currentProject.url("/issues")}>Issues</a>
     <a class="nav-link" use:link href={$currentProject.url("/wiki/")}>Wiki</a>
     <a class="nav-link" use:link href={$currentProject.url("/files")}>Files</a>
-    <Button icon dense on:click={() => { showAddNoteDialog = true; }}>
+    <Button id="create-note-button" icon dense on:click={() => { showAddNoteDialog = true; }}>
       <svelte:component this={FileAlt}/>
     </Button>
-    <Button icon dense on:click={() => { showSearchDialog = true; }}>
+    <Button id="search-button" icon dense on:click={() => { showSearchDialog = true; }}>
       <svelte:component this={Search}/>
     </Button>
     <span class="right">
-      <Button icon dense on:click={onSettingsPushed}>
+      <Button id="settings-button" icon dense on:click={onSettingsPushed}>
         <svelte:component this={Cog}/>
       </Button>
     </span>
