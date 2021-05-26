@@ -2,11 +2,10 @@
   import { push, link } from "svelte-spa-history-router";
   import { Button } from "svelte-mui";
 
-  import Plus from "@fortawesome/fontawesome-free/svgs/solid/plus.svg";
-
   import { dbEvents } from "../stores.js";
   import { Note } from "../models/note.js";
 
+  import AddButton from "../ui/buttons/AddButton.svelte";
   import EditNoteDialog from "../ui/dialogs/EditNoteDialog.svelte";
   import FormatDate from "../presentation/FormatDate.svelte";
   import Paginator from "../ui/Paginator.svelte";
@@ -16,7 +15,7 @@
   export let project;
 
   let showAddNoteDialog = false;
-  let moved = false;// for click event
+  let moved = false;// for item click event
 
   let page = 0;
   let numOfPages = 0;
@@ -66,9 +65,7 @@
   <div class="heading">
     <h1>Notes</h1>
     <Paginator bind:page bind:numOfPages />
-    <Button id="create-note-button" icon dense on:click={() => { showAddNoteDialog = true; }}>
-      <svelte:component this={Plus}/>
-    </Button>
+    <AddButton id="create-note-button" on:click={() => { showAddNoteDialog = true; }} />
   </div>
 
   {#await notesPromise then notes }
@@ -90,15 +87,6 @@
 <EditNoteDialog bind:visible={showAddNoteDialog} />
 
 <style>
-  .heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin: 10px;
-  }
-  h1 {
-    margin: 0;
-  }
   pre {
     font-family: monospace;
     white-space: pre-wrap ;
@@ -114,7 +102,7 @@
     margin-bottom: 10px;
   }
   .item:hover {
-    background-color: #FAFAFA;
+    background-color: var(--hover-color, #FAFAFA);
   }
   p.meta {
     margin: 15px 0 3px 0;

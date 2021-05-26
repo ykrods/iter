@@ -9,6 +9,7 @@
   import FormatDate from "../presentation/FormatDate.svelte";
 
   export let project;
+
   let issuesPromise = Promise.resolve([]);
 
   $: issuesPromise = Issue.list(project, { statuses: $selectedStatuses }, 20);
@@ -18,8 +19,10 @@
   <title>Issues @ { project.id } | iter</title>
 </svelte:head>
 <main id="IssueList" class="card">
-  <AddButton on:click={() => { push(project.url("/issues/new")); }} />
-  <h1>Issues</h1>
+  <div class="heading">
+    <h1>Issues</h1>
+    <AddButton on:click={() => { push(project.url("/issues/new")); }} />
+  </div>
 
   <fieldset>
     <legend>filters</legend>
