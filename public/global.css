@@ -87,34 +87,3 @@ table td.prop {
   background-color: white;
   box-shadow: var(--bs-50);
 }
-
-.selection-card {
-  background-color: white;
-  box-shadow: var(--bs-50);
-  border-radius: 10px;
-  width: 300px;
-  margin: 0 auto;
-}
-.selection-card > div {
-  border-top: 1px solid #ddd;
-}
-.selection-card > .selection-card--header {
-  border-top: none;
-  padding: 10px 0;
-}
-.selection-card > .selection-card--footer {
-  padding: 10px 0;
-}
-
-.selection-card > div > a {
-  display: block;
-  width: 100%;
-  padding: 10px 0;
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
-}
-
-.selection-card > div > a:hover {
-  background-color: #f8f8f8;
-}

@@ -1,5 +1,5 @@
 <script>
-  import { link } from "svelte-spa-history-router";
+  import { link, push } from "svelte-spa-history-router";
   import { Menu, Menuitem } from "svelte-mui";
 
   import DeleteConfirmationDialog from '../ui/dialogs/DeleteConfirmationDialog.svelte';
@@ -16,6 +16,7 @@
 
   async function onDeleteConfirmed() {
     await note.delete(project);
+    push(project.url("/notes"));
   }
 </script>
 

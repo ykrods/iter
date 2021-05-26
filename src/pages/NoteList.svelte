@@ -2,15 +2,21 @@
   import { push, link } from "svelte-spa-history-router";
   import { Button } from "svelte-mui";
 
+  import Plus from "@fortawesome/fontawesome-free/svgs/solid/plus.svg";
+
   import { dbEvents } from "../stores.js";
   import { Note } from "../models/note.js";
 
+  import EditNoteDialog from "../ui/dialogs/EditNoteDialog.svelte";
   import FormatDate from "../presentation/FormatDate.svelte";
   import Paginator from "../ui/Paginator.svelte";
 
   const pageSize = 20;
 
   export let project;
+
+  let showAddNoteDialog = false;
+  let moved = false;// for click event
 
   let page = 0;
   let numOfPages = 0;
@@ -56,37 +62,64 @@
 <svelte:head>
   <title>Notes @ { project.id } | iter</title>
 </svelte:head>
-<main id="NoteList">
-  <h1>Notes</h1>
-  <Paginator bind:page bind:numOfPages />
+<main id="NoteList" class="card">
+  <div class="heading">
+    <h1>Notes</h1>
+    <Paginator bind:page bind:numOfPages />
+    <Button id="create-note-button" icon dense on:click={() => { showAddNoteDialog = true; }}>
+      <svelte:component this={Plus}/>
+    </Button>
+  </div>
+
   {#await notesPromise then notes }
-    {#each notes as note }
-      <div class="card item">
-        <pre>{ note.heading_long }</pre>
-        <div class="area-button" on:click={ itemDidPush(note) }>
-          く
+    <div class="items">
+      {#each notes as note }
+        <div class="item"
+          on:mousedown={ () => { moved = false }}
+          on:mousemove={ () => { moved = true; }}
+          on:mouseup={ () => { if (!moved) { itemDidPush(note) } }}
+        >
+          <pre>{ note.heading_long }</pre>
+          <p class="meta"><FormatDate value={ note.created_at }/></p>
         </div>
-      </div>
-      <p class="meta">created at <FormatDate value={ note.created_at }/></p>
-    {/each}
+      {/each}
+    </div>
   {/await}
   <Paginator bind:page bind:numOfPages />
 </main>
+<EditNoteDialog bind:visible={showAddNoteDialog} />
 
 <style>
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 10px;
+  }
+  h1 {
+    margin: 0;
+  }
   pre {
     font-family: monospace;
     white-space: pre-wrap ;
   }
   .item {
-    display: flex;
-    margin: 10px 0 0 0;
+    padding: 10px 0 0 0;
+    border-bottom: 1px solid #ddd;
+  }
+  .item:first-child {
+    border-top: 1px solid #ddd;
+  }
+  .item:last-child {
+    margin-bottom: 10px;
+  }
+  .item:hover {
+    background-color: #FAFAFA;
   }
   p.meta {
-    margin: 0;
+    margin: 15px 0 3px 0;
     text-align: right;
-  }
-  .area-button:hover {
-    background-color: lightgray;
+    color: #bbb;
+    font-size: 0.9em;
   }
 </style>
