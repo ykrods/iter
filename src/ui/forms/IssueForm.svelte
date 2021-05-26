@@ -43,7 +43,6 @@
   <TextArea
     bind:value={body}
     name="body"
-    required
     rows={Math.min(body.split('\n').length + 3, 30)}
     label="body"
     style="font-family: monospace; font-size: 1em;"

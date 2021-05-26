@@ -30,24 +30,30 @@
   <title>{issue.title } @ { project.id } | iter</title>
 </svelte:head>
 <main id="Issue" class="card">
-  <div><a use:link href={ project.url("/issues") }>issues</a> / { issue.id }</div>
   {#if !editing }
-
-    <Menu origin="top right">
-      <div slot="activator">
-        <MenuButton />
+    <div class="heading--flex">
+      <div>
+        <div class="breadcrumb"><a use:link href={ project.url("/issues") }>issues</a> / { issue.id }</div>
+        <h1>{ issue.title }</h1>
       </div>
-      <Menuitem on:click={ () => { editing = true; }}>Edit</Menuitem>
-      <Menuitem
-        style="color: var(--danger, red);"
-        on:click={ () => { showDeleteConfirmation = true }}
-      >Delete</Menuitem>
-    </Menu>
+      <Menu origin="top right">
+        <div slot="activator">
+          <MenuButton />
+        </div>
+        <Menuitem on:click={ () => { editing = true; }}>Edit</Menuitem>
+        <Menuitem
+          style="color: var(--danger, red);"
+          on:click={ () => { showDeleteConfirmation = true }}
+        >Delete</Menuitem>
+      </Menu>
+    </div>
 
-    <h1>{ issue.title }</h1>
-    <div>status: {issue.status_disp}</div>
-    <div>created at: <FormatDateTime value={ issue.created_at }/></div>
-    <div>updated at: <FormatDateTime value={ issue.updated_at }/></div>
+    <div class="meta-list">
+      <div>status: {issue.status_disp}</div>
+      <div>created at: <FormatDateTime value={ issue.created_at }/></div>
+      <div>updated at: <FormatDateTime value={ issue.updated_at }/></div>
+    </div>
+
     <RstViewer rst={issue.body}/>
     <DeleteConfirmationDialog
       bind:visible={showDeleteConfirmation}
@@ -66,4 +72,7 @@
 </main>
 
 <style>
+.heading--flex h1 {
+  margin: 5px 0 10px 0;
+}
 </style>

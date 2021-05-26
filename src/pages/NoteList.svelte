@@ -62,7 +62,7 @@
   <title>Notes @ { project.id } | iter</title>
 </svelte:head>
 <main id="NoteList" class="card">
-  <div class="heading">
+  <div class="heading--flex">
     <h1>Notes</h1>
     <Paginator bind:page bind:numOfPages />
     <AddButton id="create-note-button" on:click={() => { showAddNoteDialog = true; }} />

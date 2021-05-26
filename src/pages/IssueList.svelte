@@ -19,7 +19,7 @@
   <title>Issues @ { project.id } | iter</title>
 </svelte:head>
 <main id="IssueList" class="card">
-  <div class="heading">
+  <div class="heading--flex">
     <h1>Issues</h1>
     <AddButton on:click={() => { push(project.url("/issues/new")); }} />
   </div>

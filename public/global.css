@@ -18,7 +18,9 @@
   --message-info: gray;
   --message-warning: yellow;
   --message-error: red;
+
   --hover-color: #FAFAFA;
+  --meta-color: #AAA;
 
   /* svelte-mui vars */
   --color: #333;
@@ -90,11 +92,33 @@ table td.prop {
 }
 
 .heading {
+  margin: 0 0 10px 0;
+}
+
+.heading--flex {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   margin-bottom: 10px;
 }
-.heading > h1 {
+.heading--flex > h1 {
   margin: 0;
+}
+
+.breadcrumb {
+  font-size: 0.9em;
+  color: var(--meta-color, #AAA);
+}
+.breadcrumb > a {
+  color: var(--meta-color, #AAA);
+}
+.breadcrumb > a:hover {
+  color: var(--accent);
+}
+.meta-list {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #F5F5F5;
+  border-radius: 5px;
+  color: var(--meta-color, #AAA);
 }

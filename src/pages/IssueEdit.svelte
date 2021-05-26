@@ -21,6 +21,6 @@
   <title>Create issue {project.id} | iter</title>
 </svelte:head>
 <div id="IssueEdit" class="card">
-  <h1>New Issue</h1>
+  <h1 class="heading">New Issue</h1>
   <IssueForm on:save={onSave} on:cancel={onCancel}/>
 </div>

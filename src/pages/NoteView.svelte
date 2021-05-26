@@ -24,17 +24,19 @@
   <title>{ note.heading } @ { project.id } | iter</title>
 </svelte:head>
 <main id="NoteView" class="card">
-  <div><a use:link href={ project.url("/notes") }>notes</a> / { note.id }</div>
-  <Menu origin="top right">
-    <div slot="activator">
-      <MenuButton />
-    </div>
-    <Menuitem on:click={ () => { showEditDialog = true; }}>Edit</Menuitem>
-    <Menuitem
-      style="color: var(--danger, red);"
-      on:click={ () => { showDeleteConfirmation = true; }}
-    >Delete</Menuitem>
-  </Menu>
+  <div class="heading--flex">
+    <span class="breadcrumb"><a use:link href={ project.url("/notes") }>notes</a> / { note.id }</span>
+    <Menu origin="top right">
+      <div slot="activator">
+        <MenuButton />
+      </div>
+      <Menuitem on:click={ () => { showEditDialog = true; }}>Edit</Menuitem>
+      <Menuitem
+        style="color: var(--danger, red);"
+        on:click={ () => { showDeleteConfirmation = true; }}
+      >Delete</Menuitem>
+    </Menu>
+  </div>
   <RstViewer rst={ note.body }/>
   <EditNoteDialog bind:visible={showEditDialog} {note} body={note.body}/>
   <DeleteConfirmationDialog
@@ -42,7 +44,8 @@
     message="Delete this note?"
     on:deleteConfirmed={onDeleteConfirmed}
   />
-  created at <FormatDateTime value={ note.created_at }/>
-  updated at <FormatDateTime value={ note.updated_at }/>
-
+  <div class="meta-list">
+    <div>created: <FormatDateTime value={ note.created_at }/></div>
+    <div>updated: <FormatDateTime value={ note.updated_at }/></div>
+  </div>
 </main>

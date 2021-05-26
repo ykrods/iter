@@ -32,6 +32,10 @@
   </div>
   <div slot="actions" class="actions center">
     <Button on:click={onCancelButtonPushed}>Cancel</Button>
-    <Button id="add" on:click={onCreateButtonPushed}>Add</Button>
+    <Button
+      id="add"
+      color="primary"
+      on:click={onCreateButtonPushed}
+    >Add</Button>
   </div>
 </Dialog>

@@ -14,8 +14,10 @@
 
   let title = "";
   onMount(() => {
-    title = (note === null) ? "Add new note" : "Edit note";
+    title = (note === null) ? "New note" : "Edit note";
   });
+
+  $: saveDisabled = (body === "");
 
   async function onCreateButtonPushed() {
     if (note) {
@@ -44,6 +46,10 @@
   </div>
   <div slot="actions" class="actions center">
     <Button on:click={() => { visible = false; }}>Cancel</Button>
-    <Button on:click={onCreateButtonPushed}>Add</Button>
+    <Button
+      color="primary"
+      disabled={saveDisabled}
+      on:click={onCreateButtonPushed}
+    >Save</Button>
   </div>
 </Dialog>
