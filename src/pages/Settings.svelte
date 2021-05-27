@@ -40,7 +40,7 @@
   <title>Settings @ { project.id } | iter</title>
 </svelte:head>
 <main id="Settings" class="card">
-  <h1>Settings</h1>
+  <h1 class="heading">Settings</h1>
   <h2>Import</h2>
   <p>
     <Button

@@ -9,7 +9,7 @@
 
   $: breadCrumbs = makeBreadCrumbs(project, path);
 </script>
-<div>
+<div class="breadcrumb">
   {#each breadCrumbs as bs, i}
     {#if 0 < i }
       <span class="separator">/</span>

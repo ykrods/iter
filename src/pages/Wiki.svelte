@@ -44,17 +44,19 @@
 </svelte:head>
 <main id="Wiki" class="card">
   {#if !editing && wikiPage.body}
-    <BreadCrumb path={wikiPage.path} {project}/>
-    <Menu origin="top right">
-      <div slot="activator">
-        <MenuButton />
-      </div>
-      <Menuitem on:click={() => { editing = true; }}>Edit</Menuitem>
-      <Menuitem
-        style="color: var(--danger);"
-        on:click={() => { showDeleteConfirmation = true; }}
-      >Delete</Menuitem>
-    </Menu>
+    <div class="heading--flex">
+      <BreadCrumb path={wikiPage.path} {project}/>
+      <Menu origin="top right">
+        <div slot="activator">
+          <MenuButton />
+        </div>
+        <Menuitem on:click={() => { editing = true; }}>Edit</Menuitem>
+        <Menuitem
+          style="color: var(--danger);"
+          on:click={() => { showDeleteConfirmation = true; }}
+        >Delete</Menuitem>
+      </Menu>
+    </div>
 
     <RstViewer rst={ wikiPage.body }/>
 
