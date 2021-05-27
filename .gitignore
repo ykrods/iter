@@ -3,8 +3,4 @@
 # Dependency directories
 node_modules/
 
-public/bundle.js
-public/bundle.js.map
-public/bundle.css
-public/converter.js
-public/converter.js.map
+public/dist

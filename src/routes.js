@@ -7,16 +7,7 @@ import { Note } from "./models/note.js";
 
 import { currentProject } from "./stores.js";
 
-import Top from "./pages/Top.svelte";
 import NotFound from "./pages/NotFound.svelte";
-import IssueView from "./pages/IssueView.svelte";
-import IssueEdit from "./pages/IssueEdit.svelte";
-import IssueList from "./pages/IssueList.svelte";
-import Wiki from "./pages/Wiki.svelte";
-import NoteList from "./pages/NoteList.svelte";
-import NoteView from "./pages/NoteView.svelte";
-import FileList from "./pages/FileList.svelte";
-import Settings from "./pages/Settings.svelte";
 
 function ensureProject({ component, resolver }) {
   return async (route) => {
@@ -48,7 +39,7 @@ async function noteResolver(route) {
     return NotFound;
   }
   route.props.note = note;
-  return NoteView;
+  return import("./pages/NoteView.svelte");
 }
 
 async function issueResolver(route) {
@@ -57,14 +48,15 @@ async function issueResolver(route) {
     return NotFound;
   }
   route.props.issue = issue;
-  return IssueView;
+  return import("./pages/IssueView.svelte");
+
 }
 
 async function wikiResolver(route) {
   const path = route.params.path || 'Home';
   const wikiPage = await WikiPage.get(route.props.project, path);
   route.props.wikiPage = wikiPage || new WikiPage({ path, body: "" });
-  return Wiki;
+  return import("./pages/Wiki.svelte");
 }
 
 export default [
@@ -73,16 +65,16 @@ export default [
     resolver: async (route) => {
       currentProject.set(null);
       route.props.projects = await Project.list();
-      return Top;
+      return import("./pages/Top.svelte");
     },
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/issues",
-    resolver: ensureProject({ component: IssueList }),
+    resolver: ensureProject({ component: import("./pages/IssueList.svelte") }),
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/issues/new",
-    resolver: ensureProject({ component: IssueEdit }),
+    resolver: ensureProject({ component: import("./pages/IssueEdit.svelte") }),
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/issues/(?<issueId>[0-9]+)",
@@ -94,7 +86,7 @@ export default [
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/notes",
-    resolver: ensureProject({ component: NoteList }),
+    resolver: ensureProject({ component: import("./pages/NoteList.svelte") }),
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/notes/(?<noteId>[0-9A-Z]+)",
@@ -102,11 +94,11 @@ export default [
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/files",
-    resolver: ensureProject({ component: FileList }),
+    resolver: ensureProject({ component: import("./pages/FileList.svelte") }),
   },
   {
     path: "/(?<projectId>[0-9a-z-]+)/settings",
-    resolver: ensureProject({ component: Settings }),
+    resolver: ensureProject({ component: import("./pages/Settings.svelte") }),
   },
   { path: ".*", component: NotFound },
 ];

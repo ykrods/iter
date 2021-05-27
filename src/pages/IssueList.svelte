@@ -38,7 +38,7 @@
 
   <table>
     <tr>
-      <th style="width: 11%">id</th>
+      <th style="width: 11%; padding-right: 15px;" class="prop">id</th>
       <th style="width: 40%">title</th>
       <th style="width: 15%;" class="prop">status</th>
       <th style="width: 17%;" class="prop">created at</th>
@@ -47,11 +47,9 @@
     {#await issuesPromise then issues}
     {#each issues as issue }
     <tr>
-      <!-- svelte-ignore a11y-missing-attribute -->
-      <td>
+      <td class="prop" style="padding-right: 15px;">
         <a use:link href={project.url(`/issues/${issue.id}`)}>{issue.id}</a>
       </td>
-      <!-- svelte-ignore a11y-missing-attribute -->
       <td>
         <a use:link href={project.url(`/issues/${issue.id}`)}>{issue.title}</a>
       </td>

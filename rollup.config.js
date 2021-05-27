@@ -10,9 +10,10 @@ export default [{
   input: 'src/main.js',
   output: {
     sourcemap: true,
-    format: 'iife',
     name: 'app', // export window.app
-    file: 'public/bundle.js'
+    format: 'esm',
+    dir: 'public/dist',
+    chunkFileNames: '[name].js'
   },
   external: [],
   plugins: [
@@ -29,7 +30,7 @@ export default [{
 
     // we'll extract any component CSS out into
     // a separate file - better for performance
-    css({ output: 'bundle.css' }),
+    css({ output: 'dist/bundle.css' }),
 
     // to import packages in node_modules
     nodeResolve({
@@ -48,7 +49,7 @@ export default [{
     sourcemap: true,
     format: 'iife',
     name: 'converter',
-    file: 'public/converter.js'
+    file: 'public/dist/converter.js'
   },
   external: [],
   plugins: [

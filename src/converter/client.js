@@ -8,7 +8,7 @@ class Deferred {
 }
 
 function build() {
-  let worker = new Worker("/converter.js");
+  let worker = new Worker("/dist/converter.js");
 
   const pool = [];
   let count = 0;
