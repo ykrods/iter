@@ -20,13 +20,13 @@ self.addEventListener('fetch', (event) => {
   if (!match) {
     return;
   }
-
-  event.respondWith(idbResponse(match.groups));
+  const name = decodeURIComponent(match.groups.name);
+  event.respondWith(idbResponse(match.groups.projectId, name));
 });
 
-function idbResponse({ projectId, name }) {
+function idbResponse(projectId, name) {
   return new Promise((resolve, reject) => {
-    // XXX: prefer to use dexie
+    // XXX: switch to use dexie
     const request = self.indexedDB.open(`iter-${projectId}`);
 
     request.onerror = (event) => {
@@ -38,6 +38,7 @@ function idbResponse({ projectId, name }) {
       db.onerror = (event) => {
         reject(event);
       };
+      console.log(name);
       db.transaction("uploads")
         .objectStore("uploads")
         .get(name).onsuccess = (event) => {
