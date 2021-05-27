@@ -14,7 +14,7 @@ export class WikiPage extends BaseModel {
 
   async save(project) {
     const updates = this.buildUpdates();
-    if (updates.path.charAt(updates.path.length - 1) == "/") {
+    if (updates.path.charAt(updates.path.length - 1) === "/") {
       updates.path = updates.path + "index";
     }
     updates.path = updates.path.split("/")
