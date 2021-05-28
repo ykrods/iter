@@ -51,4 +51,16 @@ export class Issue extends BaseModel {
   get status_disp() {
     return ISSUE_STATUSES[this.status];
   }
+  toRst() {
+    const titleLine = "=".repeat((new Blob([this.title])).size);
+    return `:status: ${this.status}
+:created_at: ${this.created_at.toISOString()}
+:updated_at: ${this.updated_at.toISOString()}
+
+${titleLine}
+${this.title}
+${titleLine}
+
+${this.body}`;
+  }
 }

@@ -10,14 +10,14 @@ export class Note extends UlidModel {
     return project.db.notes.get(id);
   }
 
-  static list(project, { limit, offset }) {
+  static list(project, options={}){
     let query = project.db.notes.reverse();
-    if ( offset && 0 < offset ) {
-      query = query.offset(offset);
+    if ( options.offset && 0 < options.offset ) {
+      query = query.offset(options.offset);
     }
 
-    if ( limit && 0 < limit ) {
-      query = query.limit(limit);
+    if ( options.limit && 0 < options.limit ) {
+      query = query.limit(options.limit);
     }
 
     return query.sortBy("id");

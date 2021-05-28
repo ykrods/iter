@@ -8,6 +8,10 @@ export class WikiPage extends BaseModel {
     this.body = body;
   }
 
+  static list(project) {
+    return project.db.wiki_pages.toArray();
+  }
+
   static get(project, path) {
     return project.db.wiki_pages.get(path);
   }
