@@ -3,6 +3,9 @@
   let group = "";
   import notices from "../third-party-notices.json";
 </script>
+<svelte:head>
+  <title>Credits | iter</title>
+</svelte:head>
 <main>
   <h1>Credits</h1>
   <h2>Third-Party Notices</h2>
