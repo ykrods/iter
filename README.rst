@@ -2,7 +2,7 @@
 README
 ========
 
-Portable project management application
+Portable project management application on browser.
 
 https://iter.netlify.app/
 
