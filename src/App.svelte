@@ -9,6 +9,7 @@
 
   // start worker setup
   import { rst2html } from "./converter/client.js";
+  rst2html("start");
 </script>
 
 <div class="app">
