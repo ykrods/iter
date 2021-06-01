@@ -40,6 +40,7 @@
     numOfPages = Math.ceil((await Note.totalCount(project)) / pageSize);
 
     if (numOfPages === 0) {
+      needsToReload = false;
       page = 0;
       return;
     }
