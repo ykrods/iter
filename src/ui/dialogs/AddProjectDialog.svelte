@@ -19,7 +19,6 @@
 </script>
 <Dialog width="500" bind:visible={visible}>
   <div slot="title">Create project</div>
-  <p>data is stored to indexedDB</p>
   <div>
     <Textfield
       name="id"
