@@ -1,7 +1,7 @@
 <script>
   import { ExpansionPanel } from "svelte-mui";
   let group = "";
-  import licenses from "../licenses.json";
+  import notices from "../third-party-notices.json";
 </script>
 <main>
   <h1>Credits</h1>
@@ -11,7 +11,7 @@
     <br/>
     Many thanks to the contributors of these softwares.
   </p>
-  {#each licenses as pkg }
+  {#each notices as pkg }
     <ExpansionPanel
       dense
       name={`${pkg.name} @ ${pkg.version} / ${ pkg.license }`}
