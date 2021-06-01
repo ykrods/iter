@@ -42,7 +42,7 @@
 
   async function onDeleteConfirmed() {
     await project.delete();
-    snackbarMessage.info(`Delete "${project.id}"`);
+    snackbarMessage.info(`The project "${project.id}" deleted`);
     push("/");
   }
 
@@ -107,6 +107,7 @@
 </main>
 <DeleteConfirmationDialog
   bind:visible={showDeleteConfirmation}
+  message={`Delete the project '${project.id}?'`}
   on:deleteConfirmed={onDeleteConfirmed} />
 <ImportFromJsonDialog
   bind:visible={showImportFromJsonDialog}/>

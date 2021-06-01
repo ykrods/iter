@@ -69,6 +69,13 @@ export default [
     },
   },
   {
+    path: "/credits",
+    resolver: () => {
+      currentProject.set(null);
+      return import("./pages/Credits.svelte");
+    }
+  },
+  {
     path: "/(?<projectId>[0-9a-z-]+)/issues",
     resolver: ensureProject({ component: import("./pages/IssueList.svelte") }),
   },

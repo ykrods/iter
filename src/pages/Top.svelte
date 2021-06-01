@@ -18,7 +18,8 @@
 <main id="Top">
   <p class="welcome">Iter: Portable project management application</p>
   <p>Iter is a personal project management application <br/>for that requires no registration.</p>
-  <p>All data are stored into browser (indexedDB), <br/>and you can import / export data any time you like.</p>
+  <p>All data are stored into browser (indexedDB) and will not be sent to the outside.</p>
+  <p>See <a href="https://github.com/ykrods/iter/blob/main/README.rst">README</a> for details.</p>
   <p>NOTICE: Iter is still expeirmental / in the beta release stage.</p>
   <div class="selection-card">
     {#if projects.length == 0 }

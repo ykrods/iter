@@ -1,5 +1,5 @@
 <script>
-  import { Router } from "svelte-spa-history-router";
+  import { Router, link } from "svelte-spa-history-router";
 
   import { currentProject } from "./stores.js";
   import routes from "./routes.js"
@@ -16,7 +16,10 @@
   <div class="mainContainer">
     <Router {routes}/>
   </div>
-  <footer>powered by iter</footer>
+  <footer>
+    <a href="https://github.com/ykrods/iter" target="_blank">project</a>
+    | <a use:link href="/credits">credits</a>
+  </footer>
   <Snackbar/>
 </div>
 

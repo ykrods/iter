@@ -1,5 +1,6 @@
 import svelte from 'rollup-plugin-svelte';
 import nodeResolve from '@rollup/plugin-node-resolve';
+import json from "@rollup/plugin-json";
 import css from 'rollup-plugin-css-only';
 
 import importText from './rollup-plugin-import-text.js';
@@ -19,6 +20,7 @@ export default [{
   plugins: [
     // make text importable as module
     importText({ extensions: ['txt', 'py', 'html']}),
+    json(),
 
     svelte({
       extensions: ['.svelte', '.svg'],
@@ -30,7 +32,7 @@ export default [{
 
     // we'll extract any component CSS out into
     // a separate file - better for performance
-    css({ output: 'dist/bundle.css' }),
+    css({ output: 'bundle.css' }),
 
     // to import packages in node_modules
     nodeResolve({
