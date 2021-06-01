@@ -28,11 +28,11 @@ async function setup() {
     }
   });
 
-  const PYODIDE_PATH = "/vendor/pyodide-0.16.1-slim";
+  const PYODIDE_PATH = "/vendor/pyodide-0.16.1-slim/";
   // pyodide sub resources
-  self.languagePluginUrl = `http://localhost:8080${PYODIDE_PATH}/`;
+  self.languagePluginUrl = PYODIDE_PATH;
 
-  importScripts(`${PYODIDE_PATH}/pyodide.js`);
+  importScripts(`${PYODIDE_PATH}pyodide.js`);
 
   await self.languagePluginLoader;
   await pyodide.loadPackage("docutils");
