@@ -76,35 +76,35 @@ export default [
     }
   },
   {
-    path: "/(?<projectId>[0-9a-z-]+)/issues",
+    path: "/(?<projectId>[0-9a-zA-Z_-]+)/issues",
     resolver: ensureProject({ component: import("./pages/IssueList.svelte") }),
   },
   {
-    path: "/(?<projectId>[0-9a-z-]+)/issues/new",
+    path: "/(?<projectId>[0-9a-zA-Z_-]+)/issues/new",
     resolver: ensureProject({ component: import("./pages/IssueEdit.svelte") }),
   },
   {
-    path: "/(?<projectId>[0-9a-z-]+)/issues/(?<issueId>[0-9]+)",
+    path: "/(?<projectId>[0-9a-zA-Z_-]+)/issues/(?<issueId>[0-9]+)",
     resolver: ensureProject({ resolver: issueResolver }),
   },
   {
-    path: "/(?<projectId>[0-9a-z-]+)/wiki/(?<path>.*)",
+    path: "/(?<projectId>[0-9a-zA-Z_-]+)/wiki/(?<path>.*)",
     resolver: ensureProject({ resolver: wikiResolver }),
   },
   {
-    path: "/(?<projectId>[0-9a-z-]+)/notes",
+    path: "/(?<projectId>[0-9a-zA-Z_-]+)/notes",
     resolver: ensureProject({ component: import("./pages/NoteList.svelte") }),
   },
   {
-    path: "/(?<projectId>[0-9a-z-]+)/notes/(?<noteId>[0-9A-Z]+)",
+    path: "/(?<projectId>[0-9a-zA-Z_-]+)/notes/(?<noteId>[0-9A-Z]+)",
     resolver: ensureProject({ resolver: noteResolver }),
   },
   {
-    path: "/(?<projectId>[0-9a-z-]+)/files",
+    path: "/(?<projectId>[0-9a-zA-Z_-]+)/files",
     resolver: ensureProject({ component: import("./pages/FileList.svelte") }),
   },
   {
-    path: "/(?<projectId>[0-9a-z-]+)/settings",
+    path: "/(?<projectId>[0-9a-zA-Z_-]+)/settings",
     resolver: ensureProject({ component: import("./pages/Settings.svelte") }),
   },
   { path: ".*", component: NotFound },

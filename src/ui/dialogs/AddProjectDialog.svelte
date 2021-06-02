@@ -7,6 +7,8 @@
   export let visible = false;
   export let id = "";
 
+  $: validId = /^[0-9A-Za-z_-]+$/.test(id);
+
   function onCancelButtonPushed() {
     visible = false;
   }
@@ -26,12 +28,14 @@
       required
       bind:value={id}
       label="id"
-      message=""
+      message="Accept only alphabets, numbers, - or _ is available"
+      error={ (id === "" || validId) ? "" : "Invalid Character(s)" }
     />
   </div>
   <div slot="actions" class="actions center">
     <Button on:click={onCancelButtonPushed}>Cancel</Button>
     <Button
+      disabled={ !validId }
       id="add"
       color="primary"
       on:click={onCreateButtonPushed}
