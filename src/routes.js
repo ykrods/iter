@@ -7,6 +7,7 @@ import { Note } from "./models/note.js";
 
 import { currentProject } from "./stores.js";
 
+import Top from "./pages/Top.svelte";
 import NotFound from "./pages/NotFound.svelte";
 
 function ensureProject({ component, resolver }) {
@@ -65,7 +66,7 @@ export default [
     resolver: async (route) => {
       currentProject.set(null);
       route.props.projects = await Project.list();
-      return import("./pages/Top.svelte");
+      return Top;
     },
   },
   {
