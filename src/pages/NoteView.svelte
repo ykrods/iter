@@ -2,6 +2,9 @@
   import { link, push } from "svelte-spa-history-router";
   import { Menu, Menuitem } from "svelte-mui";
 
+  import { dbEvents } from "../stores.js";
+  import { Note } from "../models/note.js";
+
   import DeleteConfirmationDialog from '../ui/dialogs/DeleteConfirmationDialog.svelte';
   import EditNoteDialog from "../ui/dialogs/EditNoteDialog.svelte"
   import MenuButton from "../ui/buttons/MenuButton.svelte";
@@ -13,10 +16,27 @@
 
   let showEditDialog = false;
   let showDeleteConfirmation = false;
+  let body = note.body;
 
   async function onDeleteConfirmed() {
     await note.delete(project);
     push(project.url("/notes"));
+  }
+
+  $: reloadIfNeeds($dbEvents);
+
+  async function reloadIfNeeds(events) {
+    if (!note) {
+      return;
+    }
+    const isUpdated = (event) => {
+      return (event.model === "Note" && event.op === "UPDATED" && event.obj.id === note.id);
+    };
+
+    if (!events.some((event) => isUpdated(event))) {
+      return;
+    }
+    Note.get(project, note.id).then(n => { note = n; body = note.body; });
   }
 </script>
 
@@ -38,7 +58,10 @@
     </Menu>
   </div>
   <RstViewer rst={ note.body }/>
-  <EditNoteDialog bind:visible={showEditDialog} {note} body={note.body}/>
+  <!-- Because body is binded to textarea and cause a problem when rebinding (updating),
+       binding body instead of note.body.
+  -->
+  <EditNoteDialog bind:visible={showEditDialog} id={note.id} {body} />
   <DeleteConfirmationDialog
     bind:visible={showDeleteConfirmation}
     message="Delete this note?"

@@ -1,35 +1,37 @@
 <script>
-  import { ulid } from 'ulid';
   import { onMount } from "svelte";
   import { Button, Dialog } from 'svelte-mui';
 
   import TextArea from '../../mui/TextArea.svelte';
   import { Note } from "../../models/note.js";
-  import { currentProject } from "../../stores.js";
+  import { currentProject, snackbarMessage } from "../../stores.js";
 
   export let visible = false;
 
-  export let note = null;
+  export let id = null;
   export let body = "";
 
   let title = "";
+
   onMount(() => {
-    title = (note === null) ? "New note" : "Edit note";
+    title = (id === null) ? "New note" : "Edit note";
   });
 
   $: saveDisabled = (body === "");
 
   async function onCreateButtonPushed() {
-    if (note) {
+    if (id) {
+      const note = await Note.get($currentProject, id);
       note.body = body;
+      await note.save($currentProject);
     } else {
-      note = new Note({ body });
+      const note = new Note({ body });
+      await note.save($currentProject);
+      snackbarMessage.info(`Note "${ note.heading }" added`);
     }
-    await note.save($currentProject);
 
     body = "";
     visible = false;
-    note = null;
   }
 </script>
 <Dialog width="500" bind:visible={visible}>
