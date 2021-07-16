@@ -17,8 +17,10 @@
   <script type="module" defer src='/dist/main.js'></script>
 
   <!-- script for rst viewer -->
-  <script src='/vendor/mermaid-8.9.2/mermaid.min.js'></script>
-  <script>mermaid.initialize({startOnLoad:false});</script>
+  <script
+    async
+    src='/vendor/mermaid-8.9.2/mermaid.min.js'
+    onload="mermaid.initialize({startOnLoad:false});"></script>
   <script>
     (async() => {
       if('serviceWorker' in navigator ) {
