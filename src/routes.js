@@ -10,7 +10,7 @@ import { currentProject } from "./stores.js";
 import Top from "./pages/Top.svelte";
 import NotFound from "./pages/NotFound.svelte";
 
-function ensureProject({ component, resolver }) {
+function ensureProject(resolver) {
   return async (route) => {
     const id = route.params.projectId;
 
@@ -24,13 +24,7 @@ function ensureProject({ component, resolver }) {
     currentProject.set(project);
     route.props.project = project;
 
-    if (component) {
-      return component;
-    }
-    if (resolver) {
-      return await resolver(route);
-    }
-    throw new Error("Wrong Arguments");
+    return await resolver(route);
   };
 }
 
@@ -78,35 +72,35 @@ export default [
   },
   {
     path: "/(?<projectId>[0-9a-zA-Z_-]+)/issues",
-    resolver: ensureProject({ component: import("./pages/IssueList.svelte") }),
+    resolver: ensureProject(() => import("./pages/IssueList.svelte")),
   },
   {
     path: "/(?<projectId>[0-9a-zA-Z_-]+)/issues/new",
-    resolver: ensureProject({ component: import("./pages/IssueEdit.svelte") }),
+    resolver: ensureProject(() => import("./pages/IssueEdit.svelte")),
   },
   {
     path: "/(?<projectId>[0-9a-zA-Z_-]+)/issues/(?<issueId>[0-9]+)",
-    resolver: ensureProject({ resolver: issueResolver }),
+    resolver: ensureProject(issueResolver),
   },
   {
     path: "/(?<projectId>[0-9a-zA-Z_-]+)/wiki/(?<path>.*)",
-    resolver: ensureProject({ resolver: wikiResolver }),
+    resolver: ensureProject(wikiResolver),
   },
   {
     path: "/(?<projectId>[0-9a-zA-Z_-]+)/notes",
-    resolver: ensureProject({ component: import("./pages/NoteList.svelte") }),
+    resolver: ensureProject(() => import("./pages/NoteList.svelte")),
   },
   {
     path: "/(?<projectId>[0-9a-zA-Z_-]+)/notes/(?<noteId>[0-9A-Z]+)",
-    resolver: ensureProject({ resolver: noteResolver }),
+    resolver: ensureProject(noteResolver),
   },
   {
     path: "/(?<projectId>[0-9a-zA-Z_-]+)/files",
-    resolver: ensureProject({ component: import("./pages/FileList.svelte") }),
+    resolver: ensureProject(() => import("./pages/FileList.svelte")),
   },
   {
     path: "/(?<projectId>[0-9a-zA-Z_-]+)/settings",
-    resolver: ensureProject({ component: import("./pages/Settings.svelte") }),
+    resolver: ensureProject(() => import("./pages/Settings.svelte")),
   },
   { path: ".*", component: NotFound },
 ];
