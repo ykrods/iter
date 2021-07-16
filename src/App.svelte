@@ -1,4 +1,10 @@
 <script>
+  // css bundle
+  import "../public/viewer.css";
+  import "../public/global.css";
+  import "../public/vendor/docutils/math.css";
+  import "../public/vendor/pygments/default.css";
+
   import { Router, link } from "svelte-spa-history-router";
 
   import { currentProject } from "./stores.js";
