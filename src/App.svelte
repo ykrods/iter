@@ -5,6 +5,7 @@
   import "../public/vendor/docutils/math.css";
   import "../public/vendor/pygments/default.css";
 
+  import { onMount } from "svelte";
   import { Router, link } from "svelte-spa-history-router";
 
   import { currentProject } from "./stores.js";
@@ -16,6 +17,11 @@
   // start worker setup
   import { rst2html } from "./converter/client.js";
   rst2html("start");
+
+  onMount(async () => {
+    await import('/vendor/mermaid-8.9.2/mermaid.min.js');
+    mermaid.initialize({startOnLoad:false});
+  });
 </script>
 
 <div class="app">

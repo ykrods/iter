@@ -16,7 +16,7 @@ export default [{
     dir: 'public/dist',
     chunkFileNames: '[name].js'
   },
-  external: [],
+  external: ['/vendor/mermaid-8.9.2/mermaid.min.js'],
   plugins: [
     // make text importable as module
     importText({ extensions: ['txt', 'py', 'html']}),
