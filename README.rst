@@ -4,8 +4,6 @@ iter
 
 Portable project management application on browser.
 
-https://iter.netlify.app/
-
 Features
 ===========
 
