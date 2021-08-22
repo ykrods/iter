@@ -2,8 +2,11 @@ import svelte from 'rollup-plugin-svelte';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import json from "@rollup/plugin-json";
 import css from 'rollup-plugin-css-only';
-
 import importText from './rollup-plugin-import-text.js';
+import { terser } from 'rollup-plugin-terser';
+
+import tinyLivereload from 'rollup-plugin-tiny-livereload';
+import notifyTmux from "rollup-plugin-notify-tmux";
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -39,6 +42,11 @@ export default [{
       browser: true,
       dedupe: ['svelte']
     }),
+
+    !production && serve(),
+    !production && tinyLivereload(),
+    !production && notifyTmux(),
+    production && terser(),
   ],
   watch: {
     include: 'src/**',
@@ -70,3 +78,19 @@ export default [{
     clearScreen: false,
   },
 }];
+
+function serve() {
+  let started = false;
+  return {
+    writeBundle() {
+      if (!started) {
+        started = true;
+
+        require("child_process").spawn('npm', ['run', 'server'], {
+          stdio: ['ignore', 'inherit', 'inherit'],
+          shell: true
+        });
+      }
+    }
+  };
+}
