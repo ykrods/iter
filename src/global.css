@@ -1,0 +1,140 @@
+/* shoelace themes */
+.sl-theme-light a {
+  color: inherit;
+  text-decoration: none;
+}
+.sl-theme-light a:hover {
+  color: rgb(var(--sl-color-primary-700));
+  text-decoration: none;
+}
+.sl-theme-dark a {
+  color: inherit;
+  text-decoration: none;
+}
+.sl-theme-dark a:hover {
+  color: rgb(var(--sl-color-primary-500));
+}
+
+:root {
+  --header-height: 48px;
+  --footer-height: 22px;
+  /* box-shadow per elevation */
+  --bs-50: rgba(0, 0, 0, 0.02) 0px 1px 2px 0px,
+           rgba(0, 0, 0, 0.02) 0px 1px 2px 0px,
+           rgba(0, 0, 0, 0.02) 0px 1px 4px 0px;
+  --bs-100: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px,
+            rgba(0, 0, 0, 0.05) 0px 1px 4px 0px,
+            rgba(0, 0, 0, 0.05) 0px 2px 8px 0px;
+
+  --danger: red;
+  --message-info: gray;
+  --message-warning: yellow;
+  --message-error: red;
+
+  --hover-color: #FAFAFA;
+  --meta-color: #AAA;
+
+  /* svelte-mui vars */
+  --color: #333;
+  --alternate: #fff;
+  --bg-color: #fbfbfa;
+  --primary: #1976d2;
+  --accent: #f50057;
+  --divider: rgba(0, 0, 0, 0.1);
+  --bg-popover: #EEE;
+  --border: #dfdfdf;
+  --label: rgba(0, 0, 0, 0.3755);
+  --bg-input-filled: rgba(0, 0, 0, 0.0555);
+}
+
+body {
+  font-family: var(--sl-font-sans);
+  font-size: var(--sl-font-size-medium);
+  font-weight: var(--sl-font-weight-normal);
+  letter-spacing: var(--sl-letter-spacing-normal);
+  background-color: var(--sl-color-neutral-100);
+  color: var(--sl-color-neutral-800);
+  line-height: var(--sl-line-height-normal);
+
+  margin: 0;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+/* defaults */
+h1 { font-size: 1.8em; }
+h2 { font-size: 1.5em; }
+h3 { font-size: 1.2em; }
+
+a {
+  text-decoration: none;
+  color: #557;
+}
+a:hover {
+  color: var(--accent);
+}
+
+table {
+  margin: 20px 0 10px 0;
+  width: 100%;
+  font-size: 0.9em;
+  border-collapse: collapse;
+}
+th {
+  padding: 5px 0;
+  border-bottom: 2px solid #bbb;
+}
+td {
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+table th.prop {
+  text-align: right;
+}
+table td.prop {
+  text-align: right;
+  color: #777;
+}
+
+
+/* --- UI --- */
+
+.card {
+  margin: 10px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: var(--bs-50);
+}
+
+.heading {
+  margin: 0 0 10px 0;
+}
+
+.heading--flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+.heading--flex > h1 {
+  margin: 0;
+}
+
+.breadcrumb {
+  font-size: 0.9em;
+  color: var(--meta-color, #AAA);
+}
+.breadcrumb > a {
+  color: var(--meta-color, #AAA);
+}
+.breadcrumb > a:hover {
+  color: var(--accent);
+}
+.meta-list {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #F5F5F5;
+  border-radius: 5px;
+  color: var(--meta-color, #AAA);
+}
