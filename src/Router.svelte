@@ -1,7 +1,7 @@
 <script>
   import { Router, link } from "svelte-spa-history-router";
 
-  import { Project } from "./models/Project.js";
+  import { Project } from "./models/project.js";
 
   import Top from "./pages/Top.svelte";
   import NotFound from "./pages/NotFound.svelte";
@@ -31,10 +31,10 @@
         return Top;
       },
     },
-    routeUnderProject("/journal", () => import("./pages/Journal.svelte")),
-    {
-      path: ".*", component: NotFound,
-    },
+    routeUnderProject("/journals", () => import("./pages/Journals.svelte")),
+    routeUnderProject("/decisions", () => import("./pages/Decisions.svelte")),
+    { path: "/credits", resolver: () => { return import("./pages/Credits.svelte"); } },
+    { path: ".*", component: NotFound },
   ];
 </script>
 <Router {routes}/>

@@ -2,6 +2,7 @@
   import "@shoelace-style/shoelace/dist/components/button/button";
 
   import AddProjectDialog from "../ui/AddProjectDialog.svelte";
+  import Footer from "../layouts/Footer.svelte";
 
   import { link } from "svelte-spa-history-router";
 
@@ -24,13 +25,14 @@
     {:else}
       <div class="selection-card--header">Available projects:</div>
       {#each projects as project }
-        <div><a use:link href={ project.url("/journal") }>{ project.id }</a></div>
+        <div><a use:link href={ project.url("/journals") }>{ project.id }</a></div>
       {/each}
     {/if}
     <div class="selection-card--footer">
       <sl-button variant="primary" on:click={ () => { showAddProjectDialog = true; }}>Create Project</sl-button>
     </div>
   </div>
+  <Footer/>
 </main>
 <AddProjectDialog bind:visible={showAddProjectDialog}/>
 <style>
