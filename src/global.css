@@ -15,6 +15,18 @@
   color: rgb(var(--sl-color-primary-500));
 }
 
+/* shoelace forms */
+.invalid:not([disabled])::part(label),
+.invalid:not([disabled])::part(help-text) {
+  color: var(--sl-color-danger-600);
+}
+.invalid:not([disabled])::part(base) {
+  border-color: var(--sl-color-danger-600);
+}
+.invalid:focus-within::part(base) {
+  box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-color-danger-600);
+}
+
 :root {
   --footer-height: 27px;
   /* box-shadow per elevation */

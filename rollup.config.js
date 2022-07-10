@@ -40,7 +40,7 @@ export default [{
           src: "node_modules/@shoelace-style/shoelace/dist/assets",
           dest: "public/shoelace/assets",
           filter(src) {
-            const re = /.+\/(sun|moon|list|check2-circle)\.svg$/;
+            const re = /.+\/(sun|moon|list|check2-circle|plus-square)\.svg$/;
             return re.test(src);
           }
         },

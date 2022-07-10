@@ -1,14 +1,14 @@
 <script>
   import "@shoelace-style/shoelace/dist/components/button/button";
 
-  import AddProjectDialog from "../ui/AddProjectDialog.svelte";
+  import CreateProjectDialog from "../ui/dialogs/CreateProjectDialog.svelte";
   import Footer from "../layouts/Footer.svelte";
 
   import { link } from "svelte-spa-history-router";
 
   export let projects = [];
 
-  let showAddProjectDialog = false;
+  let showCreateProjectDialog = false;
 </script>
 <svelte:head>
   <title>top | iter</title>
@@ -29,12 +29,12 @@
       {/each}
     {/if}
     <div class="selection-card--footer">
-      <sl-button variant="primary" on:click={ () => { showAddProjectDialog = true; }}>Create Project</sl-button>
+      <sl-button variant="primary" on:click={ () => { showCreateProjectDialog = true; }}>Create Project</sl-button>
     </div>
   </div>
   <Footer/>
 </main>
-<AddProjectDialog bind:visible={showAddProjectDialog}/>
+<CreateProjectDialog bind:open={showCreateProjectDialog}/>
 <style>
   #Top { text-align: center; }
   p.welcome {

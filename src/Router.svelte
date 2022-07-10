@@ -1,5 +1,5 @@
 <script>
-  import { Router, link } from "svelte-spa-history-router";
+  import { Router, redirect } from "svelte-spa-history-router";
 
   import { Project } from "./models/project.js";
 

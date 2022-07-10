@@ -1,14 +1,18 @@
 import Dexie from "dexie";
 import "dexie-export-import";
 
+import { Journal } from "./models/journal.js";
+
 const prefix = "iter-";
 
 export function getDB(id) {
   const db = new Dexie(getDBName(id));
 
   db.version(1).stores({
-    journal: "id, created_at, updated_at",
+    journals: "id, created_at, updated_at",
   });
+
+  db.journals.mapToClass(Journal);
 
   return db;
 }
