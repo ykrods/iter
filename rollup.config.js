@@ -1,8 +1,10 @@
+import child_process from 'child_process';
+
 import svelte from "rollup-plugin-svelte";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import css from "rollup-plugin-css-only";
 import copy from "rollup-plugin-simple-copy";
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -74,7 +76,7 @@ function serve() {
       if (!started) {
         started = true;
 
-        require("child_process").spawn("npm", ["run", "start"], {
+        child_process.spawn("npm", ["run", "start"], {
           stdio: ["ignore", "inherit", "inherit"],
           shell: true
         });

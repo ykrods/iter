@@ -1,6 +1,6 @@
 <script>
-  import "@shoelace-style/shoelace/dist/components/button/button";
-  import "@shoelace-style/shoelace/dist/components/textarea/textarea";
+  import "@shoelace-style/shoelace/dist/components/button/button.js";
+  import "@shoelace-style/shoelace/dist/components/textarea/textarea.js";
 
   import { getContext } from "svelte";
   import { push } from "svelte-spa-history-router";
@@ -32,6 +32,7 @@
     value={body}
     required
   ></sl-textarea>
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <sl-button
     slot="footer"
     variant="primary"

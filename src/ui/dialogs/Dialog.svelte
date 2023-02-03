@@ -1,5 +1,5 @@
 <script>
-  import "@shoelace-style/shoelace/dist/components/dialog/dialog";
+  import "@shoelace-style/shoelace/dist/components/dialog/dialog.js";
 
   import { onMount } from "svelte";
 

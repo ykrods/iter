@@ -1,5 +1,5 @@
 <script>
-  import "@shoelace-style/shoelace/dist/components/icon-button/icon-button";
+  import "@shoelace-style/shoelace/dist/components/icon-button/icon-button.js";
 
   import { fly } from "svelte/transition";
   import { link } from "svelte-spa-history-router";
@@ -10,6 +10,7 @@
   let showSidebar = true;
 </script>
 <div class="layout">
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <sl-icon-button
     name="list"
     label="sidemenu"

@@ -1,5 +1,5 @@
 <script>
-  import "@shoelace-style/shoelace/dist/components/button/button";
+  import "@shoelace-style/shoelace/dist/components/button/button.js";
 
   import CreateProjectDialog from "../ui/dialogs/CreateProjectDialog.svelte";
   import Footer from "../layouts/Footer.svelte";
@@ -17,7 +17,7 @@
   <p class="welcome">Iter: Portable project management application</p>
   <p>Iter is a personal project management application <br/>for that requires no registration.</p>
   <p>All data are stored into browser (indexedDB) and will not be sent to the outside.</p>
-  <p>See <a target="_blank" href="https://github.com/ykrods/iter#readme">README</a> for details.</p>
+  <p>See <a target="_blank" rel="noreferrer" href="https://github.com/ykrods/iter#readme">README</a> for details.</p>
   <p>NOTICE: Iter is still expeirmental / in the beta release stage.</p>
   <div class="selection-card">
     {#if projects.length == 0 }
@@ -29,6 +29,7 @@
       {/each}
     {/if}
     <div class="selection-card--footer">
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
       <sl-button variant="primary" on:click={ () => { showCreateProjectDialog = true; }}>Create Project</sl-button>
     </div>
   </div>

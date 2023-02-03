@@ -3,7 +3,7 @@
 </script>
 <footer>
   <a use:link href="/">top</a>
-  | <a href="https://github.com/ykrods/iter" target="_blank">iter</a>
+  | <a href="https://github.com/ykrods/iter" target="_blank" rel="noreferrer">iter</a>
   | <a use:link href="/credits">credits</a>
 </footer>
 <style>

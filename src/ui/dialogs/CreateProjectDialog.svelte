@@ -1,6 +1,6 @@
 <script>
-  import "@shoelace-style/shoelace/dist/components/button/button";
-  import "@shoelace-style/shoelace/dist/components/input/input";
+  import "@shoelace-style/shoelace/dist/components/button/button.js";
+  import "@shoelace-style/shoelace/dist/components/input/input.js";
 
   import { push } from "svelte-spa-history-router";
 
@@ -36,6 +36,7 @@
     placeholder="Project id"
     help-text="Alphabets, numbers, hyphen (-), and underscore (_) are available."
   ></sl-input>
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <sl-button
     slot="footer"
     variant="primary"

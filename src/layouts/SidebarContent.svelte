@@ -15,6 +15,7 @@
   <ul>
     <li>
       <a use:link href={project.url("/journals")}>Journals</a>
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
       <sl-icon-button
         name="plus-square"
         label="Create Journal"
