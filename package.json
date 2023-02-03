@@ -12,20 +12,20 @@
   "author": "ykrods",
   "license": "MIT",
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "13.3.0",
-    "@shoelace-style/shoelace": "2.0.0-beta.77",
-    "dexie": "3.2.2",
-    "dexie-export-import": "1.0.3",
-    "rollup": "2.76.0",
-    "rollup-plugin-css-only": "3.1.0",
+    "@rollup/plugin-node-resolve": "*",
+    "@rollup/plugin-terser": "*",
+    "@shoelace-style/shoelace": "*",
+    "dexie": "*",
+    "dexie-export-import": "*",
+    "rollup": "*",
+    "rollup-plugin-css-only": "*",
     "rollup-plugin-notify-tmux": "github:ykrods/rollup-plugin-notify-tmux",
     "rollup-plugin-simple-copy": "github:ykrods/rollup-plugin-simple-copy",
-    "rollup-plugin-svelte": "7.1.0",
-    "rollup-plugin-terser": "7.0.2",
+    "rollup-plugin-svelte": "*",
     "rollup-plugin-tiny-livereload": "github:ykrods/rollup-plugin-tiny-livereload",
-    "svelte": "3.49.0",
-    "svelte-spa-history-router": "2.1.0",
-    "tiny-esm-test-runner": "1.2.3",
-    "ulid": "2.3.0"
+    "svelte": "*",
+    "svelte-spa-history-router": "*",
+    "tiny-esm-test-runner": "*",
+    "ulid": "*"
   }
 }
