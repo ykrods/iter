@@ -6,6 +6,8 @@ import css from "rollup-plugin-css-only";
 import copy from "rollup-plugin-simple-copy";
 import terser from "@rollup/plugin-terser";
 
+import importText from './rollup-plugin-import-text.js';
+
 const production = !process.env.ROLLUP_WATCH;
 
 export default [{
@@ -14,7 +16,7 @@ export default [{
     sourcemap: true,
     name: "app", // export window.app
     format: "esm",
-    dir: "public",
+    dir: "public/_/",
     chunkFileNames: "[name].js"
   },
   external: [
@@ -40,7 +42,7 @@ export default [{
         },
         {
           src: "node_modules/@shoelace-style/shoelace/dist/assets",
-          dest: "public/shoelace/assets",
+          dest: "public/_/shoelace/assets",
           filter(src) {
             const re = /.+\/(sun|moon|list|check2-circle|plus-square)\.svg$/;
             return re.test(src);
@@ -48,7 +50,7 @@ export default [{
         },
         {
           src: "node_modules/@shoelace-style/shoelace/dist/themes",
-          dest: "public/shoelace/themes",
+          dest: "public/_/shoelace/themes",
         },
       ]
     }),
@@ -64,6 +66,31 @@ export default [{
   ],
   watch: {
     include: "src/**",
+    chokidar: false,
+    clearScreen: false,
+  },
+},
+{
+  input: 'src/converter/worker.js',
+  output: {
+    sourcemap: true,
+    format: 'iife',
+    name: 'converter',
+    file: 'public/_/worker.js'
+  },
+  external: [],
+  plugins: [
+    // make text importable as module
+    importText({ extensions: ['py']}),
+
+    // to import packages in node_modules
+    nodeResolve({
+      browser: true,
+      dedupe: ['svelte']
+    }),
+  ],
+  watch: {
+    include: 'src/converter/**',
     chokidar: false,
     clearScreen: false,
   },

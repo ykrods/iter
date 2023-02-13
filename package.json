@@ -17,6 +17,7 @@
     "@shoelace-style/shoelace": "*",
     "dexie": "*",
     "dexie-export-import": "*",
+    "dompurify": "2.4.3",
     "rollup": "*",
     "rollup-plugin-css-only": "*",
     "rollup-plugin-notify-tmux": "github:ykrods/rollup-plugin-notify-tmux",

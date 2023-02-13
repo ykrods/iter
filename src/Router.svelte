@@ -3,7 +3,6 @@
 
   import { Project } from "./models/project.js";
 
-  import Top from "./pages/Top.svelte";
   import NotFound from "./pages/NotFound.svelte";
 
   function routeUnderProject(relpath, _resolver) {
@@ -24,16 +23,20 @@
   }
 
   const routes = [
-    {
-      path: "/",
-      resolver: async (route) => {
-        route.props.projects = await Project.list();
-        return Top;
-      },
-    },
-    routeUnderProject("/journals", () => import("./pages/Journals.svelte")),
+    { path: "/", resolver: () => import("./pages/Top.svelte") },
+    routeUnderProject("/journals", () => import("./pages/JournalList.svelte")),
+    routeUnderProject("/journals/(?<journalId>[0-9A-Z]+)", async (route) => {
+      const project = route.props.project;
+      const journal = await project.db.journals.get(route.params.journalId);
+      if (journal) {
+        route.props.journal = journal;
+        return import("./pages/JournalView.svelte");
+      } else {
+        return NotFound;
+      }
+    }),
     routeUnderProject("/decisions", () => import("./pages/Decisions.svelte")),
-    { path: "/credits", resolver: () => { return import("./pages/Credits.svelte"); } },
+    { path: "/credits", resolver: () => import("./pages/Credits.svelte") },
     { path: ".*", component: NotFound },
   ];
 </script>

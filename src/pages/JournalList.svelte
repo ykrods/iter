@@ -1,4 +1,5 @@
 <script>
+  import { push } from "svelte-spa-history-router";
   import { liveQuery } from "dexie";
   import { setContext } from "svelte";
 
@@ -20,7 +21,7 @@
   });
 
   function itemDidPush(journal) {
-
+    push(project.url(`/journals/${journal.id}`));
   }
 </script>
 <svelte:head>

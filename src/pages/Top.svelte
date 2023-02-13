@@ -1,12 +1,11 @@
 <script>
   import "@shoelace-style/shoelace/dist/components/button/button.js";
+  import { link } from "svelte-spa-history-router";
+
+  import { Project } from "../models/project.js";
 
   import CreateProjectDialog from "../ui/dialogs/CreateProjectDialog.svelte";
   import Footer from "../layouts/Footer.svelte";
-
-  import { link } from "svelte-spa-history-router";
-
-  export let projects = [];
 
   let showCreateProjectDialog = false;
 </script>
@@ -20,14 +19,16 @@
   <p>See <a target="_blank" rel="noreferrer" href="https://github.com/ykrods/iter#readme">README</a> for details.</p>
   <p>NOTICE: Iter is still expeirmental / in the beta release stage.</p>
   <div class="selection-card">
-    {#if projects.length == 0 }
-      <div class="selection-card--header">Let's start your project!</div>
-    {:else}
-      <div class="selection-card--header">Available projects:</div>
-      {#each projects as project }
-        <div><a use:link href={ project.url("/journals") }>{ project.id }</a></div>
-      {/each}
-    {/if}
+    {#await Project.list() then projects}
+      {#if projects.length == 0 }
+        <div class="selection-card--header">Let's start your project!</div>
+      {:else}
+        <div class="selection-card--header">Available projects:</div>
+        {#each projects as project }
+          <div><a use:link href={ project.url("/journals") }>{ project.id }</a></div>
+        {/each}
+      {/if}
+    {/await}
     <div class="selection-card--footer">
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <sl-button variant="primary" on:click={ () => { showCreateProjectDialog = true; }}>Create Project</sl-button>
