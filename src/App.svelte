@@ -7,8 +7,8 @@
   // css bundle
   import "./static/viewer.css";
   import "./static/global.css";
-  import "./static/vendor/docutils/math.css";
-  import "./static/vendor/pygments/default.css";
+  import "./static/vendor/docutils-v0.19/math.css";
+  import "./static/vendor/pygments-v2.13.0/default.css";
 
   setBasePath('/_/shoelace');
 

@@ -24,7 +24,15 @@ def rst2html(rst):
             writer=Writer(),
             settings_overrides=settings_overrides,
         )
-        return to_js(result['html_body'])
+        html = result['html_body']
+
+        # Since docutils 0.17, document root node is translated to <main> tag.
+        # Because main tag is not recommended to use multiple times in a document,
+        # Replace to div here.
+        html = html.replace("<main>", "<div class='document'>")
+        html = html.replace("</main>", "</div>")
+
+        return to_js(html)
     except Exception:
         # Exceptions may be thrown when parsing fails,
         # but the error is output by docutils, so there is nothing to do.
