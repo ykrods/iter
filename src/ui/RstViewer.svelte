@@ -25,6 +25,8 @@
     }
     // Ignore external link
     if (event.target.hostname !== window.location.hostname) {
+      event.preventDefault();
+      window.open(event.target.href, "_blank", "noopener,noreferrer");
       return;
     }
     // Ignore fragment jump
