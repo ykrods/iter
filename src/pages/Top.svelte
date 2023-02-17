@@ -12,33 +12,47 @@
 <svelte:head>
   <title>top | iter</title>
 </svelte:head>
-<main id="Top">
-  <p class="welcome">Iter: Portable project management application</p>
-  <p>Iter is a personal project management application <br/>for that requires no registration.</p>
-  <p>All data are stored into browser (indexedDB) and will not be sent to the outside.</p>
-  <p>See <a target="_blank" rel="noreferrer" href="https://github.com/ykrods/iter#readme">README</a> for details.</p>
-  <p>NOTICE: Iter is still expeirmental / in the beta release stage.</p>
-  <div class="selection-card">
-    {#await Project.list() then projects}
-      {#if projects.length == 0 }
-        <div class="selection-card--header">Let's start your project!</div>
-      {:else}
-        <div class="selection-card--header">Available projects:</div>
-        {#each projects as project }
-          <div><a use:link href={ project.url("/journals") }>{ project.id }</a></div>
-        {/each}
-      {/if}
-    {/await}
-    <div class="selection-card--footer">
-      <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <sl-button variant="primary" on:click={ () => { showCreateProjectDialog = true; }}>Create Project</sl-button>
+<main>
+  <div class="content">
+    <p class="welcome">Iter: Portable project management application</p>
+    <p>Iter is a personal project management application <br/>for that requires no registration.</p>
+    <p>All data are stored into browser (indexedDB) and will not be sent to the outside.</p>
+    <p>See <a target="_blank" rel="noreferrer" href="https://github.com/ykrods/iter#readme">README</a> for details.</p>
+    <p>NOTICE: Iter is still expeirmental / in the beta release stage.</p>
+    <div class="selection-card">
+      {#await Project.list() then projects}
+        {#if projects.length == 0 }
+          <div class="selection-card--header">Let's start your project!</div>
+        {:else}
+          <div class="selection-card--header">Available projects:</div>
+          {#each projects as project }
+            <div><a use:link href={ project.url("/journals") }>{ project.id }</a></div>
+          {/each}
+        {/if}
+      {/await}
+      <div class="selection-card--footer">
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <sl-button variant="primary" on:click={ () => { showCreateProjectDialog = true; }}>Create Project</sl-button>
+      </div>
     </div>
   </div>
-  <Footer/>
+  <div class="footerContainer">
+    <Footer/>
+  </div>
 </main>
 <CreateProjectDialog bind:open={showCreateProjectDialog}/>
 <style>
-  #Top { text-align: center; }
+  main {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+  }
+  main > .footerContainer {
+    margin-top: 2em;
+  }
+
   p.welcome {
     font-size: 2.8em;
   }

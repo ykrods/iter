@@ -63,7 +63,8 @@ body {
   font-size: var(--sl-font-size-medium);
   font-weight: var(--sl-font-weight-normal);
   letter-spacing: var(--sl-letter-spacing-normal);
-  background-color: var(--sl-color-neutral-100);
+  /* background-color: var(--sl-color-neutral-100); */
+  background-color: rgb(236, 239, 241);
   color: var(--sl-color-neutral-800);
   line-height: var(--sl-line-height-normal);
 

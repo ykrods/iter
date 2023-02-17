@@ -4,6 +4,7 @@
 
   import { contextKey } from "../models/project.js";
   import CreateJournalDialog from "../ui/dialogs/CreateJournalDialog.svelte";
+  import Footer from "./Footer.svelte";
 
   const { getProject } = getContext(contextKey);
 
@@ -26,14 +27,27 @@
       <a use:link href={project.url("/decisions")}>Decisions</a>
     </li>
   </ul>
-  <CreateJournalDialog bind:open={showCreateJournalDialog}/>
+  <div class="footerContainer">
+    <Footer/>
+  </div>
 </div>
+<CreateJournalDialog bind:open={showCreateJournalDialog}/>
+
 <style>
-  ul {
+  .sidebarContent {
+    margin-right: 1rem;
+    margin-left: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+  }
+  .sidebarContent > ul {
+    margin-top: 4rem;
     padding: 0;
     list-style: none;
   }
-  .sidebarContent {
-    margin: 5rem 1rem 1rem 2rem;
+  .sidebarContent > .footerContainer {
+    margin-bottom: 0.5rem;
   }
 </style>

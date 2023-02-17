@@ -5,7 +5,6 @@
   import { link } from "svelte-spa-history-router";
 
   import SidebarContent from "./SidebarContent.svelte";
-  import Footer from "./Footer.svelte";
 
   let showSidebar = true;
 </script>
@@ -25,8 +24,7 @@
   {/if}
 
   <div class="mainWrap" style={`left: ${ showSidebar ? 250: 0 }px`}>
-    <div class="contentWrap"><slot></slot></div>
-    <Footer/>
+    <slot></slot>
   </div>
 <!--
 <Snackbar/>
@@ -58,8 +56,6 @@
     display: flex;
     flex-flow: column;
     transition: left 400ms cubic-bezier(0.215, 0.610, 0.355, 1.000);
-  }
-  .contentWrap {
     min-height: calc(100vh - var(--footer-height));
   }
 </style>

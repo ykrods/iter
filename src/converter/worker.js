@@ -9,7 +9,7 @@ importScripts("https://cdn.jsdelivr.net/pyodide/v0.22.1/full/pyodide.js");
 
 async function loadPyodideAndPackages() {
   self.pyodide = await loadPyodide();
-  await self.pyodide.loadPackage(["docutils"]);
+  await self.pyodide.loadPackage(["docutils", "Pygments"]);
 
   self.pyodide.runPython(rst2html_py);
   self.pyodide.runPython(mermaid_py);
