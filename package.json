@@ -24,6 +24,7 @@
     "rollup-plugin-simple-copy": "github:ykrods/rollup-plugin-simple-copy",
     "rollup-plugin-svelte": "7.1.6",
     "rollup-plugin-tiny-livereload": "github:ykrods/rollup-plugin-tiny-livereload",
-    "svelte": "4.2.8"
+    "svelte": "4.2.8",
+    "svelte-spa-history-router": "2.1.1"
   }
 }
