@@ -9,20 +9,15 @@ import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 
+/**
+ *  @param {Object} options
+ *  @param {string} options.dir - directory to serve
+ *  @param {Object.<string, string>} options.extMap - mapping file extensions to MIME types
+ *  @param {(path: string) => string} [options.rewrite] - (optional) rewrite path function
+ */
 function createServer(options) {
-  const { extMap, dir } = options;
-
-  const resolvePath = (url) => {
-    const pathname = new URL(url, "http://localhost/").pathname;
-    // rewrite to index.html
-    if (path.extname(pathname) === "") {
-      return "/index.html";
-    }
-    return pathname;
-  };
-
-  const getContentType = (relPath) => {
-    return extMap[path.extname(relPath)] || null;
+  const getContentType = (contentPath) => {
+    return options.extMap[path.extname(contentPath)] || null;
   };
 
   const log = (code, request) => {
@@ -37,10 +32,13 @@ function createServer(options) {
       return;
     }
 
-    const relPath = resolvePath(request.url);
+    let p = new URL(request.url, `http://${request.headers.host}`).pathname;
+    if (options.rewrite instanceof Function) {
+      p = options.rewrite(p);
+    }
+    const contentPath = path.join(options.dir, p);
 
-    const contentPath = path.join(dir, relPath);
-    if (!contentPath.startsWith(dir)) {
+    if (!contentPath.startsWith(options.dir)) {
       throw new Error("invalid request");
     }
 
@@ -80,9 +78,22 @@ export const server = createServer({
     ".json": "text/json",
     ".map": "application/octet-stream",
     ".html": "text/html",
+    ".svg": "image/svg+xml",
     ".wasm": "application/wasm",
     ".data": "application/octet-stream",
   },
+  rewrite(pathname) {
+    // rewrite to index.html
+    const rewriteConds = [
+      path.extname(pathname) === "",
+      pathname.startsWith("/p/"),
+      pathname.startsWith("/a/"),
+    ];
+    if (rewriteConds.some(v => v)) {
+      return "/index.html";
+    }
+    return pathname;
+  }
 });
 
 

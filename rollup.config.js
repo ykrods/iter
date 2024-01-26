@@ -5,6 +5,8 @@ import url from "node:url";
 import alias from "@rollup/plugin-alias";
 import copy from "rollup-plugin-simple-copy";
 import css from "rollup-plugin-css-only";
+import fetch from "rollup-plugin-fetch";
+import importText from './rollup-plugin-import-text.js';
 import nodeResolve from "@rollup/plugin-node-resolve";
 import svelte from "rollup-plugin-svelte";
 
@@ -68,7 +70,7 @@ export default [
             src: "node_modules/@shoelace-style/shoelace/dist/assets",
             dest: "public/_/shoelace/assets",
             filter(src) {
-              const re = /.+\/(sun|moon|list|check2-circle|plus-square|x|trash|folder)\.svg$/;
+              const re = /.+\/(sun|moon|list|check2-circle|plus-square|x|trash|folder|arrow-clockwise)\.svg$/;
               return re.test(src);
             }
           },
@@ -79,6 +81,15 @@ export default [
         ]
       }),
 
+      fetch({
+        targets: [
+          {
+            url: "https://sourceforge.net/p/docutils/code/HEAD/tree/tags/docutils-0.20.1/docutils/writers/html5_polyglot/math.css?format=raw",
+            dest: "public/math.css",
+          },
+        ],
+      }),
+
       !production && serve(),
     ],
     watch: {
@@ -87,6 +98,41 @@ export default [
       clearScreen: false,
     },
   },
+  {
+    input: "src/worker/sw.js",
+    output: {
+      sourcemap: true,
+      format: 'iife',
+      name: 'sw',
+      file: 'public/sw.js'
+    },
+    external: [],
+    plugins: [
+      // make text importable as module
+      // importText({ extensions: ['py']}),
+
+      alias({
+        entries: {
+          // Resolve `import "$src/foo.js"`
+          "$src": path.resolve(dirname, "src"),
+        }
+      }),
+
+      // to import packages in node_modules
+      nodeResolve({
+        browser: true,
+        dedupe: ['svelte']
+      }),
+
+      // make text importable as module
+      importText({ extensions: ['py', "html"]}),
+    ],
+    watch: {
+      include: 'src/**',
+      chokidar: false,
+      clearScreen: false,
+    },
+  }
 ];
 
 

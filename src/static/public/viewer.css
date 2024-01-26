@@ -1,0 +1,98 @@
+/* styles for rendered reStructuredText */
+:root {
+  --link-color: #0000EE;
+  --visited-link-color: #551A8B;
+  --note-color: #3A4;
+  --warning-color: #F6E60C;
+  --error-color: #D56;
+  --table-border-color: #CCC;
+  --table-header-bg-color: #EEE;
+  --admonition-bg-color: #F3F3F3;
+  --admonition-default-heading-color: #555;
+  --system-message-color: #888;
+}
+
+.document {
+  img {
+    display: block;
+    width: 70%;
+    margin: 0 auto;
+  }
+
+  pre.code, pre.literal-block {
+    border: 1px solid #888;
+    border-radius: 5px;
+    padding: 20px;
+    overflow-x: auto;
+  }
+
+  a.reference {
+    color: var(--link-color);
+    text-decoration: underline;
+  }
+  a.reference:visited {
+    color: var(--visited-link-color);
+    text-decoration: underline;
+  }
+  li > p {
+    margin: 3px;
+  }
+
+  /* table */
+  table {
+    border-collapse: collapse;
+    margin: 0 auto;
+  }
+  th, td {
+    border: 1px solid var(--table-border-color);
+    padding: 5px;
+  }
+  th {
+    background-color: var(--table-header-bg-color);
+  }
+
+  /* admonition */
+  aside.admonition {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: var(--admonition-bg-color);
+    border-left: 7px solid var(--admonition-default-heading-color);
+
+    &.note, &.tip, &.hint {
+      border-left: 7px solid var(--note-color);
+    }
+
+    &.attention, &.danger, &.error {
+      border-left: 7px solid var(--error-color);
+    }
+
+    &.warning, &.caution, &.important {
+      border-left: 7px solid var(--warning-color);
+    }
+
+    p.admonition-title {
+      margin: 0px 10px 5px 0px;
+      font-weight: bold;
+    }
+  }
+
+  aside.admonition > :last-child {
+    margin-bottom: 0;
+  }
+
+  aside.system-message {
+    padding: 20px;
+    color: var(--system-message-color);
+
+    p {
+      color: var(--error-color);
+    }
+    p.system-message-title {
+      font-weight: bold;
+    }
+  }
+
+  .mermaid {
+    text-align: center;
+  }
+}
