@@ -1,0 +1,65 @@
+/* reStructuredText */
+.document img {
+  display: block;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.document pre.code, .document pre.literal-block {
+  border: 1px solid #888;
+  border-radius: 5px;
+  padding: 20px;
+  overflow-x: auto;
+}
+
+.document a.reference {
+  color: #0000EE;
+  text-decoration: underline;
+}
+.document a.reference:visited {
+  color: #551A8B;
+  text-decoration: underline;
+}
+.document li > p {
+  margin: 3px;
+}
+
+/* table */
+.document table {
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+.document th, .document td {
+  border: 1px solid #CCC;
+  padding: 5px;
+}
+.document th {
+  background-color: #EEE;
+}
+
+/* admonition */
+.document aside.admonition {
+  margin: 7px 0;
+  padding: 7px;
+  background-color: #F6F6F6;
+}
+.document p.admonition-title {
+  margin: 0px 10px 5px 0px;
+  font-weight: bold;
+}
+.document aside.admonition > :last-child {
+  margin-bottom: 0;
+}
+.document aside.note, .document aside.tip {
+  border-left: 7px solid #3A4;
+}
+.document aside.attention {
+  border-left: 7px solid #D56;
+}
+.document aside.warning {
+  border-left: 7px solid #F6E60C;
+}
+
+.document .mermaid {
+  text-align: center;
+}
