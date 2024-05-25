@@ -6,7 +6,8 @@
     "strict": true,
     "skipLibCheck": true,
     "lib": [
-      "esnext"
+      "esnext",
+      "WebWorker",
     ],
     "paths": {
       "$src/*": ["./src/*"]
