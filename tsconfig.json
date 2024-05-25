@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "skipLibCheck": true,
+    "lib": [
+      "esnext"
+    ],
+    "paths": {
+      "$src/*": ["./src/*"]
+    },
+  },
+  "include": ["src/**/*"]
+}
