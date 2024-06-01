@@ -1,9 +1,25 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
+  import type { Snippet } from "svelte";
 
-  import "@shoelace-style/shoelace/dist/components/button/button.js";
+  import type { SlButton } from "@shoelace-style/shoelace";
+  import "@shoelace-style/shoelace/dist/components/button/button";
 
-  let { children, ...props } : { children: Snippet } = $props();
+
+  type Props = {
+    children: Snippet;
+  } & Partial<Pick<SlButton,
+    | "caret"
+    | "disabled"
+    | "form"
+    | "onclick"
+    | "type"
+    | "variant"
+  >>;
+
+  let {
+    children,
+    ...props
+  }: Props = $props();
 </script>
 <sl-button {...props}>
   {@render children()}

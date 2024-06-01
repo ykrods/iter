@@ -1,9 +1,11 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
-  import "@shoelace-style/shoelace/dist/components/icon-button/icon-button.js";
+  import { SlIconButton } from "@shoelace-style/shoelace";
+  import "@shoelace-style/shoelace/dist/components/icon-button/icon-button";
 
-  let { children, ...props }: { children: Snippet } = $props();
+  type Props = {
+    onclick?: SlIconButton["onclick"]
+  } & Pick<SlIconButton, "name" | "label">;
+
+  let props: Props = $props();
 </script>
-<sl-icon-button {...props}>
-  {@render children()}
-</sl-icon-button>
+<sl-icon-button {...props}></sl-icon-button>

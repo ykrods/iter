@@ -8,6 +8,7 @@
     "lib": [
       "esnext",
       "WebWorker",
+      "dom.iterable"
     ],
     "paths": {
       "$src/*": ["./src/*"]

@@ -3,7 +3,7 @@ import path from "node:path";
 
 import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
-import { copy } from "rollup-plugin-simple-copy/vite";
+import copy from "rollup-plugin-simple-copy/vite";
 
 function sw() {
   let proc;
@@ -46,7 +46,7 @@ export default defineConfig({
           src: "node_modules/@shoelace-style/shoelace/dist/assets",
           dest: "shoelace/assets",
           filter(src) {
-            const re = /.+\/(sun|moon|list|check2-circle|plus-square|x|trash|folder|arrow-clockwise)\.svg$/;
+            const re = /.+\/(sun|moon|list|check2-circle|plus-square|x|trash|folder|arrow-clockwise|pencil|layout-split|code-square)\.svg$/;
             return re.test(src);
           },
         }
