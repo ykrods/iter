@@ -1,7 +1,7 @@
 <script lang="ts">
   import Router from "./Router.svelte";
 
-  import { asyncWorkerClient } from "$src/worker/client.js";
+  import { asyncWorkerClient } from "$src/worker/client";
 
   const serviceWorkerAvailable = ("serviceWorker" in navigator);
 
