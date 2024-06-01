@@ -3,7 +3,7 @@ import path from "node:path";
 
 import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
-import { copy } from "rollup-plugin-simple-copy/vite";
+import copy from "rollup-plugin-simple-copy/vite";
 
 function sw() {
   let proc;
