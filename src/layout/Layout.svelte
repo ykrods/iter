@@ -4,7 +4,6 @@
   import { fly } from "svelte/transition";
 
   import { SLIconButton } from "$src/ui/shoelace";
-
   import { showSidebarState } from "$src/AppState.svelte";
 
 

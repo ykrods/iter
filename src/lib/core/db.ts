@@ -1,4 +1,4 @@
-import Dexie from "dexie";
+import { Dexie } from "dexie";
 
 import type { IterDB } from "$src/types";
 

@@ -1,0 +1,23 @@
+
+table {
+  margin: 20px 0 10px 0;
+  width: 100%;
+  font-size: 0.9em;
+  border-collapse: collapse;
+}
+th {
+  padding: 5px 0;
+  border-bottom: 2px solid #bbb;
+}
+td {
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+table th.prop {
+  text-align: right;
+}
+table td.prop {
+  text-align: right;
+  color: #777;
+}

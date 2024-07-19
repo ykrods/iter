@@ -38,7 +38,7 @@
     {
       path: projectPath("notes/(?<noteId>[0-9A-Z]*)"),
       resolver: ensureProject(({ params, props }) => {
-        return import("./pages/Note.svelte");
+        return import("./pages/note/Note.svelte");
       })
     },
     {
