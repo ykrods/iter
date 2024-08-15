@@ -1,19 +1,21 @@
 import Dexie from "dexie";
 
+import { IterDB } from "$src/types";
+
 
 const prefix = "iter-";
 
-function getMigratedDB(dbname: strin): Dexie {
-  const db = new Dexie(dbname);
+function getMigratedDB(dbname: string): IterDB {
+  const db = new Dexie(dbname) as IterDB;
 
   db.version(1).stores({
-    issues: "id, title, status, created_at, updated_at",
+    notes: "id, createdAt, updatedAt",
   });
 
   return db;
 }
 
-export async function getDB(id: string): Promise<Dexie> {
+export async function getDB(id: string): Promise<IterDB> {
   const exists = await Dexie.exists(getDBName(id));
   if (!exists) {
     throw new Error("DoesNotExists");
@@ -21,7 +23,7 @@ export async function getDB(id: string): Promise<Dexie> {
   return getMigratedDB(getDBName(id));
 }
 
-export async function createDB(id: string): Dexie {
+export async function createDB(id: string): Promise<IterDB> {
   const db = getMigratedDB(getDBName(id));
   await db.open();
   return db;

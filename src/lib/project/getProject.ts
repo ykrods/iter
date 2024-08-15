@@ -1,6 +1,6 @@
 import type { Project } from "$src/types";
 
-import { getDB, getDbName } from "$src/lib/core/db";
+import { getDB } from "$src/lib/core/db";
 import { buildProject } from "./buildProject";
 
 
