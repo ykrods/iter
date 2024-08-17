@@ -1,28 +1,38 @@
 <script>
-  import { Router } from "svelte-spa-history-router";
+  import { Router, redirect } from "svelte-spa-history-router";
 
   import { getProject } from "$src/lib/project/getProject";
 
   import Top from "./pages/Top.svelte";
   import NotFound from "./pages/NotFound.svelte";
 
+  function projectPath(relpath) {
+    return `/(?<projectId>[0-9a-zA-Z][0-9A-Za-z._\-]*)/${relpath}`;
+  }
+
   function ensureProject(resolver) {
     return async ({ params, props }) => {
-      const project = await getProject(params.projectId);
-      if (!project) {
+      try {
+        props.project = await getProject(params.projectId);
+        return resolver({ params, props });
+      } catch (e) {
         return redirect("/");
       }
-      props.project = project;
-      return resolver({ params, props })
     }
   }
 
   const routes = [
     { path: "/", component: Top },
     {
-      path: "/(?<projectId>[0-9a-zA-Z][0-9A-Za-z._\-]*)/",
+      path: projectPath(""),
       resolver: ensureProject(({ params, props }) => {
         return import("./pages/Home.svelte");
+      })
+    },
+    {
+      path: projectPath("notes/(?<noteId>[0-9A-Z]*)"),
+      resolver: ensureProject(({ params, props }) => {
+        return import("./pages/Note.svelte");
       })
     },
     { path: ".*", component: NotFound },

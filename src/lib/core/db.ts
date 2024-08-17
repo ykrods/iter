@@ -1,6 +1,6 @@
 import Dexie from "dexie";
 
-import { IterDB } from "$src/types";
+import type { IterDB } from "$src/types";
 
 
 const prefix = "iter-";
