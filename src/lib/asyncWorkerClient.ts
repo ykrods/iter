@@ -6,8 +6,7 @@ export function asyncWorkerClient(worker: ServiceWorkerContainer) {
   const pool: Record<string, any> = {};
 
   function asyncMessage(_type: string, ...args: any[]) {
-    const _id = 'id' + (new Date()).getTime();
-
+    const _id = 'id' + (new Date()).getTime() + Math.floor(Math.random() * 1023).toString(16);
     pool[_id] = Promise.withResolvers();
 
     worker.controller?.postMessage({ _type, args, _id });
