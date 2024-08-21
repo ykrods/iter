@@ -1,5 +1,6 @@
 import display_versions from "./display_versions.py?raw";
 import rst2html_py from "./rst2html.py?raw";
+import mermaid_py from "./mermaid.py?raw";
 // import gen_pygments_style from "./gen_pygments_style.py?raw";
 
 // XXX: npm パッケージだと docutils を読み込めないのでとりあえず CDN を使う
@@ -24,8 +25,8 @@ let pyodideReadyPromise = (async () => {
   // console.log(oneShotRun(gen_pygments_style));
 
   pyodide.runPython(rst2html_py);
-  // pyodide.runPython(mermaid_py);
-  // pyodide.runPython("setup_mermaid()")
+  pyodide.runPython(mermaid_py);
+  pyodide.runPython("setup_mermaid()");
 })();
 
 

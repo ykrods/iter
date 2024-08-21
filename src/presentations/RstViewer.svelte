@@ -1,4 +1,8 @@
 <script lang="ts">
+  import { tick } from "svelte";
+
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
   import "$src/styles/viewer.css";
   import "$src/styles/docutils-0.20.1/math.css";
   import "$src/styles/pygments-2.16.1/default.css";
@@ -13,12 +17,20 @@
 
   const client = asyncWorkerClient(navigator.serviceWorker);
 
+  mermaid.initialize({ startOnLoad: false });
+
   $effect(() => {
     loadHTML(rst);
   });
 
   async function loadHTML(rst: string) {
     html = await client.rst2html(rst);
+
+    // Render mermaid diagram if contained
+    if (typeof html === 'string' && html.includes('mermaid')) {
+      await tick();
+      mermaid.run();
+    }
   }
 
   function captureClick(event: Event) {
