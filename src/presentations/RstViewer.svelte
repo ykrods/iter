@@ -17,28 +17,30 @@
     loadHTML(rst);
   });
 
-  async function loadHTML(rst) {
+  async function loadHTML(rst: string) {
     html = await client.rst2html(rst);
   }
 
-  function captureClick(event) {
-    if (event.target.tagName.toLowerCase() !== 'a') {
+  function captureClick(event: Event) {
+    if ((event.target as HTMLElement).tagName.toLowerCase() !== 'a') {
       return;
     }
+    let anchor = event.target as HTMLAnchorElement;
+
     // Ignore external link
-    if (event.target.hostname !== window.location.hostname) {
+    if (anchor.hostname !== window.location.hostname) {
       event.preventDefault();
-      window.open(event.target.href, "_blank", "noopener,noreferrer");
+      window.open(anchor.href, "_blank", "noopener,noreferrer");
       return;
     }
     // Ignore fragment jump
-    if (event.target.pathname === window.location.pathname &&
-        event.target.hash !== window.location.hash) {
+    if (anchor.pathname === window.location.pathname &&
+        anchor.hash !== window.location.hash) {
       return;
     }
-    if (event.target.pathname) {
+    if (anchor.pathname) {
       event.preventDefault();
-      push(event.target.pathname);
+      push(anchor.pathname);
     }
   }
 </script>

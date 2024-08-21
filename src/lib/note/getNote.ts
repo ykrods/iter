@@ -1,5 +1,6 @@
-import type { IterDB } from "$src/types"
+import type { IterDB, Note } from "$src/types"
 
-export function getNote(db: IterDB, id: string) {
-  return db.notes.get(id);
+// db.notes.get returns `PromiseExtended`, so use async function to convert to Promise
+export async function getNote(db: IterDB, id: string): Promise<Note | null> {
+  return await db.notes.get(id) || null;
 }

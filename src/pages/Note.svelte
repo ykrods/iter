@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Project } from "$src/types";
+  import type { Project, Note } from "$src/types";
 
   import RstViewer from "$src/presentations/RstViewer.svelte";
 
@@ -9,11 +9,11 @@
     params,
     project
   } : {
-    params: Recort<string, string>
+    params: Record<string, string>
     project: Project
   } = $props();
 
-  let note: Note = $state(null);
+  let note: Note | null = $state(null);
 
   $effect(() => {
     if (params.noteId) {
@@ -21,8 +21,8 @@
     }
   });
 
-  async function load() {
-    note = await getNote(project.db, params.noteId);
+  async function load(noteId: string) {
+    note = await getNote(project.db, noteId);
   }
 
 </script>
