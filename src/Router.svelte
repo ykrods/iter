@@ -35,6 +35,10 @@
         return import("./pages/Note.svelte");
       })
     },
+    {
+      path: "/credits",
+      resolver: () => import("./pages/Credits.svelte")
+    },
     { path: ".*", component: NotFound },
   ];
 </script>

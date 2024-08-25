@@ -1,6 +1,8 @@
 <script lang="ts">
   import { link } from "svelte-spa-history-router";
 
+  import Footer from "./Footer.svelte";
+
   let { project } : { project: Project } = $props();
 </script>
 <div class="sidebarContent">
@@ -12,6 +14,9 @@
       <a use:link href={project.url("/notes")}>Notes</a>
     </li>
   </ul>
+  <div class="footerContainer">
+    <Footer/>
+  </div>
 </div>
 
 <style>
