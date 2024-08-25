@@ -1,3 +1,33 @@
+:root {
+  --bg-color: #eceff1;
+}
+
+body {
+  font-family: var(--sl-font-sans);
+  font-size: var(--sl-font-size-medium);
+  font-weight: var(--sl-font-weight-normal);
+  letter-spacing: var(--sl-letter-spacing-normal);
+  background-color: var(--sl-color-neutral-0);
+  color: var(--sl-color-neutral-1000);
+  background-color: var(--bg-color); /* rgb(236, 239, 241); */
+  line-height: var(--sl-line-height-normal);
+
+  margin: 0;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+a {
+  color: var(--sl-color-neutral-800);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--sl-color-primary-800);
+}
+
+/**
+ * shoelace
+ */
 form.attention-error {
   & sl-input[data-user-invalid]::part(base),
   & sl-select[data-user-invalid]::part(combobox),

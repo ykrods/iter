@@ -21,13 +21,13 @@
 
 <style>
   .sidebarContent {
-    margin-right: 1rem;
-    margin-left: 2rem;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     min-height: 100vh;
     border-right: 1px solid var(--sl-color-neutral-200);
+    background-color: var(--sl-color-neutral-0);
   }
   .sidebarContent > ul {
     margin-top: 4rem;
