@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path';
+  import { SLApp } from "$src/ui/shoelace";
 
   import EnsureServiceWorker from "./EnsureServiceWorker.svelte";
   import Router from "./Router.svelte";
-
-  setBasePath('/shoelace');
 </script>
 <EnsureServiceWorker>
-  <Router />
+  <SLApp basePath="/shoelace">
+    <Router />
+  </SLApp>
 </EnsureServiceWorker>
