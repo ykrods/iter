@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Project } from "$src/types";
 
-  import { SLButton, SLDialog, SLInput } from "$src/ui/shoelace";
+  import { SLButton, SLDialog, SLForm, SLInput } from "$src/ui/shoelace";
   import { createProject } from "$src/lib/project/createProject";
 
 
@@ -13,23 +13,7 @@
     onCreate: (project: Project) => void
   }= $props();
 
-  let form: HTMLFormElement;
-
   let id = $state("");
-
-  $effect(() => {
-    // form validation with shoelace component probably needs
-    // to call addEventListener after component is loaded and rendered.
-    // ref: https://shoelace.style/getting-started/form-controls
-    if (form) {
-      customElements.whenDefined('sl-input').then(() => {
-        form?.addEventListener("submit", onSubmit);
-      });
-    }
-    return () => {
-      form?.removeEventListener("submit", onSubmit);
-    }
-  });
 
   async function onSubmit(evt: SubmitEvent) {
     evt.preventDefault();
@@ -43,7 +27,7 @@
   bind:open
   label="Create project"
 >
-  <form bind:this={form} id="createProjectForm" class="attention-error">
+  <SLForm id="createProjectForm" {onSubmit}>
     <SLInput
       type="text"
       bind:value={id}
@@ -54,7 +38,7 @@
       minlength={1}
       maxlength={30}
     ></SLInput>
-  </form>
+  </SLForm>
 
   {#snippet footer()}
     <SLButton onclick={() => { open = false; }}>Cancel</SLButton>
