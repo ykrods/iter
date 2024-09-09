@@ -5,34 +5,42 @@
 
   type propKeys =
     | "label"
-
+    | "noHeader";
   type Props = Partial<Pick<SlDialog, propKeys>>
 
   let {
-    showRequest = $bindable(false),
-    hideRequest = $bindable(false),
+    open = $bindable(false),
+    onClose = null,
     children,
-    footer,
+    footer = null,
     ...props
   } : {
-    showRequest: boolean,
-    hideRequest: boolean,
-    children: Snippet,
-    footer?: Snippet,
+    open: boolean
+    onClose?: () => any
+    children: Snippet
+    footer?: Snippet
   } & Props = $props();
 
-  let dialog: SlDialog
+  let dialog: SlDialog;
 
   $effect(() => {
-    if (showRequest) {
-      showRequest = false;
-      dialog.show();
+    const afterHide = () => {
+      open = false;
+      if (onClose) onClose();
+    };
+
+    dialog.addEventListener('sl-after-hide', afterHide);
+
+    return () => {
+      dialog.removeEventListener('sl-after-hide', afterHide);
     }
   });
 
   $effect(() => {
-    if (hideRequest) {
-      hideRequest = false;
+    if (open && !dialog.open) {
+      dialog.show();
+    }
+    if (!open && dialog.open) {
       dialog.hide();
     }
   });

@@ -11,7 +11,7 @@
 
   let projects: Project[] = $state([]);
 
-  let showCreateProjectDialog = $state(false);
+  let openCreateProjectDialog = $state(false);
 
   async function refresh() {
     projects = await getAllProjects();
@@ -44,13 +44,13 @@
     <div class="selection-card--footer">
       <SLButton
         variant="primary"
-        onclick={() => { showCreateProjectDialog = true; }}
+        onclick={() => { openCreateProjectDialog = true; }}
       >Create project</SLButton>
     </div>
   </div>
 </main>
 <CreateProjectDialog
-  bind:showRequest={showCreateProjectDialog}
+  bind:open={openCreateProjectDialog}
   onCreate={ (project) => push(project.url("/")) }
 />
 

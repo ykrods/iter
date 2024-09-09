@@ -6,17 +6,16 @@
 
 
   let {
-    showRequest = $bindable(false),
+    open = $bindable(false),
     onCreate,
   }: {
-    showRequest: boolean
+    open: boolean
     onCreate: (project: Project) => void
   }= $props();
 
   let form: HTMLFormElement;
 
   let id = $state("");
-  let hideRequest = $state(false);
 
   $effect(() => {
     // form validation with shoelace component probably needs
@@ -41,8 +40,7 @@
   }
 </script>
 <SLDialog
-  bind:showRequest
-  bind:hideRequest
+  bind:open
   label="Create project"
 >
   <form bind:this={form} id="createProjectForm" class="attention-error">
@@ -50,7 +48,7 @@
       type="text"
       bind:value={id}
       label="Project id"
-      help-text="The project id can only contain ASCII letters, digits, and the characters ., -, and _."
+      help-text="ASCII letters, digits, and the characters ., -, and _ are available."
       required
       pattern="[0-9A-Za-z][0-9A-Za-z._\-]*"
       minlength={1}
@@ -59,7 +57,7 @@
   </form>
 
   {#snippet footer()}
-    <SLButton onclick={() => { hideRequest = true; }}>Cancel</SLButton>
+    <SLButton onclick={() => { open = false; }}>Cancel</SLButton>
     <SLButton
       type="submit"
       form="createProjectForm"
