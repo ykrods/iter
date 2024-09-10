@@ -7,7 +7,7 @@ export async function addNote(db: IterDB, content: string): Promise<string> {
   return db.notes.add({
     id: generateId(),
     content,
-    updatedAt: new Date(),
     createdAt: new Date(),
+    updatedAt: new Date(),
   });
 }

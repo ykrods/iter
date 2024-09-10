@@ -1,9 +1,15 @@
 <script lang="ts">
+  import type { Project } from "$src/types";
+
   import { link } from "svelte-spa-history-router";
 
+  import { SLButton } from "$src/ui/shoelace";
+  import AddNoteDialog from "$src/ui/dialogs/AddNoteDialog.svelte";
   import Footer from "./Footer.svelte";
 
   let { project } : { project: Project } = $props();
+
+  let openAddNoteDialog = $state(false);
 </script>
 <div class="sidebarContent">
   <ul>
@@ -14,11 +20,16 @@
       <a use:link href={project.url("/notes")}>Notes</a>
     </li>
   </ul>
+  <SLButton onclick={() => { openAddNoteDialog = true }}>New note</SLButton>
   <div class="footerContainer">
     <Footer/>
   </div>
 </div>
-
+<AddNoteDialog
+  bind:open={openAddNoteDialog}
+  {project}
+  onCreate={(noteId) => { console.log(noteId) }}
+></AddNoteDialog>
 <style>
   .sidebarContent {
     padding: 1rem;
