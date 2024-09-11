@@ -9,7 +9,7 @@
   } from "$src/ui/shoelace";
 
   import { addNote } from "$src/lib/note/addNote";
-
+  import PreviewDialog from "$src/ui/dialogs/PreviewDialog.svelte";
 
   let {
     open = $bindable(false),
@@ -22,7 +22,7 @@
   } = $props();
 
   let content = $state("");
-
+  let openPreviewDialog = $state(false);
 
   async function onSubmit(evt: SubmitEvent) {
     evt.preventDefault();
@@ -47,6 +47,7 @@
 
   {#snippet footer()}
     <SLButton onclick={() => { open = false;}}>Cancel</SLButton>
+    <SLButton onclick={() => { openPreviewDialog = true;}}>Preview</SLButton>
     <SLButton
       type="submit"
       form="addNoteForm"
@@ -55,3 +56,7 @@
     >Create</SLButton>
   {/snippet}
 </SLDialog>
+<PreviewDialog
+  bind:open={openPreviewDialog}
+  rst={content}
+></PreviewDialog>
