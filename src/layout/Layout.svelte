@@ -7,6 +7,7 @@
 
   import { showSidebarState } from "$src/AppState.svelte";
 
+
   const showSidebar = showSidebarState();
 
   let {

@@ -30,6 +30,12 @@
       })
     },
     {
+      path: projectPath("notes"),
+      resolver: ensureProject(({ params, props }) => {
+        return import("./pages/NoteList.svelte");
+      })
+    },
+    {
       path: projectPath("notes/(?<noteId>[0-9A-Z]*)"),
       resolver: ensureProject(({ params, props }) => {
         return import("./pages/Note.svelte");
