@@ -1,26 +1,13 @@
 <script lang="ts">
   import { link, push } from "svelte-spa-history-router";
 
-  import type { Project } from "$src/types";
   import { getAllProjects } from "$src/lib/project/getAllProjects";
 
   import CreateProjectDialog from "$src/ui/dialogs/CreateProjectDialog.svelte";
 
-  import { SLButton, SLInput } from "$src/ui/shoelace";
-  import { getDatabaseIds } from "$src/lib/core/db";
-
-  let projects: Project[] = $state([]);
+  import { SLButton } from "$src/ui/shoelace";
 
   let openCreateProjectDialog = $state(false);
-
-  async function refresh() {
-    projects = await getAllProjects();
-  }
-
-  $effect(() => {
-    refresh();
-  });
-
 </script>
 
 <svelte:head>
@@ -32,22 +19,24 @@
   <p>All data are stored into browser (indexedDB) and will not be sent to the outside.</p>
   <p>See <a target="_blank" href="https://github.com/ykrods/iter#readme">README</a> for details.</p>
   <p>NOTICE: Iter is still expeirmental / in the beta release stage.</p>
-  <div class="selection-card">
-    {#if projects.length == 0 }
-      <div class="selection-card--header">Let's start your project!</div>
-    {:else}
-      <div class="selection-card--header">Available projects:</div>
-      {#each projects as project }
-        <div><a use:link href={ project.url("/") }>{ project.id }</a></div>
-      {/each}
-    {/if}
-    <div class="selection-card--footer">
-      <SLButton
-        variant="primary"
-        onclick={() => { openCreateProjectDialog = true; }}
-      >Create project</SLButton>
+  {#await getAllProjects() then projects}
+    <div class="selection-card">
+      {#if projects.length == 0 }
+        <div class="selection-card--header">Let's start your project!</div>
+      {:else}
+        <div class="selection-card--header">Available projects:</div>
+        {#each projects as project }
+          <div><a use:link href={ project.url("/") }>{ project.id }</a></div>
+        {/each}
+      {/if}
+      <div class="selection-card--footer">
+        <SLButton
+          variant="primary"
+          onclick={() => { openCreateProjectDialog = true; }}
+          >Create project</SLButton>
+      </div>
     </div>
-  </div>
+  {/await}
 </main>
 <CreateProjectDialog
   bind:open={openCreateProjectDialog}
