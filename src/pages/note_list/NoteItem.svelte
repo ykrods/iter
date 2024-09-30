@@ -7,9 +7,11 @@
 
   let {
     note,
+    html,
     url = "",
   } : {
     note: Note
+    html: string
     url: string
   } = $props();
 
@@ -32,7 +34,7 @@
       <a class="id" use:link href={url}>ID: { note.id }</a>
       <FormatDateTime value={note.createdAt}/>
     {/snippet}
-    <RstViewer rst={ shrink(note.content) }/>
+    <RstViewer {html}/>
   </Paper>
 </div>
 <style>

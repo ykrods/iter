@@ -9,29 +9,18 @@
 
   import { push } from "svelte-spa-history-router";
 
-  import { asyncWorkerClient } from "$src/lib/asyncWorkerClient";
 
-  let { rst } : { rst: string } = $props();
-
-  let html = $state("");
-
-  const client = asyncWorkerClient(navigator.serviceWorker);
+  let { html } : { html: string } = $props();
 
   mermaid.initialize({ startOnLoad: false });
 
+
   $effect(() => {
-    loadHTML(rst);
-  });
-
-  async function loadHTML(rst: string) {
-    html = await client.rst2html(rst);
-
     // Render mermaid diagram if contained
     if (typeof html === 'string' && html.includes('mermaid')) {
-      await tick();
-      mermaid.run();
+      tick().then(() => mermaid.run());
     }
-  }
+  });
 
   function captureClick(event: Event) {
     if ((event.target as HTMLElement).tagName.toLowerCase() !== 'a') {
@@ -58,7 +47,5 @@
 </script>
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <div role="none" onclick={captureClick}>
-  {#if html != ""}
-    {@html html}
-  {/if}
+  {@html html}
 </div>

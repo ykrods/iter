@@ -1,16 +1,13 @@
-// @ts-ignore
-import DOMPurify from "dompurify/dist/purify.es.mjs";
 
 
-export function asyncWorkerClient(worker: ServiceWorkerContainer) {
+export function asyncWorkerClient(worker: ServiceWorkerContainer, P) {
   const pool: Record<string, any> = {};
 
   function asyncMessage(_type: string, ...args: any[]) {
     const _id = 'id' + (new Date()).getTime() + Math.floor(Math.random() * 1023).toString(16);
-    pool[_id] = Promise.withResolvers();
+    pool[_id] = P.withResolvers();
 
     worker.controller?.postMessage({ _type, args, _id });
-
     return pool[_id].promise;
   }
 
@@ -36,9 +33,7 @@ export function asyncWorkerClient(worker: ServiceWorkerContainer) {
 
   return {
     rst2html: async (rst: string) => {
-      const html = await asyncMessage("rst2html", rst);
-      // DOMPurify は window オブジェクトを参照するのでここでサニタイズする
-      return DOMPurify.sanitize(html);
+      return asyncMessage("rst2html", rst);
     },
     close() {
       worker.removeEventListener("message", onMessage);

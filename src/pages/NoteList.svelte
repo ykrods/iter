@@ -7,13 +7,26 @@
   import SidebarContent from "$src/layout/SidebarContent.svelte";
   import NoteItem from "./note_list/NoteItem.svelte";
 
+  import { asyncWorkerClient } from "$src/lib/asyncWorkerClient";
+
+
+  const client = asyncWorkerClient(navigator.serviceWorker, Promise);
+
   let {
     project
   } : {
     project: Project
   } = $props()
 
-  let notes = $derived(liveQuery(() => project.db.notes.reverse().toArray()));
+
+  let _items = liveQuery(async () => {
+    const q = await project.db.notes.reverse().toArray();
+    return Promise.all(q.map(async (note) => {
+      const html = await client.rst2html(note.content);
+      return { note, html };
+    }));
+  });
+  let items = $derived($_items);
 </script>
 <svelte:head>
   <title>Notes @ { project.id } | iter</title>
@@ -24,11 +37,11 @@
   {/snippet}
 
   <main id="Home">
-    {#if $notes }
+    {#if items }
       <ul class="NoteItems">
-        {#each $notes as note}
+        {#each items as { note, html }}
           <li>
-            <NoteItem {note} url={ project.url(`/notes/${note.id}`)} />
+            <NoteItem {note} {html} url={ project.url(`/notes/${note.id}`)} />
           </li>
         {/each}
       </ul>
