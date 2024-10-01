@@ -10,6 +10,7 @@ function getMigratedDB(dbname: string): IterDB {
 
   db.version(1).stores({
     notes: "id, createdAt, updatedAt",
+    html_caches: "id",
   });
 
   return db;

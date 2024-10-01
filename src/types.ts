@@ -8,8 +8,15 @@ export interface Note {
   updatedAt: Date
 }
 
+export interface HtmlCache {
+  id: string
+  html: string
+  createdAt: Date
+}
+
 export type IterDB = Dexie & {
   notes: EntityTable<Note, "id">
+  html_caches: EntityTable<HtmlCache, "id">
 }
 
 export interface Project {

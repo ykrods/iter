@@ -1,6 +1,10 @@
 
+export interface AsyncWorkerClient {
+  rst2html(rst: string): Promise<string>
+  close(): void
+}
 
-export function asyncWorkerClient(worker: ServiceWorkerContainer, P) {
+export function asyncWorkerClient(worker: ServiceWorkerContainer, P: typeof Promise): AsyncWorkerClient {
   const pool: Record<string, any> = {};
 
   function asyncMessage(_type: string, ...args: any[]) {
