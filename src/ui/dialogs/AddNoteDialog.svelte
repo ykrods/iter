@@ -56,7 +56,10 @@
     >Create</SLButton>
   {/snippet}
 </SLDialog>
+{#if openPreviewDialog}
 <PreviewDialog
   bind:open={openPreviewDialog}
   rst={content}
+  {project}
 ></PreviewDialog>
+{/if}

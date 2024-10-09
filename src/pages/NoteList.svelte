@@ -22,7 +22,7 @@
   let _items = liveQuery(async () => {
     const q = await project.db.notes.reverse().toArray();
     return Promise.all(q.map(async (note) => {
-      const html = await HtmlProvider(project.db, client).get(note.content);
+      const html = await HtmlProvider(project.db, client).getWithCache(note.content);
       return { note, html };
     }));
   });

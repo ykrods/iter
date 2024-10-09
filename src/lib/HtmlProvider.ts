@@ -16,17 +16,19 @@ export async function digestMessage(message: string) {
 export function HtmlProvider(db: IterDB, client: AsyncWorkerClient) {
   return {
     async get(rst: string) {
-      const key = await digestMessage(rst);
-      const cache = await db.html_caches.get(key);
-      if (cache) {
-        return cache.html;
-      }
+      let html = await client.rst2html(rst);
+      html = DOMPurify.sanitize(html);
 
-      let h = await client.rst2html(rst);
-      const html = DOMPurify.sanitize(h);
-
-      await db.html_caches.put({ id: key, html, createdAt: new Date() });
       return html;
     },
+    async getWithCache(rst: string) {
+      const key = await digestMessage(rst);
+      const c = await db.html_caches.get(key);
+      if (c) {
+        return c.html;
+      }
+      const html = await this.get(rst);
+      await db.html_caches.put({ id: key, html, createdAt: new Date() });
+    }
   };
 }
