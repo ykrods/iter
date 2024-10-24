@@ -25,11 +25,13 @@
     <Footer/>
   </div>
 </div>
-<AddNoteDialog
-  bind:open={openAddNoteDialog}
-  {project}
-  onCreate={(noteId) => { console.log(noteId) }}
-></AddNoteDialog>
+{#if openAddNoteDialog}
+  <AddNoteDialog
+    bind:open={openAddNoteDialog}
+    {project}
+    onCreate={(noteId) => { console.log(noteId) }}
+    ></AddNoteDialog>
+{/if}
 <style>
   .sidebarContent {
     padding: 1rem;

@@ -2,7 +2,7 @@
   import type { Note } from "$src/types";
   import { link, push } from "svelte-spa-history-router";
   import FormatDateTime from "$src/presentations/FormatDateTime.svelte";
-  import RstViewer from "$src/presentations/RstViewer.svelte";
+  import DocViewer from "$src/presentations/DocViewer.svelte";
   import Paper from "$src/presentations/Paper.svelte";
 
   let {
@@ -34,7 +34,7 @@
       <a class="id" use:link href={url}>ID: { note.id }</a>
       <FormatDateTime value={note.createdAt}/>
     {/snippet}
-    <RstViewer {html}/>
+    <DocViewer {html}/>
   </Paper>
 </div>
 <style>
