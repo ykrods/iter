@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Snippet } from "svelte";
+
   import "@shoelace-style/shoelace/dist/components/button/button";
   import "@shoelace-style/shoelace/dist/components/checkbox/checkbox";
   import "@shoelace-style/shoelace/dist/components/input/input";
@@ -6,7 +8,6 @@
   import "@shoelace-style/shoelace/dist/components/select/select";
   import "@shoelace-style/shoelace/dist/components/textarea/textarea";
 
-  import type { Snippet } from "svelte";
 
   let {
     onSubmit,
@@ -22,9 +23,9 @@
 
 
   $effect(() => {
-    // form validation with shoelace component probably needs
-    // to call addEventListener after component is loaded and rendered.
-    // ref: https://shoelace.style/getting-started/form-controls
+    // Form validation with shoelace components needs to call addEventlistener
+    // after component is loaded and rendered.
+    // @see https://shoelace.style/getting-started/form-controls
     const elements = [
       "sl-button",
       "sl-checkbox",

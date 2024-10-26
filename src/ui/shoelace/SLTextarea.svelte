@@ -1,24 +1,24 @@
 <script lang="ts">
   import SlTextarea from "@shoelace-style/shoelace/dist/components/textarea/textarea";
 
-  type propKeys =
+
+  type Props = {
+    value?: string,
+    "help-text"?: SlTextarea["helpText"]
+  } & Partial<Pick<SlTextarea,
     | "label"
     | "disabled"
     | "resize"
-    | "rows";
-
-  type Props = Partial<Pick<SlTextarea, propKeys>> & {
-    "help-text"?: SlTextarea["helpText"]
-  }
+    | "rows"
+  >>;
 
   let {
     value = $bindable(""),
     ...props
-  } : {
-    value?: string,
-  } & Props = $props();
+  } : Props = $props();
 
   let textarea: SlTextarea;
+
 
   $effect(() => {
     const onSlInput = () => { value = textarea.value; }

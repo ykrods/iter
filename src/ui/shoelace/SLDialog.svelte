@@ -1,12 +1,18 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
+  import type { Snippet } from "svelte";
 
   import SlDialog from "@shoelace-style/shoelace/dist/components/dialog/dialog";
 
-  type propKeys =
+
+  type Props = {
+    open: boolean
+    onClose?: () => any
+    children: Snippet
+    footer?: Snippet
+  } & Partial<Pick<SlDialog,
     | "label"
-    | "noHeader";
-  type Props = Partial<Pick<SlDialog, propKeys>>
+    | "noHeader"
+  >>;
 
   let {
     open = $bindable(false),
@@ -14,14 +20,10 @@
     children,
     footer = null,
     ...props
-  } : {
-    open: boolean
-    onClose?: () => any
-    children: Snippet
-    footer?: Snippet
-  } & Props = $props();
+  }: Props = $props();
 
   let dialog: SlDialog;
+
 
   $effect(() => {
     const afterHide = () => {
@@ -29,10 +31,10 @@
       if (onClose) onClose();
     };
 
-    dialog.addEventListener('sl-after-hide', afterHide);
+    dialog.addEventListener("sl-after-hide", afterHide);
 
     return () => {
-      dialog.removeEventListener('sl-after-hide', afterHide);
+      dialog.removeEventListener("sl-after-hide", afterHide);
     }
   });
 
@@ -49,8 +51,8 @@
   {@render children()}
 
   {#if footer}
-    <span slot="footer">
+    <div slot="footer">
       {@render footer()}
-    </span>
+    </div>
   {/if}
 </sl-dialog>

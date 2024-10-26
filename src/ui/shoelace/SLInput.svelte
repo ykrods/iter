@@ -1,26 +1,27 @@
 <script lang="ts">
-  import SlInput from "@shoelace-style/shoelace/dist/components/input/input.js";
+  import SlInput from "@shoelace-style/shoelace/dist/components/input/input";
 
-  type propKeys =
+
+  type Props = {
+    value?: string,
+    "help-text"?: SlInput["helpText"]
+  } & Partial<Pick<SlInput,
+    | "name"
     | "type"
     | "label"
     | "maxlength"
     | "minlength"
     | "required"
     | "pattern"
-
-  type Props = Partial<Pick<SlInput, propKeys>> & {
-    "help-text"?: SlInput["helpText"]
-  }
+  >>;
 
   let {
     value = $bindable(""),
     ...props
-  } : {
-    value?: string,
-  } & Props = $props();
+  }: Props = $props();
 
   let input: SlInput;
+
 
   $effect(() => {
     const onSlInput = () => { value = input.value; }
