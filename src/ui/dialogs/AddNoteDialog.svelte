@@ -11,11 +11,9 @@
     SLRadioButton,
   } from "$src/ui/shoelace";
 
-  import DocViewer from "$src/presentations/DocViewer.svelte";
+  import RstEditor from "$src/ui/RstEditor.svelte";
 
   import { addNote } from "$src/lib/note/addNote";
-  import { asyncWorkerClient } from "$src/lib/asyncWorkerClient";
-  import { HtmlProvider } from "$src/lib/HtmlProvider";
 
 
   let {
@@ -28,23 +26,11 @@
     onCreate: (noteId: string) => any
   } = $props();
 
-  const client = asyncWorkerClient(navigator.serviceWorker, Promise);
 
   let content = $state("");
-  let html = $state("");
-  let panel = $state("editor");
 
-  $effect(() => {
-    return () => { client.close() };
-  });
 
-  $effect(() => {
-    HtmlProvider(project.db, client).get(content).then(h => { html = h });
-  });
-
-  async function onSubmit(evt: SubmitEvent) {
-    evt.preventDefault();
-
+  async function onSave() {
     const noteId = await addNote(project.db, content);
     content = "";
     open = false;
@@ -59,42 +45,12 @@
   bind:open
   label="New note"
 >
-  <SLRadioGroup bind:value={panel}>
-    <SLRadioButton value="editor">
-      <SLIcon name="pencil" label="editor"></SLIcon>
-    </SLRadioButton>
-    <SLRadioButton value="sideBySide">
-      <SLIcon name="layout-split" label="sideBySide"></SLIcon>
-    </SLRadioButton>
-    <SLRadioButton value="preview">
-      <SLIcon name="code-square" label="preview"></SLIcon>
-    </SLRadioButton>
-  </SLRadioGroup>
-
-  <SLForm {onSubmit} id="addNoteForm">
-    <div class="panel">
-      {#if panel !== "preview"}
-        <div class="editor" class:hidden={panel === "preview"} >
-          <SLTextarea
-            resize="auto"
-            bind:value={content}
-          ></SLTextarea>
-        </div>
-      {/if}
-      {#if panel !== "editor"}
-        <div class="preview" class:hidden={panel === "editor"} >
-          <DocViewer {html}/>
-        </div>
-      {/if}
-    </div>
-  </SLForm>
-
+  <RstEditor bind:content></RstEditor>
 
   {#snippet footer()}
     <SLButton onclick={() => { open = false;}}>Cancel</SLButton>
     <SLButton
-      type="submit"
-      form="addNoteForm"
+      onclick={onSave}
       variant="primary"
       disabled={!isValid()}
     >Create</SLButton>

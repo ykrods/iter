@@ -8,7 +8,7 @@
   import NoteItem from "./note_list/NoteItem.svelte";
 
   import { asyncWorkerClient } from "$src/lib/asyncWorkerClient";
-  import { HtmlProvider } from "$src/lib/HtmlProvider";
+  import { CachedHtmlProvider } from "$src/lib/HtmlProvider";
 
   const client = asyncWorkerClient(navigator.serviceWorker, Promise);
 
@@ -18,11 +18,14 @@
     project: Project
   } = $props()
 
+  $effect(() => {
+    return () => { client.close(); };
+  });
 
   let _items = liveQuery(async () => {
     const q = await project.db.notes.reverse().toArray();
     return Promise.all(q.map(async (note) => {
-      const html = await HtmlProvider(project.db, client).getWithCache(note.content);
+      const html = await CachedHtmlProvider(project.db, client).rst2html(note.content);
       return { note, html };
     }));
   });
