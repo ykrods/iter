@@ -10,6 +10,7 @@
   import { asyncWorkerClient } from "$src/lib/asyncWorkerClient";
   import { CachedHtmlProvider } from "$src/lib/HtmlProvider";
 
+
   const client = asyncWorkerClient(navigator.serviceWorker, Promise);
 
   let {
@@ -39,7 +40,7 @@
     <SidebarContent {project} />
   {/snippet}
 
-  <main id="Home">
+  <main id="NoteList">
     {#if items }
       <ul class="NoteItems">
         {#each items as { note, html }}
@@ -52,11 +53,20 @@
   </main>
 </Layout>
 <style>
-  ul.NoteItems {
-    padding-left: 0;
+  main#NoteList {
+    padding: 20px;
 
-    & li {
-      list-style: none;
+    & ul.NoteItems {
+      padding-left: 0;
+      margin: 0;
+
+      & li {
+        list-style: none;
+
+        &:nth-child(n+2) {
+          margin-top: 20px;
+        }
+      }
     }
   }
 </style>

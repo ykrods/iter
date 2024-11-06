@@ -39,8 +39,6 @@
 </div>
 <style>
   .item {
-    margin: 18px;
-
     & a.id {
       color: var(--sl-color-neutral-400);
     }
