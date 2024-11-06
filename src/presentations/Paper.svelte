@@ -25,6 +25,7 @@
   .paper {
     background-color: var(--document-bg-color);
     box-shadow: 2px 2px 2px 0px rgba(125, 125, 125, 0.1);
+    border-radius: 8px;
 
     & .meta {
       padding: 10px;
