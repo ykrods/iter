@@ -1,8 +1,10 @@
 <script lang="ts">
   import type { Project, Note } from "$src/types";
 
+  import { push } from "svelte-spa-history-router";
   import {
     SLButton,
+    SLDivider,
     SLDropdown,
     SLMenu,
     SLMenuItem,
@@ -13,11 +15,13 @@
   import Paper from "$src/presentations/Paper.svelte";
   import DocViewer from "$src/presentations/DocViewer.svelte";
   import RstEditor from "$src/ui/RstEditor.svelte";
+  import Confirmation from "$src/ui/dialogs/Confirmation.svelte";
 
   import { asyncWorkerClient } from "$src/lib/asyncWorkerClient";
   import { CachedHtmlProvider } from "$src/lib/HtmlProvider";
   import { getNote } from "$src/lib/note/getNote";
   import { updateNote } from "$src/lib/note/updateNote";
+  import { deleteNote } from "$src/lib/note/deleteNote";
 
 
   const client = asyncWorkerClient(navigator.serviceWorker, Promise);
@@ -35,6 +39,7 @@
   let editingContent: string = $state("");
   let html: string = $state("");
   let reload: boolean = $state(true);
+  let openDeleteConfirmation: boolean = $state(false);
 
   $effect(() => {
     if (reload && params.noteId) {
@@ -55,14 +60,22 @@
     editing = true;
   }
 
-  function onSave() {
-    updateNote(project.db, note.id, editingContent);
+  async function onSave() {
+    await updateNote(project.db, note.id, editingContent);
     editing = false;
     reload = true;
   }
 
+  async function onDeleteConfirmed() {
+    await deleteNote(project.db, note.id);
+    push(project.url("/notes"));
+  }
+
   let savable = $derived(editingContent !== "" && editingContent !== note.content);
 </script>
+<svelte:head>
+  <title>{ params.noteId } @ { project.id } | iter</title>
+</svelte:head>
 <Layout>
   {#snippet sidebarContent()}
     <SidebarContent {project} />
@@ -83,6 +96,11 @@
           {/snippet}
           <SLMenu>
             <SLMenuItem onclick={onEdit}>Edit</SLMenuItem>
+            <SLDivider></SLDivider>
+            <SLMenuItem
+              variant="danger"
+              onclick={() => { openDeleteConfirmation = true; }}
+            >Delete</SLMenuItem>
           </SLMenu>
         </SLDropdown>
 
@@ -97,6 +115,11 @@
     {/if}
   </main>
 </Layout>
+<Confirmation
+  bind:open={openDeleteConfirmation}
+  label="Delete this note?"
+  onConfirmed={onDeleteConfirmed}
+></Confirmation>
 <style>
   main#Note {
     padding: 20px;
