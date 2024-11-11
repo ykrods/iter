@@ -98,9 +98,8 @@
             <SLMenuItem onclick={onEdit}>Edit</SLMenuItem>
             <SLDivider></SLDivider>
             <SLMenuItem
-              variant="danger"
               onclick={() => { openDeleteConfirmation = true; }}
-            >Delete</SLMenuItem>
+            ><span style="color: red;">Delete</span></SLMenuItem>
           </SLMenu>
         </SLDropdown>
 
