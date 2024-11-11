@@ -31,7 +31,7 @@
 <div class="item" onclick={onItemClick}>
   <Paper>
     {#snippet meta()}
-      <a class="id" use:link href={url}>ID: { note.id }</a>
+      <a class="id" use:link href={url}>ID:{ note.id }</a>
       <FormatDateTime value={note.createdAt}/>
     {/snippet}
     <DocViewer {html}/>
@@ -39,11 +39,20 @@
 </div>
 <style>
   .item {
+    border: 1px solid var(--bg-color);
+    border-radius: 8px;
+
     & a.id {
       color: var(--sl-color-neutral-400);
     }
     & a.id:hover {
       color: var(--sl-color-primary-800);
+    }
+
+    &:hover {
+      background-color: var(--sl-color-primary-50);
+      border-color: var(--sl-color-primary-300);
+      cursor: pointer;
     }
   }
 </style>

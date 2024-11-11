@@ -14,6 +14,7 @@
   import SidebarContent from "$src/layout/SidebarContent.svelte";
   import Paper from "$src/presentations/Paper.svelte";
   import DocViewer from "$src/presentations/DocViewer.svelte";
+  import FormatDateTime from "$src/presentations/FormatDateTime.svelte";
   import RstEditor from "$src/ui/RstEditor.svelte";
   import Confirmation from "$src/ui/dialogs/Confirmation.svelte";
 
@@ -86,27 +87,30 @@
       {#if editing}
         <section class="edit">
           <RstEditor bind:content={editingContent}></RstEditor>
-          <SLButton onclick={() => { editing = false }}>Cancel</SLButton>
-          <SLButton onclick={onSave} variant="primary" disabled={!savable}>Save</SLButton>
+          <div class="action">
+            <SLButton onclick={() => { editing = false }}>Cancel</SLButton>
+            <SLButton onclick={onSave} variant="primary" disabled={!savable}>Save</SLButton>
+          </div>
         </section>
       {:else}
-        <SLDropdown>
-          {#snippet trigger()}
-            <SLButton slot="trigger" caret>Edit</SLButton>
-          {/snippet}
-          <SLMenu>
-            <SLMenuItem onclick={onEdit}>Edit</SLMenuItem>
-            <SLDivider></SLDivider>
-            <SLMenuItem
-              onclick={() => { openDeleteConfirmation = true; }}
-            ><span style="color: red;">Delete</span></SLMenuItem>
-          </SLMenu>
-        </SLDropdown>
-
+        <div class="menu">
+          <SLDropdown>
+            {#snippet trigger()}
+              <SLButton slot="trigger" caret>Edit</SLButton>
+            {/snippet}
+            <SLMenu>
+              <SLMenuItem onclick={onEdit}>Edit</SLMenuItem>
+              <SLDivider></SLDivider>
+              <SLMenuItem
+                onclick={() => { openDeleteConfirmation = true; }}
+                ><span style="color: red;">Delete</span></SLMenuItem>
+            </SLMenu>
+          </SLDropdown>
+        </div>
         <Paper>
           {#snippet meta()}
-            <span>ID: { note.id }</span>
-            <span>{ note.createdAt }</span>
+            <span>ID:{ note.id }</span>
+            <FormatDateTime value={ note.createdAt }/>
           {/snippet}
           <DocViewer {html}/>
         </Paper>
@@ -126,6 +130,14 @@
     &> .edit {
       background-color: white;
       padding: 20px;
+
+      & .action {
+        margin-top: 20px;
+      }
+    }
+
+    & .menu {
+      margin-bottom: 15px;
     }
   }
 </style>
