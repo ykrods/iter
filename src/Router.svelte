@@ -1,4 +1,13 @@
-<script>
+<script lang="ts">
+  import type { Route } from "svelte-spa-history-router";
+
+  import type { Project } from "./types"
+  import type Home from "./pages/Home.svelte";
+  import type Credits from "./pages/Credits.svelte";
+  import type Note from "./pages/Note.svelte";
+  import type NoteList from "./pages/NoteList.svelte";
+
+
   import { Router, redirect } from "svelte-spa-history-router";
 
   import { getProject } from "$src/lib/project/getProject";
@@ -6,40 +15,56 @@
   import Top from "./pages/Top.svelte";
   import NotFound from "./pages/NotFound.svelte";
 
-  function projectPath(relpath) {
+  type ProjectEnsured = (params: Record<string, string>, props: { project: Project }) => any
+
+  function projectPath(relpath: string) {
     return `/(?<projectId>[0-9a-zA-Z][0-9A-Za-z._\-]*)/${relpath}`;
   }
 
-  function ensureProject(resolver) {
-    return async ({ params, props }) => {
+  function ensureProject(resolver: ProjectEnsured) {
+    return async (params: Record<string, string>) => {
       try {
-        props.project = await getProject(params.projectId);
-        return resolver({ params, props });
+        const project = await getProject(params.projectId);
+        const resolved = await Promise.resolve(resolver(params, { project }));
+
+        if ("default" in resolved) {
+          return { component: resolved.default, props: { project } };
+        } else {
+          const { component, props } = resolved;
+          return { component, props: Object.assign({ project }, props) };
+        }
       } catch (e) {
         return redirect("/");
       }
     }
   }
 
-  const routes = [
+  const routes: [
+    Route<typeof Top>,
+    Route<typeof Home>,
+    Route<typeof NoteList>,
+    Route<typeof Note>,
+    Route<typeof Credits>,
+    Route<typeof NotFound>,
+  ] = [
     { path: "/", component: Top },
     {
       path: projectPath(""),
-      resolver: ensureProject(({ params, props }) => {
-        return import("./pages/Home.svelte");
-      })
+      resolver: ensureProject(() => import("./pages/NoteList.svelte")),
     },
     {
       path: projectPath("notes"),
-      resolver: ensureProject(({ params, props }) => {
-        return import("./pages/NoteList.svelte");
-      })
+      resolver: ensureProject(() => import("./pages/NoteList.svelte")),
     },
     {
       path: projectPath("notes/(?<noteId>[0-9A-Z]*)"),
-      resolver: ensureProject(({ params, props }) => {
-        return import("./pages/Note.svelte");
-      })
+      resolver: ensureProject(async (params, props) => {
+        const component = (await import("./pages/Note.svelte")).default;
+        return {
+          component,
+          props: { params: { noteId: params.noteId } },
+        };
+      }),
     },
     {
       path: "/credits",
