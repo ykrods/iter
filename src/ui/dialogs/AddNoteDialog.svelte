@@ -56,23 +56,3 @@
     >Create</SLButton>
   {/snippet}
 </SLDialog>
-<style>
-  .panel {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: nowrap;
-    column-gap: 15px;
-
-    &> div {
-      overflow-x: clip;
-      width: 100%;
-      flex-basis: 0;
-      flex-grow: 1;
-      flex-shrink: 0;
-
-      &.preview {
-        min-height: 100px;
-      }
-    }
-  }
-</style>

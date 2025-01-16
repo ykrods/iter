@@ -6,7 +6,7 @@
 
   type Props = {
     open: boolean
-    onClose?: () => any
+    onClose?: () => any | undefined
     children: Snippet
     footer?: Snippet
   } & Partial<Pick<SlDialog,
@@ -16,9 +16,9 @@
 
   let {
     open = $bindable(false),
-    onClose = null,
     children,
-    footer = null,
+    onClose = undefined,
+    footer = undefined,
     ...props
   }: Props = $props();
 

@@ -15,10 +15,10 @@
     children = undefined,
   }: {
     onConfirmed: () => void
-    onCanceled: () => void
+    onCanceled?: () => void | undefined
     open: boolean
     label: string
-    children?: Snipped
+    children?: Snippet
   } = $props();
 
   function cancelClick() {

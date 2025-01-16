@@ -1,3 +1,6 @@
+<script lang="ts">
+
+</script>
 <svelte:head>
   <title>Not found | iter</title>
 </svelte:head>

@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { Note } from "$src/types";
+
   import { link, push } from "svelte-spa-history-router";
+
   import FormatDateTime from "$src/presentations/FormatDateTime.svelte";
   import DocViewer from "$src/presentations/DocViewer.svelte";
   import Paper from "$src/presentations/Paper.svelte";
@@ -21,13 +23,15 @@
     return content.substring(0, n) + suffix;
   }
 
-  function onItemClick(evt) {
-    if (evt.target.tagName.toLowerCase() !== "a") {
+  function onItemClick(evt: Event) {
+    if ((evt.target as HTMLElement).tagName.toLowerCase() !== 'a') {
       push(url);
     }
   }
 </script>
+<!-- Ignore warnings because there is an accessibility-appropriate anchor tag inside this -->
 <!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="item" onclick={onItemClick}>
   <Paper>
     {#snippet meta()}

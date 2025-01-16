@@ -3,10 +3,10 @@
 
   let {
     children,
-    meta,
+    meta = undefined,
   }: {
     children: Snippet
-    meta: Snippet
+    meta?: Snippet
   } = $props();
 </script>
 <div class="paper">

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Footer from "$src/layout/Footer.svelte";
 </script>
 <svelte:head>

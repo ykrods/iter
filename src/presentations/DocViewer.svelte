@@ -1,7 +1,7 @@
 <script lang="ts">
   import { tick } from "svelte";
 
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  import mermaid from "mermaid";
 
   import "$src/styles/viewer.css";
   import "$src/styles/docutils-0.20.1/math.css";

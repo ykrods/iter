@@ -1,5 +1,5 @@
 // @ts-ignore
-import DOMPurify from "dompurify/dist/purify.es.mjs";
+import DOMPurify from "dompurify";
 
 import type { IterDB } from "$src/types";
 import type { AsyncWorkerClient } from "$src/lib/asyncWorkerClient";

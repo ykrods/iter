@@ -2,6 +2,7 @@
   import type { Project, Note } from "$src/types";
 
   import { push } from "svelte-spa-history-router";
+
   import {
     SLButton,
     SLDivider,
@@ -35,7 +36,7 @@
     project: Project
   } = $props();
 
-  let note: Note | null = $state(null);
+  let note: Note | undefined = $state();
   let editing: boolean = $state(false);
   let editingContent: string = $state("");
   let html: string = $state("");
@@ -50,29 +51,35 @@
 
   async function load(noteId: string) {
     note = await getNote(project.db, noteId);
-    html = await CachedHtmlProvider(project.db, client).rst2html(note.content);
+    if (note) {
+      html = await CachedHtmlProvider(project.db, client).rst2html(note.content);
+    }
     reload = false;
   }
 
   function onEdit() {
     if (editingContent == "") {
-      editingContent = note.content;
+      editingContent = (note?.content ?? "");
     }
     editing = true;
   }
 
   async function onSave() {
-    await updateNote(project.db, note.id, editingContent);
+    if (note) {
+      await updateNote(project.db, note.id, editingContent);
+    }
     editing = false;
     reload = true;
   }
 
   async function onDeleteConfirmed() {
-    await deleteNote(project.db, note.id);
+    if (note) {
+      await deleteNote(project.db, note.id);
+    }
     push(project.url("/notes"));
   }
 
-  let savable = $derived(editingContent !== "" && editingContent !== note.content);
+  let savable = $derived(editingContent !== "" && editingContent !== (note?.content ?? ""));
 </script>
 <svelte:head>
   <title>{ params.noteId } @ { project.id } | iter</title>
@@ -83,7 +90,7 @@
   {/snippet}
 
   <main id="Note">
-    {#if note !== null }
+    {#if note }
       {#if editing}
         <section class="edit">
           <RstEditor bind:content={editingContent}></RstEditor>
@@ -96,7 +103,7 @@
         <div class="menu">
           <SLDropdown>
             {#snippet trigger()}
-              <SLButton slot="trigger" caret>Edit</SLButton>
+              <SLButton caret>Edit</SLButton>
             {/snippet}
             <SLMenu>
               <SLMenuItem onclick={onEdit}>Edit</SLMenuItem>
@@ -109,8 +116,11 @@
         </div>
         <Paper>
           {#snippet meta()}
-            <span>ID:{ note.id }</span>
-            <FormatDateTime value={ note.createdAt }/>
+            <!-- snippet requires null check because it is a function -->
+            {#if note }
+              <span>ID:{ note.id }</span>
+              <FormatDateTime value={ note.createdAt }/>
+            {/if}
           {/snippet}
           <DocViewer {html}/>
         </Paper>
