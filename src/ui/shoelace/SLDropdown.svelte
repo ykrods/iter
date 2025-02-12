@@ -1,24 +1,22 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
+  import type { SlSelectEvent } from "@shoelace-style/shoelace";
 
   import "@shoelace-style/shoelace/dist/components/dropdown/dropdown";
-  import type { SlSelectEvent } from "@shoelace-style/shoelace"
 
 
   let {
     children,
-    trigger = undefined,
-    onSelect = undefined,
+    trigger,
+    onSelect,
     ...props
   }: {
     children: Snippet
-    trigger: Snippet | undefined
-    onSelect?: (evt: SlSelectEvent) => any | undefined
+    trigger: Snippet
+    onSelect?: (evt: SlSelectEvent) => any
   } = $props();
 </script>
 <sl-dropdown onsl-select={onSelect} {...props}>
-  {#if trigger }
-    <span slot="trigger">{@render trigger()}</span>
-  {/if}
+  <span slot="trigger">{@render trigger()}</span>
   {@render children()}
 </sl-dropdown>
