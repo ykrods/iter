@@ -6,6 +6,7 @@
   import type Credits from "./pages/Credits.svelte";
   import type Note from "./pages/Note.svelte";
   import type NoteList from "./pages/NoteList.svelte";
+  import type Settings from "./pages/Settings.svelte";
 
 
   import { Router, redirect } from "svelte-spa-history-router";
@@ -44,6 +45,7 @@
     Route<typeof Home>,
     Route<typeof NoteList>,
     Route<typeof Note>,
+    Route<typeof Settings>,
     Route<typeof Credits>,
     Route<typeof NotFound>,
   ] = [
@@ -65,6 +67,10 @@
           props: { params: { noteId: params.noteId } },
         };
       }),
+    },
+    {
+      path: projectPath("settings"),
+      resolver: ensureProject(() => import("./pages/Settings.svelte")),
     },
     {
       path: "/credits",

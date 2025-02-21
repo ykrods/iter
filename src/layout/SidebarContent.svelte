@@ -21,6 +21,7 @@
     </li>
   </ul>
   <SLButton onclick={() => { openAddNoteDialog = true }}>New note</SLButton>
+  <a use:link href={project.url("/settings")}>Settings</a>
   <div class="footerContainer">
     <Footer/>
   </div>
