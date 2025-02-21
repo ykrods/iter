@@ -38,7 +38,7 @@ export function CachedHtmlProvider(
       }
       const html = await HtmlProvider(client).rst2html(rst);
 
-      await db.html_caches.put({ id: key, html, createdAt: new Date() });
+      await db.html_caches.put({ key, html, createdAt: new Date() });
       return html;
     }
   };

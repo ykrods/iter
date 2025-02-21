@@ -1,22 +1,22 @@
 import type { Dexie, EntityTable } from "dexie";
 
 
-export interface Note {
-  id: string
+export interface Doc {
+  key: string
   content: string
   createdAt: Date
   updatedAt: Date
 }
 
 export interface HtmlCache {
-  id: string
+  key: string
   html: string
   createdAt: Date
 }
 
 export type IterDB = Dexie & {
-  notes: EntityTable<Note, "id">
-  html_caches: EntityTable<HtmlCache, "id">
+  docs: EntityTable<Doc, "key">
+  html_caches: EntityTable<HtmlCache, "key">
 }
 
 export interface Project {

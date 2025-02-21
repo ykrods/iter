@@ -9,8 +9,8 @@ function getMigratedDB(dbname: string): IterDB {
   const db = new Dexie(dbname) as IterDB;
 
   db.version(1).stores({
-    notes: "id, createdAt, updatedAt",
-    html_caches: "id",
+    docs: "key, createdAt, updatedAt",
+    html_caches: "key",
   });
 
   return db;
