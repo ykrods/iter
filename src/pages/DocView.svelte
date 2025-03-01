@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Project, Note } from "$src/types";
+  import type { Project, Doc } from "$src/types";
 
   import { push } from "svelte-spa-history-router";
 
@@ -21,9 +21,9 @@
 
   import { asyncWorkerClient } from "$src/lib/asyncWorkerClient";
   import { CachedHtmlProvider } from "$src/lib/HtmlProvider";
-  import { getNote } from "$src/lib/note/getNote";
-  import { updateNote } from "$src/lib/note/updateNote";
-  import { deleteNote } from "$src/lib/note/deleteNote";
+  import { getDoc } from "$src/lib/doc/getDoc";
+  import { updateDoc } from "$src/lib/doc/updateDoc";
+  import { deleteDoc } from "$src/lib/doc/deleteDoc";
 
 
   const client = asyncWorkerClient(navigator.serviceWorker, Promise);
@@ -36,7 +36,7 @@
     project: Project
   } = $props();
 
-  let note: Note | undefined = $state();
+  let doc: Doc | undefined = $state();
   let editing: boolean = $state(false);
   let editingContent: string = $state("");
   let html: string = $state("");
@@ -44,53 +44,53 @@
   let openDeleteConfirmation: boolean = $state(false);
 
   $effect(() => {
-    if (reload && params.noteId) {
-      load(params.noteId);
+    if (reload && params.key) {
+      load(params.key);
     }
   });
 
-  async function load(noteId: string) {
-    note = await getNote(project.db, noteId);
-    if (note) {
-      html = await CachedHtmlProvider(project.db, client).rst2html(note.content);
+  async function load(key: string) {
+    doc = await getDoc(project.db, key);
+    if (doc) {
+      html = await CachedHtmlProvider(project.db, client).rst2html(doc.content);
     }
     reload = false;
   }
 
   function onEdit() {
     if (editingContent == "") {
-      editingContent = (note?.content ?? "");
+      editingContent = (doc?.content ?? "");
     }
     editing = true;
   }
 
   async function onSave() {
-    if (note) {
-      await updateNote(project.db, note.id, editingContent);
+    if (doc) {
+      await updateDoc(project.db, doc.key, editingContent);
     }
     editing = false;
     reload = true;
   }
 
   async function onDeleteConfirmed() {
-    if (note) {
-      await deleteNote(project.db, note.id);
+    if (doc) {
+      await deleteDoc(project.db, doc.key);
     }
-    push(project.url("/notes"));
+    push(project.url("/docs"));
   }
 
-  let savable = $derived(editingContent !== "" && editingContent !== (note?.content ?? ""));
+  let savable = $derived(editingContent !== "" && editingContent !== (doc?.content ?? ""));
 </script>
 <svelte:head>
-  <title>{ params.noteId } @ { project.id } | iter</title>
+  <title>{ params.key } @ { project.id } | iter</title>
 </svelte:head>
 <Layout>
   {#snippet sidebarContent()}
     <SidebarContent {project} />
   {/snippet}
 
-  <main id="Note">
-    {#if note }
+  <main id="Doc">
+    {#if doc }
       {#if editing}
         <section class="edit">
           <RstEditor bind:content={editingContent}></RstEditor>
@@ -117,9 +117,9 @@
         <Paper>
           {#snippet meta()}
             <!-- snippet requires null check because it is a function -->
-            {#if note }
-              <span>ID:{ note.id }</span>
-              <FormatDateTime value={ note.createdAt }/>
+            {#if doc }
+              <span>ID:{ doc.key }</span>
+              <FormatDateTime value={ doc.createdAt }/>
             {/if}
           {/snippet}
           <DocViewer {html}/>
@@ -130,11 +130,11 @@
 </Layout>
 <Confirmation
   bind:open={openDeleteConfirmation}
-  label="Delete this note?"
+  label="Delete this doc?"
   onConfirmed={onDeleteConfirmed}
 ></Confirmation>
 <style>
-  main#Note {
+  main#Doc {
     padding: 20px;
 
     &> .edit {

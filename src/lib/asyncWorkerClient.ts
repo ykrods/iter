@@ -1,6 +1,7 @@
 
 export interface AsyncWorkerClient {
   rst2html(rst: string): Promise<string>
+  rstMeta(rst: string): Promise<any>
   close(): void
 }
 
@@ -38,6 +39,9 @@ export function asyncWorkerClient(worker: ServiceWorkerContainer, P: typeof Prom
   return {
     rst2html: async (rst: string) => {
       return asyncMessage("rst2html", rst);
+    },
+    rstMeta: async(rst: string) => {
+      return asyncMessage("rstMeta", rst);
     },
     close() {
       worker.removeEventListener("message", onMessage);
