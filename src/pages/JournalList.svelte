@@ -5,7 +5,7 @@
 
   import Layout from "$src/layout/Layout.svelte";
   import SidebarContent from "$src/layout/SidebarContent.svelte";
-  import NoteItem from "./note_list/NoteItem.svelte";
+  import JournalItem from "./journal_list/JournalItem.svelte";
 
   import { asyncWorkerClient } from "$src/lib/asyncWorkerClient";
   import { CachedHtmlProvider } from "$src/lib/HtmlProvider";
@@ -24,28 +24,28 @@
   });
 
   let _items = liveQuery(async () => {
-    const q = await project.db.notes.reverse().toArray();
-    return Promise.all(q.map(async (note) => {
-      const html = await CachedHtmlProvider(project.db, client).rst2html(note.content);
-      return { note, html };
+    const q = await project.db.docs.filter(doc => doc.key.startsWith("journals")).reverse().toArray();
+    return Promise.all(q.map(async (doc) => {
+      const html = await CachedHtmlProvider(project.db, client).rst2html(doc.content);
+      return { doc, html };
     }));
   });
   let items = $derived($_items);
 </script>
 <svelte:head>
-  <title>Notes @ { project.id } | iter</title>
+  <title>Journals @ { project.id } | iter</title>
 </svelte:head>
 <Layout>
   {#snippet sidebarContent()}
     <SidebarContent {project} />
   {/snippet}
 
-  <main id="NoteList">
+  <main id="JournalList">
     {#if items }
-      <ul class="NoteItems">
-        {#each items as { note, html }}
+      <ul class="JournalItems">
+        {#each items as { doc, html }}
           <li>
-            <NoteItem {note} {html} url={ project.url(`/notes/${note.id}`)} />
+            <JournalItem {doc} {html} url={ project.url(`/docs/${doc.key}`)} />
           </li>
         {/each}
       </ul>
@@ -53,10 +53,10 @@
   </main>
 </Layout>
 <style>
-  main#NoteList {
+  main#JournalList {
     padding: 20px;
 
-    & ul.NoteItems {
+    & ul.JournalItems {
       padding-left: 0;
       margin: 0;
 

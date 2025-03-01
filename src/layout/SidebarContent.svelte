@@ -17,7 +17,10 @@
       <a use:link href={project.url("/")}>Home</a>
     </li>
     <li>
-      <a use:link href={project.url("/notes")}>Notes</a>
+      <a use:link href={project.url("/docs")}>Docs</a>
+    </li>
+    <li>
+      <a use:link href={project.url("/journals")}>Journals</a>
     </li>
   </ul>
   <SLButton onclick={() => { openAddNoteDialog = true }}>New note</SLButton>

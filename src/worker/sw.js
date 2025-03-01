@@ -1,4 +1,5 @@
 import display_versions from "./display_versions.py?raw";
+import rst_meta_py from "./rst_meta.py?raw";
 import rst2html_py from "./rst2html.py?raw";
 import mermaid_py from "./mermaid.py?raw";
 // import gen_pygments_style from "./gen_pygments_style.py?raw";
@@ -25,6 +26,7 @@ let pyodideReadyPromise = (async () => {
   // console.log(oneShotRun(gen_pygments_style));
 
   pyodide.runPython(rst2html_py);
+  pyodide.runPython(rst_meta_py);
   pyodide.runPython(mermaid_py);
   pyodide.runPython("setup_mermaid()");
 })();
@@ -50,6 +52,12 @@ self.addEventListener("message", async (event) => {
 
       return pyodide.runPython("rst2html")(rst);
     },
+    rstMeta: async (rst) => {
+      // make sure loading is done
+      await pyodideReadyPromise;
+
+      return pyodide.runPython("rst_meta")(rst);
+    }
   };
 
   if (handlers[_type] instanceof Function) {
@@ -57,6 +65,7 @@ self.addEventListener("message", async (event) => {
       const result = await handlers[_type](...args);
       event.source?.postMessage(Object.assign(event.data, { result }));
     } catch(error) {
+      console.error(error);
       event.source?.postMessage(Object.assign(event.data, { error }));
     }
   }

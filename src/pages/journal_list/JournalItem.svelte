@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Note } from "$src/types";
+  import type { Doc } from "$src/types";
 
   import { link, push } from "svelte-spa-history-router";
 
@@ -8,11 +8,11 @@
   import Paper from "$src/presentations/Paper.svelte";
 
   let {
-    note,
+    doc,
     html,
     url = "",
   } : {
-    note: Note
+    doc: Doc
     html: string
     url: string
   } = $props();
@@ -35,8 +35,8 @@
 <div class="item" onclick={onItemClick}>
   <Paper>
     {#snippet meta()}
-      <a class="id" use:link href={url}>ID:{ note.id }</a>
-      <FormatDateTime value={note.createdAt}/>
+      <a class="id" use:link href={url}>ID:{ doc.key }</a>
+      <FormatDateTime value={doc.createdAt}/>
     {/snippet}
     <DocViewer {html}/>
   </Paper>

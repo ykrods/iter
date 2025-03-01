@@ -4,8 +4,8 @@
   import type { Project } from "./types"
   import type Home from "./pages/Home.svelte";
   import type Credits from "./pages/Credits.svelte";
-  import type Note from "./pages/Note.svelte";
-  import type NoteList from "./pages/NoteList.svelte";
+  import type DocView from "./pages/DocView.svelte";
+  import type JournalList from "./pages/JournalList.svelte";
   import type Settings from "./pages/Settings.svelte";
 
 
@@ -43,8 +43,8 @@
   const routes: [
     Route<typeof Top>,
     Route<typeof Home>,
-    Route<typeof NoteList>,
-    Route<typeof Note>,
+    Route<typeof JournalList>,
+    Route<typeof DocView>,
     Route<typeof Settings>,
     Route<typeof Credits>,
     Route<typeof NotFound>,
@@ -52,19 +52,23 @@
     { path: "/", component: Top },
     {
       path: projectPath(""),
-      resolver: ensureProject(() => import("./pages/NoteList.svelte")),
+      resolver: ensureProject(() => import("./pages/JournalList.svelte")),
     },
     {
-      path: projectPath("notes"),
-      resolver: ensureProject(() => import("./pages/NoteList.svelte")),
+      path: projectPath("journals"), // collections/(.+) ??
+      resolver: ensureProject(() => import("./pages/JournalList.svelte")),
     },
     {
-      path: projectPath("notes/(?<noteId>[0-9A-Z]*)"),
+      path: projectPath("docs"), // collections/(.+) ??
+      resolver: ensureProject(() => import("./pages/FolderView.svelte")),
+    },
+    {
+      path: projectPath("docs/(?<key>[\/0-9A-Z]+\.rst)"),
       resolver: ensureProject(async (params, props) => {
-        const component = (await import("./pages/Note.svelte")).default;
+        const component = (await import("./pages/DocView.svelte")).default;
         return {
           component,
-          props: { params: { noteId: params.noteId } },
+          props: { params: { key: params.key } },
         };
       }),
     },
