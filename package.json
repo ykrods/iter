@@ -1,0 +1,33 @@
+{
+  "name": "iter",
+  "version": "0.2.0",
+  "description": "Protable project management tool on browser",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:unit": "node --test",
+    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "5.0.3",
+    "@tsconfig/svelte": "5.0.4",
+    "svelte": "5.20.5",
+    "svelte-check": "4.1.4",
+    "typescript": "5.8.2",
+    "vite": "6.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ykrods/iter.git"
+  },
+  "keywords": [],
+  "author": "ykrods",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ykrods/iter/issues"
+  },
+  "homepage": "https://github.com/ykrods/iter#readme"
+}
