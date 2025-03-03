@@ -1,6 +1,10 @@
 <script lang="ts">
+  import EnsureServiceWorker from "./EnsureServiceWorker.svelte";
 </script>
-<main>
-</main>
+<EnsureServiceWorker>
+  <main>
+    hoge
+  </main>
+</EnsureServiceWorker>
 <style>
 </style>
