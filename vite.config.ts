@@ -3,6 +3,7 @@ import path from "node:path";
 
 import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
+import copy from "rollup-plugin-simple-copy/vite";
 
 
 function sw() {
@@ -39,5 +40,22 @@ export default defineConfig({
   plugins: [
     svelte(),
     sw(),
+    copy({
+      extMap: {
+        ".svg": "image/svg+xml",
+        ".html": "text/html", // for pyodide console.html
+        ".js": "text/javascript",
+        ".mjs": "text/javascript",
+        ".json": "application/json",
+        ".zip": "application/zip",
+        ".wasm": "application/wasm",
+      },
+      targets: [
+        {
+          src: "node_modules/pyodide",
+          dest: "_/static/pyodide",
+        },
+      ]
+    })
   ],
 })
