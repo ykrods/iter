@@ -1,10 +1,29 @@
-let pyodide;
+import type {
+  PyodideInterface,
+  loadPyodide as loadPyodide_orig,
+} from "pyodide";
+
+declare global {
+  var loadPyodide: typeof loadPyodide_orig
+}
+
+import display_versions from "./display_versions.py?raw";
+import rst2html_py from "./rst2html.py?raw";
+import gen_pygments_style from "./gen_pygments_style.py?raw";
 
 
-self.addEventListener('install', async (event) => {
+let pyodide: PyodideInterface;
+let pyodideReadyPromise: Promise<boolean>;
+
+
+self.addEventListener('install', async (event: ExtendableEvent) => {
   console.log("install");
 
+  const ready = Promise.withResolvers<boolean>();
+
   importScripts("/_/static/pyodide/pyodide.js");
+
+  pyodideReadyPromise = ready.promise;
 
   pyodide = await loadPyodide();
   // TODO: serve wheel files
@@ -13,23 +32,52 @@ self.addEventListener('install', async (event) => {
     "https://cdn.jsdelivr.net/pyodide/v0.27.3/full/pygments-2.17.2-py3-none-any.whl"
   ]);
 
-  const oneShotRun = (code) => {
+  const oneShotRun = (code: string) => {
     const scope = pyodide.globals.get("dict")();
     const result = pyodide.runPython(code, { globals: scope });
     scope.destroy();
     return result;
   };
 
-  pyodide.runPython("print(1 + 1)");
+  oneShotRun(display_versions);
+  // save as pygments-default.css
+  // console.log(oneShotRun(gen_pygments_style));
+
+  pyodide.runPython(rst2html_py);
+
+  ready.resolve(true);
 
   // activate installed worker without
   // waiting for the open page to be closed
   self.skipWaiting();
 });
 
-self.addEventListener('activate', (event) => {
+self.addEventListener('activate', (event: ExtendableEvent) => {
   console.log("activate");
   // activate newest worker without
   // waiting for reloading when registered
   event.waitUntil(clients.claim());
+});
+
+self.addEventListener("message", async (event: MessageEvent) => {
+  const { _type, args } = event.data;
+
+  const handlers: Record<string, (...args: any) => Promise<any>> = {
+    rst2html: async (rst: string) => {
+      // make sure loading is done
+      await pyodideReadyPromise;
+
+      return pyodide.runPython("rst2html")(rst);
+    },
+  };
+
+  if (Object.keys(handlers).includes(_type)) {
+    try {
+      const result = await handlers[_type](...args);
+      event.source?.postMessage(Object.assign(event.data, { result }));
+    } catch(error) {
+      console.error(error);
+      event.source?.postMessage(Object.assign(event.data, { error }));
+    }
+  }
 });
