@@ -1,7 +1,9 @@
 <script lang="ts">
+  import EnsureFileSystemAccessAPI from "./EnsureFileSystemAccessAPI.svelte";
   import EnsureServiceWorker from "./EnsureServiceWorker.svelte";
 
   import { asyncWorkerClient } from "$src/lib/asyncWorkerClient";
+
 
   const client = asyncWorkerClient(navigator.serviceWorker);
 
@@ -10,12 +12,13 @@
 
     return () => client.close();
   });
-
 </script>
-<EnsureServiceWorker>
-  <main>
-    hoge
-  </main>
-</EnsureServiceWorker>
+<EnsureFileSystemAccessAPI>
+  <EnsureServiceWorker>
+    <main>
+      hoge
+    </main>
+  </EnsureServiceWorker>
+</EnsureFileSystemAccessAPI>
 <style>
 </style>
