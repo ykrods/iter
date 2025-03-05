@@ -11,21 +11,13 @@ import display_versions from "./display_versions.py?raw";
 import rst2html_py from "./rst2html.py?raw";
 import gen_pygments_style from "./gen_pygments_style.py?raw";
 
+importScripts("/_/static/pyodide/pyodide.js");
 
 let pyodide: PyodideInterface;
-let pyodideReadyPromise: Promise<boolean>;
 
-
-self.addEventListener('install', async (event: ExtendableEvent) => {
-  console.log("install");
-
-  const ready = Promise.withResolvers<boolean>();
-
-  importScripts("/_/static/pyodide/pyodide.js");
-
-  pyodideReadyPromise = ready.promise;
-
+let pyodideReadyPromise = (async () => {
   pyodide = await loadPyodide();
+
   // TODO: serve wheel files
   await pyodide.loadPackage([
     "https://cdn.jsdelivr.net/pyodide/v0.27.3/full/docutils-0.21.1-py3-none-any.whl",
@@ -44,8 +36,13 @@ self.addEventListener('install', async (event: ExtendableEvent) => {
   // console.log(oneShotRun(gen_pygments_style));
 
   pyodide.runPython(rst2html_py);
+})();
 
-  ready.resolve(true);
+
+self.addEventListener('install', async (event: ExtendableEvent) => {
+  console.log("install");
+
+  // TODO: Create cache
 
   // activate installed worker without
   // waiting for the open page to be closed
