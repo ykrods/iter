@@ -15,6 +15,7 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "5.0.3",
     "@tsconfig/svelte": "5.0.4",
+    "@types/node": "22.13.9",
     "@types/serviceworker": "0.0.123",
     "@types/wicg-file-system-access": "2023.10.5",
     "pyodide": "0.27.3",

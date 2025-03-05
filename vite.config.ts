@@ -1,3 +1,6 @@
+import type { PluginOption } from "vite";
+import type { ChildProcess } from "node:child_process";
+
 import child_process from "node:child_process";
 import path from "node:path";
 
@@ -6,8 +9,8 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 import copy from "rollup-plugin-simple-copy/vite";
 
 
-function sw() {
-  let proc;
+function sw(): PluginOption {
+  let proc: ChildProcess | null = null;
 
   return {
     name: "build-sw",
