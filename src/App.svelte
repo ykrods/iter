@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Project } from "$src/types"
+  import type { Project, IterIDB } from "$src/types"
   import EnsureAvailableProject from "./EnsureAvailableProject.svelte";
   import EnsureFileSystemAccessAPI from "./EnsureFileSystemAccessAPI.svelte";
   import EnsureServiceWorker from "./EnsureServiceWorker.svelte";
@@ -10,7 +10,7 @@
 
 
   const client = asyncWorkerClient(navigator.serviceWorker);
-  let db = getDB();
+  let idb: IterIDB = getDB();
 
   let project: Project | undefined = $state();
 
@@ -26,8 +26,8 @@
     <EnsureServiceWorker>
       <EnsureAvailableProject
         bind:project
-        getProjects={() => db.projects.getAll()}
-        saveProject={(project: Project) => db.projects.put(project)}
+        getProjects={() => idb.projects.getAll()}
+        saveProject={(project: Project) => idb.projects.put(project)}
       >
         <Router></Router>
       </EnsureAvailableProject>

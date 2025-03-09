@@ -1,4 +1,4 @@
-import type { Project } from "$src/types"
+import type { Project, IterIDB } from "$src/types"
 
 
 export function open(
@@ -32,7 +32,7 @@ export function request<T>(builder: () => IDBRequest<T>): Promise<T>{
   });
 }
 
-export function getDB() {
+export function getDB(): IterIDB {
   let _db: IDBDatabase;
 
   const dbname = "iter";
@@ -60,11 +60,11 @@ export function getDB() {
         const db = await openDB()
         return request(() => store(db).get(id));
       },
-      async put(item: Project) {
+      async put(item: Project): Promise<IDBValidKey> {
         const db = await openDB()
         return request(() => store(db).put(item));
       },
-      async clear() {
+      async clear(): Promise<undefined> {
         const db = await openDB()
         return request(() => store(db).clear());
       }
