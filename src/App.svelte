@@ -3,7 +3,7 @@
   import EnsureAvailableProject from "./EnsureAvailableProject.svelte";
   import EnsureFileSystemAccessAPI from "./EnsureFileSystemAccessAPI.svelte";
   import EnsureServiceWorker from "./EnsureServiceWorker.svelte";
-  import Router from "./Router.svelte";
+  import Main from "./Main.svelte";
 
   import { asyncWorkerClient } from "$src/lib/asyncWorkerClient";
   import { getDB } from "$src/lib/idb";
@@ -29,10 +29,10 @@
         getProjects={() => idb.projects.getAll()}
         saveProject={(project: Project) => idb.projects.put(project)}
       >
-        <Router></Router>
+        {#if project}
+          <Main {project}></Main>
+        {/if}
       </EnsureAvailableProject>
     </EnsureServiceWorker>
   </EnsureFileSystemAccessAPI>
 </div>
-<style>
-</style>

@@ -12,3 +12,17 @@ export interface IterIDB {
     clear(): Promise<undefined>
   }
 }
+
+export type Doc = {
+  name: string
+  content: string
+  key: string
+  lastModified: Date
+  createdAt: Date
+  updatedAt: Date
+}
+
+export type RstMeta = {
+  name: string
+  value: string
+}
