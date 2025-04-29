@@ -17,6 +17,8 @@
     "@tsconfig/svelte": "5.0.4",
     "@types/node": "22.15.3",
     "@types/serviceworker": "0.0.132",
+    "pyodide": "0.27.5",
+    "rollup-plugin-simple-copy": "github:ykrods/rollup-plugin-simple-copy",
     "svelte": "5.28.2",
     "svelte-check": "4.1.6",
     "typescript": "5.8.3",
