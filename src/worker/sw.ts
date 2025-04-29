@@ -7,6 +7,10 @@ declare global {
   var loadPyodide: typeof loadPyodide_orig
 }
 
+import display_versions from "./display_versions.py?raw";
+import rst2html_py from "./rst2html.py?raw";
+// import gen_pygments_style from "./gen_pygments_style.py?raw";
+
 importScripts("/_/static/pyodide/pyodide.js");
 
 let pyodide: PyodideInterface;
@@ -28,18 +32,16 @@ let pyodideReadyPromise = (async () => {
     return result;
   };
 
-  // oneShotRun(display_versions);
+  oneShotRun(display_versions);
   // save as pygments-default.css
   // console.log(oneShotRun(gen_pygments_style));
 
-  // pyodide.runPython(rst2html_py);
+  pyodide.runPython(rst2html_py);
 })();
+
 
 self.addEventListener('install', async (event: ExtendableEvent) => {
   console.log("install");
-
-  await pyodideReadyPromise;
-  pyodide.runPython("print(1 + 1)");
 
   // TODO: Create cache
 
@@ -53,4 +55,27 @@ self.addEventListener('activate', (event: ExtendableEvent) => {
   // activate newest worker without
   // waiting for reloading when registered
   event.waitUntil(clients.claim());
+});
+
+self.addEventListener("message", async (event: MessageEvent) => {
+  const { _type, args } = event.data;
+
+  const handlers: Record<string, (...args: any) => Promise<any>> = {
+    rst2html: async (rst: string) => {
+      // make sure loading is done
+      await pyodideReadyPromise;
+
+      return pyodide.runPython("rst2html")(rst);
+    },
+  };
+
+  if (Object.keys(handlers).includes(_type)) {
+    try {
+      const result = await handlers[_type](...args);
+      event.source?.postMessage(Object.assign(event.data, { result }));
+    } catch(error) {
+      console.error(error);
+      event.source?.postMessage(Object.assign(event.data, { error }));
+    }
+  }
 });
