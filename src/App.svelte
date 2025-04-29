@@ -1,6 +1,6 @@
 <script lang="ts">
   import EnsureServiceWorker from "./EnsureServiceWorker.svelte";
-  import { asyncWorkerClient } from "./lib/asyncWorkerClient";
+  import { asyncWorkerClient } from "$src/lib/asyncWorkerClient";
 
   const client = asyncWorkerClient(navigator.serviceWorker);
 

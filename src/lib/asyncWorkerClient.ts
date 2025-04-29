@@ -1,4 +1,4 @@
-import type { AsyncWorkerClient } from "../types"
+import type { AsyncWorkerClient } from "$src/types"
 
 export function asyncWorkerClient(
   worker: ServiceWorkerContainer

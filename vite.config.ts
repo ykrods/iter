@@ -1,10 +1,17 @@
+import path from "node:path"
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
-import spawn from "./vite-plugin-spawn"
 import copy from "rollup-plugin-simple-copy/vite"
+
+import spawn from "./vite-plugin-spawn"
 
 // https://vite.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: [
+      { find: "$src/", replacement: path.join(__dirname, "src/") },
+    ],
+  },
   plugins: [
     svelte(),
     spawn("npm", ["run", "build:sw", "--", "--watch"]),
