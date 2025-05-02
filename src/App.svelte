@@ -1,22 +1,14 @@
 <script lang="ts">
   import EnsureFileSystemAccessAPI from "./EnsureFileSystemAccessAPI.svelte";
   import EnsureServiceWorker from "./EnsureServiceWorker.svelte";
-  import { asyncWorkerClient } from "$src/lib/asyncWorkerClient";
-
-  const client = asyncWorkerClient(navigator.serviceWorker);
-
-  $effect(() => {
-    client.rst2html("* foo\n* bar").then(r => console.log(r));
-
-    return () => client.close();
-  });
+  import Router from "./Router.svelte";
 </script>
-<EnsureFileSystemAccessAPI>
-  <EnsureServiceWorker path="/sw.js">
-    <main>
-      foo
-    </main>
-  </EnsureServiceWorker>
-</EnsureFileSystemAccessAPI>
+<div>
+  <EnsureFileSystemAccessAPI>
+    <EnsureServiceWorker path="/sw.js">
+      <Router/>
+    </EnsureServiceWorker>
+  </EnsureFileSystemAccessAPI>
+</div>
 <style>
 </style>
