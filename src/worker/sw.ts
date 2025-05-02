@@ -11,6 +11,8 @@ import display_versions from "./display_versions.py?raw";
 import rst2html_py from "./rst2html.py?raw";
 // import gen_pygments_style from "./gen_pygments_style.py?raw";
 
+import localFileResponse from "./localFileResponse";
+
 importScripts("/_/static/pyodide/pyodide.js");
 
 let pyodide: PyodideInterface;
@@ -78,4 +80,22 @@ self.addEventListener("message", async (event: MessageEvent) => {
       event.source?.postMessage(Object.assign(event.data, { error }));
     }
   }
+});
+
+self.addEventListener("fetch", (event: FetchEvent) => {
+  const url = new URL(event.request.url);
+
+  if (url.origin !== location.origin) {
+    return;
+  }
+
+  const re = new RegExp("^/raw/(?<projectId>[^/]+)/(?<key>.*)$");
+  const match = url.pathname.match(re);
+  if (!match) {
+    return;
+  }
+  const projectId = decodeURIComponent(match.groups!.projectId);
+  const key = decodeURIComponent(match.groups!.key);
+
+  event.respondWith(localFileResponse(projectId, key));
 });
