@@ -13,6 +13,15 @@ export interface IterIDB {
   }
 }
 
+export interface Doc {
+  name: string
+  content: string
+  key: string
+  lastModified: Date
+  createdAt: Date
+  updatedAt: Date
+}
+
 export interface AsyncWorkerClient {
   rst2html(rst: string): Promise<string>
   close(): void
