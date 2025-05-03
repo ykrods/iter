@@ -1,35 +1,27 @@
 <script lang="ts">
   import type { Project, Doc } from "$src/types";
 
-  import { Collection } from "@signaldb/core";
-  import svelteReactivityAdapter from "@signaldb/svelte";
-
   import EnsureAccessGranted from "./main/EnsureAccessGranted.svelte"
   import { asyncWorkerClient } from "$src/lib/asyncWorkerClient";
   import rewriteHTML from "$src/lib/rewriteHTML";
+  import Documents from "$src/lib/doc/Documents";
+  import createSyncManager from "$src/lib/syncManager";
 
   let { project }: { project: Project } = $props()
 
   const client = asyncWorkerClient(navigator.serviceWorker);
 
-  const Documents = new Collection<Doc>({
-    reactivity: svelteReactivityAdapter
-  })
+  const syncManager = createSyncManager(project.id, project.handle);
+  syncManager.addCollection(Documents, {
+    name: "documents",
+  });
+  syncManager.syncAll()
 
   let doc: Doc | undefined = $state();
   let html: string = $state("")
   let documents = $derived(Documents.find({}).fetch());
 
   $effect(() => {
-    Documents.insert({
-      name: `foo.rst`,
-      content: "* foo\n* bar\n* `foo <bar>`_\n\n.. image:: sample.png",
-      key: `docs/foo.rst`,
-      lastModified: new Date(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
-
     return () => client.close();
   });
 
@@ -45,11 +37,13 @@
 
 </script>
 <EnsureAccessGranted handle={project.handle}>
+  <h2>docs</h2>
   <ul>
   {#each documents as document}
     <li><a href="" onclick={e => { e.preventDefault(); doc = document; }}>{ document.key }</a></li>
   {/each}
   </ul>
+  <h2>viewer</h2>
   <div>
     {#if html !== ""}
       {@html html}

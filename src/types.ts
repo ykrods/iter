@@ -14,6 +14,7 @@ export interface IterIDB {
 }
 
 export interface Doc {
+  id: string
   name: string
   content: string
   key: string

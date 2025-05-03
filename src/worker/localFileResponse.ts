@@ -1,7 +1,7 @@
 import type { Project, IterIDB } from "$src/types";
 
 import { getDB } from "$src/lib/idb";
-import { recursiveFileHandle } from "$src/lib/recursiveFileHandle";
+import { recursiveFileHandle } from "$src/lib/fs/recursiveFileHandle";
 
 export default async function localFileResponse(
   projectId: string,
