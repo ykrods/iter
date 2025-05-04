@@ -1,13 +1,23 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
 
-
-  let { handle, children }: {
+  let {
+    handle,
+    onGranted,
+    children,
+  }: {
     handle: FileSystemDirectoryHandle
+    onGranted: () => void
     children: Snippet
   } = $props();
 
   let grantedPromise = $state(getGranted());
+
+  $effect(() => {
+    grantedPromise.then((granted) => {
+      if (granted) onGranted()
+    })
+  });
 
   async function getGranted(): Promise<boolean> {
     const permission = (await handle.queryPermission({ mode: "readwrite" }));

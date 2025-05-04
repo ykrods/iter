@@ -7,6 +7,8 @@
   import Documents from "$src/lib/doc/Documents";
   import createSyncManager from "$src/lib/syncManager";
 
+  import DocViewer from "$src/ui/DocViewer.svelte";
+
   let { project }: { project: Project } = $props()
 
   const client = asyncWorkerClient(navigator.serviceWorker);
@@ -15,7 +17,6 @@
   syncManager.addCollection(Documents, {
     name: "documents",
   });
-  syncManager.syncAll()
 
   let doc: Doc | undefined = $state();
   let html: string = $state("")
@@ -36,17 +37,40 @@
   });
 
 </script>
-<EnsureAccessGranted handle={project.handle}>
-  <h2>docs</h2>
-  <ul>
-  {#each documents as document}
-    <li><a href="" onclick={e => { e.preventDefault(); doc = document; }}>{ document.key }</a></li>
-  {/each}
-  </ul>
-  <h2>viewer</h2>
-  <div>
-    {#if html !== ""}
-      {@html html}
-    {/if}
+<EnsureAccessGranted
+  handle={project.handle}
+  onGranted={() => syncManager.syncAll()}
+>
+  <div class="flex">
+    <div class="sidebar">
+      <h2>docs</h2>
+      <ul>
+        {#each documents as document}
+          <li><a href="" onclick={e => { e.preventDefault(); doc = document; }}>{ document.key }</a></li>
+        {/each}
+      </ul>
+    </div>
+    <div class="main">
+      <h2>viewer</h2>
+      <div>
+        {#if html !== ""}
+          <DocViewer {html} onNavigate={url => console.log(url)} />
+        {/if}
+      </div>
+    </div>
   </div>
 </EnsureAccessGranted>
+<style>
+  .flex {
+    display: flex;
+
+    & .sidebar {
+      width: 200px;
+      background-color: lightgray;
+    }
+
+    & .main {
+      flex: 1;
+    }
+  }
+</style>
