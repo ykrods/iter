@@ -1,7 +1,7 @@
 <script lang="ts">
   import { tick } from "svelte";
 
-  // import mermaid from "mermaid";
+  import mermaid from "mermaid";
 
   import "$src/styles/viewer.css";
   import "$src/styles/docutils-0.21.1/math.css";
@@ -15,13 +15,13 @@
     onNavigate: (string) => any
   } = $props();
 
-  // mermaid.initialize({ startOnLoad: false });
+  mermaid.initialize({ startOnLoad: false });
 
 
   $effect(() => {
     // Render mermaid diagram if contained
     if (typeof html === 'string' && html.includes('mermaid')) {
-      // tick().then(() => mermaid.run());
+      tick().then(() => mermaid.run());
     }
   });
 

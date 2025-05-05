@@ -21,6 +21,7 @@
     "@types/node": "22.15.3",
     "@types/serviceworker": "0.0.132",
     "@types/wicg-file-system-access": "2023.10.6",
+    "mermaid": "11.6.0",
     "pyodide": "0.27.5",
     "rollup-plugin-simple-copy": "github:ykrods/rollup-plugin-simple-copy",
     "svelte": "5.28.2",
