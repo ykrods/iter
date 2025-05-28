@@ -23,7 +23,10 @@
   let documents = $derived(Documents.find({}).fetch());
 
   $effect(() => {
-    return () => client.close();
+    return () => {
+      client.close();
+      Documents.removeAllListeners();
+    }
   });
 
   $effect(() => {
@@ -39,7 +42,7 @@
 </script>
 <EnsureAccessGranted
   handle={project.handle}
-  onGranted={() => syncManager.syncAll()}
+  onGranted={() => syncManager.syncAll() }
 >
   <div class="flex">
     <div class="sidebar">
