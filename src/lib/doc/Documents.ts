@@ -11,3 +11,8 @@ const Documents = new Collection<Doc>({
   primaryKeyGenerator: () => generateId(),
 })
 export default Documents;
+
+export const createDocuments = () => new Collection<Doc>({
+  reactivity: svelteReactivityAdapter,
+  primaryKeyGenerator: () => generateId(),
+})
