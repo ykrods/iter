@@ -31,6 +31,7 @@ function createSyncManager(
           if (a.key === b.key) return 0;
           return (a.key < b.key) ? -1 : 1;
         });
+        console.log(`${sorted.length} items were pulled`)
         return { items: sorted }
       }
       return { items: [] }
