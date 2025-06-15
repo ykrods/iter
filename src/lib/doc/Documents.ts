@@ -1,4 +1,4 @@
-import type { Doc } from "$src/types";
+import type { Doc, Documents } from "$src/types";
 
 import { Collection } from "@signaldb/core";
 import svelteReactivityAdapter from "@signaldb/svelte";
@@ -11,3 +11,8 @@ const Documents = new Collection<Doc>({
   primaryKeyGenerator: () => generateId(),
 })
 export default Documents;
+
+export const createDocuments = () => new Collection<Doc, string>({
+  reactivity: svelteReactivityAdapter,
+  primaryKeyGenerator: () => generateId(),
+});

@@ -1,3 +1,6 @@
+import type { Collection } from "@signaldb/core";
+import type { SyncManager } from "@signaldb/sync";
+
 export type Project = {
   id: string
   handle: FileSystemDirectoryHandle
@@ -21,6 +24,14 @@ export interface Doc {
   lastModified: Date
   createdAt: Date
   updatedAt: Date
+}
+
+export type Documents = Collection<Doc, string>
+export type IterSyncManager = SyncManager<{ name: string }, Doc, string>
+
+export type OpenedProject = Project & {
+  Documents: Documents
+  syncManager: IterSyncManager
 }
 
 export interface AsyncWorkerClient {
