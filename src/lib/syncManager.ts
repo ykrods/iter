@@ -1,4 +1,4 @@
-import type { Doc } from "$src/types"
+import type { CollectionItemBase, Doc, IterSyncManager } from "$src/types"
 
 import { SyncManager } from "@signaldb/sync"
 
@@ -9,9 +9,9 @@ import buildDoc from "./doc/buildDoc"
 function createSyncManager(
   id: string,
   directoryHandle: FileSystemDirectoryHandle
-): SyncManager<Record<string, any>, { id: string }> {
+): IterSyncManager {
 
-  return new SyncManager<Record<string, any>, { id: string }>({
+  return new SyncManager<{ name: string }, CollectionItemBase, string>({
     id,
     // persistenceAdapter: id => createLocalStorageAdapter(id),
     onError(_, error) {
@@ -31,6 +31,7 @@ function createSyncManager(
           if (a.key === b.key) return 0;
           return (a.key < b.key) ? -1 : 1;
         });
+        console.log(`${sorted.length} items were pulled`)
         return { items: sorted }
       }
       return { items: [] }

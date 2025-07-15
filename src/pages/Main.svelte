@@ -4,7 +4,7 @@
   import EnsureAccessGranted from "./main/EnsureAccessGranted.svelte"
   import { asyncWorkerClient } from "$src/lib/asyncWorkerClient";
   import rewriteHTML from "$src/lib/rewriteHTML";
-  import Documents from "$src/lib/doc/Documents";
+  import { createDocuments } from "$src/lib/doc/Documents";
   import createSyncManager from "$src/lib/syncManager";
 
   import DocViewer from "$src/ui/DocViewer.svelte";
@@ -13,6 +13,7 @@
 
   const client = asyncWorkerClient(navigator.serviceWorker);
 
+  const Documents = createDocuments();
   const syncManager = createSyncManager(project.id, project.handle);
   syncManager.addCollection(Documents, {
     name: "documents",

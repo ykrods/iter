@@ -1,3 +1,7 @@
+import type { Collection } from "@signaldb/core";
+import type { SyncManager } from "@signaldb/sync";
+
+
 export type Project = {
   id: string
   handle: FileSystemDirectoryHandle
@@ -13,16 +17,25 @@ export interface IterIDB {
   }
 }
 
-export interface Doc {
+export interface CollectionItemBase {
   id: string
-  name: string
-  content: string
-  key: string
-  lastModified: Date
   createdAt: Date
   updatedAt: Date
 }
 
+export interface Doc extends CollectionItemBase {
+  name: string
+  content: string
+  key: string
+  lastModified: Date
+}
+
+export type Documents = Collection<Doc, string>
+export type IterSyncManager = SyncManager<
+  { name: string },
+  CollectionItemBase,
+  string
+>
 export interface AsyncWorkerClient {
   rst2html(rst: string): Promise<string>
   close(): void
