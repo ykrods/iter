@@ -1,6 +1,6 @@
 import type { AsyncWorkerClient } from "$src/types"
 
-export function asyncWorkerClient(
+export default function asyncWorkerClient(
   worker: ServiceWorkerContainer
 ): AsyncWorkerClient {
   const pool: Record<string, any> = {};
