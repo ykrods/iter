@@ -18,6 +18,7 @@ async function buildDoc(
   return {
     id: key,
     name: handle.name,
+    title: meta.find(m => m.name === "title")?.value ?? "",
     content,
     key,
     lastModified: new Date(file.lastModified),

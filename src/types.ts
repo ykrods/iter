@@ -25,6 +25,7 @@ export interface CollectionItemBase {
 
 export interface Doc extends CollectionItemBase {
   name: string
+  title: string
   content: string
   key: string
   lastModified: Date
