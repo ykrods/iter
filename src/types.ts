@@ -24,11 +24,9 @@ export interface CollectionItemBase {
 }
 
 export interface Doc extends CollectionItemBase {
-  name: string
+  key: string
   title: string
   content: string
-  key: string
-  lastModified: Date
 }
 
 export type Documents = Collection<Doc, string>

@@ -3,8 +3,10 @@ import type {
   IterIDB,
   IterSyncManager,
   Documents,
+  Doc,
 } from "$src/types";
 
+import { generateId } from "$src/lib/id";
 import createSyncManager from "$src/lib/createSyncManager";
 import createDocuments from "$src/lib/doc/createDocuments";
 
@@ -83,5 +85,15 @@ export default function useMainModel(idb: IterIDB) {
     async loadProjects() {
       _projects = await idb.projects.getAll()
     },
+    addJournal(content: string) {
+      const doc: Omit<Doc, "id"> = {
+        key: `journals/${generateId()}.rst`,
+        title: "",
+        content,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
+      _opened?.Documents.insert(doc)
+    }
   }
 }

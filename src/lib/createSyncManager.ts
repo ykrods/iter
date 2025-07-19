@@ -3,8 +3,9 @@ import type { CollectionItemBase, Doc, IterSyncManager } from "$src/types"
 import { SyncManager } from "@signaldb/sync"
 
 import walk from "./fs/walk"
-import buildDoc from "./doc/buildDoc"
-
+import deserialize from "./doc/deserialize"
+import serialize from "./doc/serialize"
+import saveFile from "./fs/saveFile"
 
 export default function createSyncManager(
   id: string,
@@ -22,7 +23,9 @@ export default function createSyncManager(
         // fetch all documents
         const items: Doc[] = []
         for await (const { handle } of walk(directoryHandle, [".rst"])) {
-          const doc = await buildDoc(handle);
+          const file = await handle.getFile();
+          const rst = await file.text();
+          const doc = await deserialize(rst);
           if (doc) {
             items.push(doc);
           }
@@ -36,16 +39,20 @@ export default function createSyncManager(
       }
       return { items: [] }
     },
-    async push(_, { changes }) {
-      await Promise.all(changes.added.map(async (item) => {
-        console.log(item)
-      }))
-      await Promise.all(changes.modified.map(async (item) => {
-        console.log(item)
-      }))
-      await Promise.all(changes.removed.map(async (item) => {
-        console.log(item)
-      }))
+    async push({ name }, { changes }) {
+      if (name === "documents") {
+        await Promise.all(changes.added.map(async (item) => {
+          const doc: Doc = item as Doc;
+          const text = serialize(doc);
+          await saveFile(directoryHandle, doc.key, text)
+        }))
+        await Promise.all(changes.modified.map(async (item) => {
+          console.log(item)
+        }))
+        await Promise.all(changes.removed.map(async (item) => {
+          console.log(item)
+        }))
+      }
     }
   })
 }

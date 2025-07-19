@@ -12,7 +12,7 @@
     onNavigate,
   } : {
     html: string
-    onNavigate: (string) => any
+    onNavigate: (key: string) => any
   } = $props();
 
   mermaid.initialize({ startOnLoad: false });

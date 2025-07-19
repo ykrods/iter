@@ -1,4 +1,6 @@
 <script lang="ts">
+  import AddJournal from "./AddJournal.svelte";
+
   import { getDB } from "$src/lib/idb";
   import useMainModel from "./useMainModel.svelte";
 
@@ -14,5 +16,6 @@
   </ul>
   {#if mainModel.project && mainModel.Documents }
     { mainModel.project.id }
+    <AddJournal onSave={(content) => mainModel.addJournal(content)}/>
   {/if}
 </div>
