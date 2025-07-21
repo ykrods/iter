@@ -1,6 +1,9 @@
 <script lang="ts">
   import type { Doc, Documents as DocumentsType } from "$src/types";
 
+  import DocViewer from "$src/ui/DocViewer.svelte";
+  import Paper from "$src/ui/presentations/Paper.svelte";
+  import FormatDateTime from "$src/ui/presentations/FormatDateTime.svelte";
   import asyncWorkerClient from "$src/lib/asyncWorkerClient";
 
   let {
@@ -39,11 +42,30 @@
   });
 </script>
 <h2>journals</h2>
-<ul>
+<ul class="journal-items">
   {#each items as { html, item } }
     <li onclick={() => onSelect(item)}>
-      { item.key }: { item.createdAt }<br>
-      {@html html}
+      <Paper>
+        {#snippet meta()}
+          <span>ID:{ item.key }</span>
+          <FormatDateTime value={ item.createdAt }/>
+        {/snippet}
+        <DocViewer {html} onNavigate={(key) => console.log(key)}/>
+      </Paper>
     </li>
   {/each}
 </ul>
+<style>
+  ul.journal-items {
+    padding-left: 0;
+    margin: 0;
+
+    & > li {
+      list-style: none;
+
+      &:nth-child(n+2) {
+        margin-top: 20px;
+      }
+    }
+  }
+</style>

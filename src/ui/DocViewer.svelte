@@ -3,9 +3,9 @@
 
   import mermaid from "mermaid";
 
-  import "$src/styles/viewer.css";
   import "$src/styles/docutils-0.21.1/math.css";
   import "$src/styles/pygments-2.17.2/default.css";
+  import "$src/styles/viewer.css";
 
   let {
     html,

@@ -3,6 +3,7 @@
  */
 
 /** TODO: using shoelace colors */
+/** TODO: is it better to move into app.css? */
 :root {
   --link-color: #0000EE;
   --visited-link-color: #551A8B;
@@ -17,6 +18,9 @@
 }
 
 .document {
+  /* override pygments */
+  background: var(--document-bg-color);
+
   & img {
     display: block;
     width: 70%;
