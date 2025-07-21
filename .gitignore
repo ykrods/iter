@@ -6,3 +6,5 @@ dist/
 !.vscode/extensions.json
 .idea
 .DS_Store
+
+public/sw.js
