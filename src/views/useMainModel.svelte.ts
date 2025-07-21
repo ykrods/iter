@@ -34,11 +34,15 @@ async function requestPermission(
 export default function useMainModel(idb: IterIDB) {
   let _opened = $state<Opened | undefined>();
   let _projects = $state<Project[]>([]);
+  let _viewType = $state("docs");
+  let _viewArgs = $state({});
 
   return {
     get project() { return _opened?.project },
     get Documents() { return _opened?.Documents },
     get projects() { return _projects },
+    get viewType() { return _viewType },
+    get viewArgs() { return _viewArgs },
     async setup() {
       await this.loadProjects()
     },
@@ -84,6 +88,10 @@ export default function useMainModel(idb: IterIDB) {
     },
     async loadProjects() {
       _projects = await idb.projects.getAll()
+    },
+    show(viewType: string, args: Record<string, string>) {
+      _viewType = viewType;
+      _viewArgs = args;
     },
     addJournal(content: string) {
       const doc: Omit<Doc, "id"> = {
