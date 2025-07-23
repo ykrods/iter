@@ -1,4 +1,5 @@
 import type {
+  AsyncWorkerClient,
   Project,
   IterIDB,
   IterSyncManager,
@@ -7,6 +8,7 @@ import type {
 } from "$src/types";
 
 import { generateId } from "$src/lib/id";
+import rewriteHTML from "$src/lib/rewriteHTML";
 import createSyncManager from "$src/lib/createSyncManager";
 import createDocuments from "$src/lib/doc/createDocuments";
 
@@ -31,7 +33,7 @@ async function requestPermission(
   return result === "granted";
 }
 
-export default function useMainModel(idb: IterIDB) {
+export default function useMainModel(idb: IterIDB, client: AsyncWorkerClient) {
   let _opened = $state<Opened | undefined>();
   let _projects = $state<Project[]>([]);
   let _viewType = $state("docs");
@@ -76,8 +78,6 @@ export default function useMainModel(idb: IterIDB) {
 
       if (_opened) {
         // TODO: dispose
-        // syncManager.dispose();
-        // Documents.dispose();
       }
       _opened = {
         project,
@@ -102,6 +102,28 @@ export default function useMainModel(idb: IterIDB) {
         updatedAt: new Date(),
       }
       _opened?.Documents.insert(doc)
+    },
+    async rst2html(content: string, key: string) {
+      const h = await client.rst2html(content)
+      return rewriteHTML(h, {
+        origin: window.origin,
+        project: _opened.project.id,
+        key,
+      });
+    },
+    openDoc(key: string) {
+      const doc = _opened?.Documents.findOne({ key });
+      if (doc) {
+        this.show("doc", { doc })
+      }
+    },
+    dispose() {
+      // TODO
+      // syncManager.dispose();
+      // Documents.dispose();
+
+      console.log("dispose");
+      client.close();
     }
   }
 }

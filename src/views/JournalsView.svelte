@@ -9,9 +9,11 @@
   let {
     Documents,
     onSelect,
+    onNavigate,
   }: {
     Documents: DocumentsType
     onSelect: (doc: Doc) => void
+    onNavigate: (key: string) => void
   } = $props()
 
   const client = asyncWorkerClient(window.navigator.serviceWorker)
@@ -50,7 +52,7 @@
           <span>ID:{ item.key }</span>
           <FormatDateTime value={ item.createdAt }/>
         {/snippet}
-        <DocViewer {html} onNavigate={(key) => console.log(key)}/>
+        <DocViewer {html} {onNavigate}/>
       </Paper>
     </li>
   {/each}

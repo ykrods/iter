@@ -7,9 +7,17 @@
 
   import { getDB } from "$src/lib/idb";
   import useMainModel from "./useMainModel.svelte";
+  import asyncWorkerClient from "$src/lib/asyncWorkerClient";
 
-  const mainModel = useMainModel(getDB());
+  const mainModel = useMainModel(
+    getDB(),
+    asyncWorkerClient(window.navigator.serviceWorker),
+  );
   mainModel.setup();
+
+  $effect(() => {
+    return () => { mainModel.dispose(); }
+  });
 </script>
 <div>
   <button onclick={() => mainModel.openNewProject()}>open</button>
@@ -19,7 +27,11 @@
     {/each}
   </ul>
   {#if mainModel.viewType === "doc"}
-    <DocView doc={ mainModel.viewArgs.doc }/>
+    <DocView
+      doc={ mainModel.viewArgs.doc }
+      rst2html={ (content, key) => mainModel.rst2html(content, key) }
+      onNavigate={ (key) => mainModel.openDoc(key) }
+    />
   {/if}
   {#if mainModel.project && mainModel.Documents }
     { mainModel.project.id }
@@ -31,6 +43,7 @@
     <JournalsView
       Documents={mainModel.Documents}
       onSelect={(doc) => mainModel.show("doc", { doc })}
+      onNavigate={ (key) => mainModel.openDoc(key) }
     />
     <OrderedList
       Documents={mainModel.Documents}
