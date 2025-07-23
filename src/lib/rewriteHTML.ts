@@ -4,6 +4,16 @@ type RewriteURLOptions = {
   key: string
 }
 
+export function rewriteURL(
+  url: string,
+  options: RewriteURLOptions,
+): string {
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+  return new URL(url, options.origin + '/' + options.key);
+}
+
 export function rewriteImageURL(
   url: string,
   options: RewriteURLOptions,
@@ -30,15 +40,16 @@ export default function rewriteHTML(
   const doc = parser.parseFromString(html, "text/html");
 
   // fix link href
-  // doc.querySelectorAll("a").forEach((e) => {
-  //   const url = rewriteURL(e.getAttribute("href")!, options);
-  //   e.setAttribute("href", url);
-  // });
+  doc.querySelectorAll("a").forEach((e) => {
+    const url = rewriteURL(e.getAttribute("href")!, options);
+    e.setAttribute("href", url);
+  });
 
   // fix image src
   doc.querySelectorAll("img").forEach((e) => {
     const url = rewriteImageURL(e.getAttribute("src")!, options);
     e.setAttribute("src", url);
   });
+
   return doc.body.innerHTML;
 }

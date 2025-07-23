@@ -44,8 +44,7 @@
     }
     if (anchor.pathname) {
       event.preventDefault();
-      // push(anchor.pathname);
-      onNavigate(anchor.pathname);
+      onNavigate(anchor.pathname.substring(1));
     }
   }
 </script>
