@@ -8,9 +8,14 @@ export function rewriteURL(
   url: string,
   options: RewriteURLOptions,
 ): string {
-  if (url.startsWith("http://") || url.startsWith("https://")) {
+  if (
+    url.startsWith("http://")
+      || url.startsWith("https://")
+      || url.startsWith("#")
+  ) {
     return url;
   }
+
   return new URL(url, options.origin + '/' + options.key);
 }
 
