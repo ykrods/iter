@@ -10,9 +10,11 @@
     "build:sw": "vite build --config vite.sw.config.ts",
     "preview": "vite preview",
     "test:unit": "node --test",
+    "test:e2e": "playwright test",
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
   },
   "devDependencies": {
+    "@playwright/test": "1.54.1",
     "@shoelace-style/shoelace": "2.20.1",
     "@signaldb/core": "1.7.0",
     "@signaldb/svelte": "1.1.1",
@@ -23,6 +25,7 @@
     "@types/serviceworker": "0.0.145",
     "@types/wicg-file-system-access": "2023.10.6",
     "mermaid": "11.9.0",
+    "playwright": "1.54.1",
     "pyodide": "0.27.6",
     "rollup-plugin-simple-copy": "github:ykrods/rollup-plugin-simple-copy",
     "svelte": "5.36.12",
