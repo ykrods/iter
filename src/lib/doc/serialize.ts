@@ -3,9 +3,8 @@ import type { Doc } from "$src/types"
 
 export default function serialize(doc: Doc): string {
   const keys: (keyof Doc)[] = [
-    "id",
-    "title",
     "key",
+    "title",
     "createdAt",
     "updatedAt",
   ];
@@ -16,11 +15,7 @@ export default function serialize(doc: Doc): string {
     } else {
       value = doc[key];
     }
-    return `  :it-${key}: ${value}`
+    return `  :it-${key}: ${value}`;
   });
-  return `${doc.content}
-
-.. meta::
-${metaLines.join("\n")}
-`;
+  return doc.content + "\n.. meta::\n" + metaLines.join("\n");
 }

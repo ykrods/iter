@@ -12,7 +12,7 @@ type ParseRstResult = {
  * split meta directive appended by app
  */
 function parseRst(rst: string): ParseRstResult {
-  const pos = rst.lastIndexOf(".. meta::");
+  const pos = rst.lastIndexOf("\n.. meta::");
 
   if (pos === -1) {
     return { content: rst, meta: [] };

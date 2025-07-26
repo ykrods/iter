@@ -9,7 +9,7 @@
     "build": "vite build",
     "build:sw": "vite build --config vite.sw.config.ts",
     "preview": "vite preview",
-    "test:unit": "node --test",
+    "test:unit": "bun test tests/unit",
     "test:e2e": "playwright test",
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
   },
@@ -24,6 +24,7 @@
     "@types/node": "24.0.15",
     "@types/serviceworker": "0.0.145",
     "@types/wicg-file-system-access": "2023.10.6",
+    "dedent": "1.6.0",
     "mermaid": "11.9.0",
     "playwright": "1.54.1",
     "pyodide": "0.27.6",
