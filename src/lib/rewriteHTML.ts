@@ -15,8 +15,9 @@ export function rewriteURL(
   ) {
     return url;
   }
-
-  return new URL(url, options.origin + '/' + options.key);
+  const { origin, project, key } = options;
+  const r = new URL(url, [origin, project, key].join("/"));
+  return r.pathname;
 }
 
 export function rewriteImageURL(
@@ -26,15 +27,15 @@ export function rewriteImageURL(
   if (url.startsWith("http://") || url.startsWith("https://")) {
     return url;
   }
-  const { origin, project, key } = options
-  const baseURL = `${origin}/raw/${project}/${key}`;
+  const { origin, project, key } = options;
+  const baseURL = [origin, "raw", project, key].join("/");
 
   if (url.startsWith("/")) {
     const r = new URL(`/raw/${project}${url}`, baseURL);
-    return r.toString();
+    return r.pathname;
   }
   const r = new URL(url, baseURL);
-  return r.toString();
+  return r.pathname;
 }
 
 export default function rewriteHTML(

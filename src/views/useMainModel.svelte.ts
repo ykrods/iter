@@ -7,7 +7,7 @@ import type {
   Doc,
 } from "$src/types";
 
-import { generateId } from "$src/lib/id";
+import generateId from "$src/lib/generateId";
 import rewriteHTML from "$src/lib/rewriteHTML";
 import createSyncManager from "$src/lib/createSyncManager";
 import createDocuments from "$src/lib/doc/createDocuments";
@@ -111,7 +111,8 @@ export default function useMainModel(idb: IterIDB, client: AsyncWorkerClient) {
         key,
       });
     },
-    openDoc(key: string) {
+    openDoc(path: string) {
+      const key = path.substring(_opened.project.id.length + 2);
       const doc = _opened?.Documents.findOne({ key });
       if (doc) {
         this.show("doc", { doc })

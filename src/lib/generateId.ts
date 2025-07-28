@@ -35,7 +35,7 @@ function b32encode(value: number, size = 0) {
   return enc.toReversed().join("");
 }
 
-export function generateId() {
+export default function generateId() {
   const ts = getTimestamp();
   const rand = getRandomValue();
   return b32encode(ts, 35) + b32encode(rand, 25);
