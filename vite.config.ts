@@ -1,6 +1,7 @@
 import path from "node:path"
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
+import tailwindcss from '@tailwindcss/vite'
 import copy from "rollup-plugin-simple-copy/vite"
 
 import spawn from "./vite-plugin-spawn"
@@ -13,6 +14,7 @@ export default defineConfig({
     ],
   },
   plugins: [
+    tailwindcss(),
     svelte(),
     spawn("npm", ["run", "build:sw", "--", "--watch"]),
     copy({
