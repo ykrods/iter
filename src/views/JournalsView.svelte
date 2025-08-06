@@ -6,6 +6,11 @@
   import FormatDateTime from "$src/ui/presentations/FormatDateTime.svelte";
   import asyncWorkerClient from "$src/lib/asyncWorkerClient";
 
+  type Item = {
+    html: string
+    item: Doc
+  };
+
   let {
     Documents,
     onSelect,
@@ -18,7 +23,7 @@
 
   const client = asyncWorkerClient(window.navigator.serviceWorker)
 
-  let items = $state([])
+  let items = $state<Item[]>([])
 
   $effect(() => {
     const cursor = Documents.find({ key: /^journals\// });
@@ -46,10 +51,12 @@
 <h2>journals</h2>
 <ul class="journal-items">
   {#each items as { html, item } }
-    <li onclick={() => onSelect(item)}>
+    <li>
       <Paper>
         {#snippet meta()}
-          <span>ID:{ item.key }</span>
+          <button class="btn btn-sm btn-ghost" onclick={() => onSelect(item)}>
+            ID:{ item.key }
+          </button>
           <FormatDateTime value={ item.createdAt }/>
         {/snippet}
         <DocViewer {html} {onNavigate}/>

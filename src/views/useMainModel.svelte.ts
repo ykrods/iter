@@ -12,6 +12,11 @@ import rewriteHTML from "$src/lib/rewriteHTML";
 import createSyncManager from "$src/lib/createSyncManager";
 import createDocuments from "$src/lib/doc/createDocuments";
 
+type Routes = 
+  | { name: "docs" }
+  | { name: "journals" }
+  | { name: "decisions"}
+  | { name: "doc", doc: Doc };
 
 type Opened = {
   project: Project,
@@ -36,15 +41,14 @@ async function requestPermission(
 export default function useMainModel(idb: IterIDB, client: AsyncWorkerClient) {
   let _opened = $state<Opened | undefined>();
   let _projects = $state<Project[]>([]);
-  let _viewType = $state("docs");
-  let _viewArgs = $state({});
+  let _route: Routes = $state({ name: "docs" });
 
   return {
     get project() { return _opened?.project },
     get Documents() { return _opened?.Documents },
     get projects() { return _projects },
-    get viewType() { return _viewType },
-    get viewArgs() { return _viewArgs },
+    get route() { return _route },
+
     async setup() {
       await this.loadProjects()
     },
@@ -89,9 +93,8 @@ export default function useMainModel(idb: IterIDB, client: AsyncWorkerClient) {
     async loadProjects() {
       _projects = await idb.projects.getAll()
     },
-    show(viewType: string, args: Record<string, string>) {
-      _viewType = viewType;
-      _viewArgs = args;
+    show(route: Routes) {
+      _route = route;
     },
     addJournal(content: string) {
       const doc: Omit<Doc, "id"> = {
@@ -104,6 +107,9 @@ export default function useMainModel(idb: IterIDB, client: AsyncWorkerClient) {
       _opened?.Documents.insert(doc)
     },
     async rst2html(content: string, key: string) {
+      if (!_opened) {
+        return ""
+      }
       const h = await client.rst2html(content)
       return rewriteHTML(h, {
         origin: window.origin,
@@ -112,10 +118,13 @@ export default function useMainModel(idb: IterIDB, client: AsyncWorkerClient) {
       });
     },
     openDoc(path: string) {
+      if (!_opened) {
+        return;
+      }
       const key = path.substring(_opened.project.id.length + 2);
-      const doc = _opened?.Documents.findOne({ key });
+      const doc = _opened.Documents.findOne({ key });
       if (doc) {
-        this.show("doc", { doc })
+        this.show({ name: "doc",  doc })
       }
     },
     dispose() {

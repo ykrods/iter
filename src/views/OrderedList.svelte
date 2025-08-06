@@ -14,6 +14,6 @@
 <h2>decisions</h2>
 <ul>
   {#each items as item }
-    <li onclick={() => onSelect(item)}>{ item.key } { item.title }</li>
+    <li><button onclick={() => onSelect(item)}>{ item.key } { item.title }</button></li>
   {/each}
 </ul>

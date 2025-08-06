@@ -28,6 +28,7 @@
   }
 
   & pre.code, & pre.literal-block {
+    margin-block: 1em;
     border: 1px solid #888;
     border-radius: 5px;
     padding: 20px;
@@ -37,12 +38,27 @@
   & a.reference {
     color: var(--link-color);
     text-decoration: underline;
+    word-break: break-all;
   }
   & a.reference:visited {
     color: var(--visited-link-color);
     text-decoration: underline;
   }
-
+  & h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-block: 0.83em;
+  }
+  & ul {
+    margin-block: 1em;
+    list-style-type: circle;
+    padding-inline-start: 40px;
+  }
+  & ol {
+    margin-block: 1em;
+    list-style-type: decimal;
+    padding-inline-start: 40px;
+  }
   /* list item */
   & li > p {
     margin: 3px;
