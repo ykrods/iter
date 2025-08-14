@@ -14,7 +14,8 @@ import createSyncManager from "$src/lib/createSyncManager";
 import createDocuments from "$src/lib/doc/createDocuments";
 
 // FIXME: | { name: "doc", doc: Doc }
-type Routes = { name: string, doc?: Doc }
+type Routes = { name: string, doc?: Doc };
+
 
 type Opened = {
   project: Project,
@@ -35,6 +36,50 @@ async function requestPermission(
   const result = await handle.requestPermission({ mode: "readwrite" });
   return result === "granted";
 }
+
+function createDocBuilder(
+  Documents: DocumentsType,
+  client: AsyncWorkerClient
+) {
+  const generateKey: (shelf: Shelf, inputName: string) => string = (shelf, inputName) => {
+    if (shelf.type === "note") {
+      return `${shelf.name}/${generateId()}.rst`;
+    }
+    if (shelf.type === "folder") {
+      return `${shelf.name}/${inputName}.rst`;
+    }
+    if (shelf.type === "serial") {
+      const last = Documents.findOne({ key: new RegExp(`^${shelf.name}/[0-9]{3}.rst$`) }, { sort: { key: -1 } })
+      const n = last
+        ? parseInt(last.key.substring(shelf.name.length + 1, shelf.name.length + 4)) + 1
+        : 1;
+
+      return `${shelf.name}/${n.toString().padStart(3, "0")}.rst`;
+    }
+    throw new Error("unexpected")
+  };
+
+  return {
+    async build(
+      shelf: Shelf,
+      content: string,
+      inputName: string
+    ): Promise<Omit<Doc, "id">> {
+      // TODO: fix api
+      const { title, html } = await client.rst2html(content);
+
+      const doc: Omit<Doc, "id"> = {
+        key: generateKey(shelf, inputName),
+        title: title ?? '',
+        content,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
+      return doc;
+    },
+  }
+}
+
 
 export default function useMainModel(idb: IterIDB, client: AsyncWorkerClient) {
   let _opened = $state<Opened | undefined>();
@@ -104,22 +149,19 @@ export default function useMainModel(idb: IterIDB, client: AsyncWorkerClient) {
     show(route: Routes) {
       _route = route;
     },
-    addJournal(content: string) {
-      const doc: Omit<Doc, "id"> = {
-        key: `journals/${generateId()}.rst`,
-        title: "",
-        content,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+    async saveDoc(shelf: Shelf, content: string, inputName: string) {
+      if (_opened) {
+        const builder = createDocBuilder(_opened.Documents, client);
+        const doc = await builder.build(shelf, content, inputName);
+        _opened?.Documents.insert(doc)
       }
-      _opened?.Documents.insert(doc)
     },
     async rst2html(content: string, key: string) {
       if (!_opened) {
         return ""
       }
-      const h = await client.rst2html(content)
-      return rewriteHTML(h, {
+      const { html } = await client.rst2html(content)
+      return rewriteHTML(html, {
         origin: window.origin,
         project: _opened.project.id,
         key,

@@ -4,7 +4,7 @@
   import NoteListView from "./NoteListView.svelte";
   import SerialListView from "./SerialListView.svelte";
   import DocView from "./DocView.svelte";
-  import AddJournal from "./AddJournal.svelte";
+  import CreateDocDialog from "./main/CreateDocDialog.svelte";
 
   import { getDB } from "$src/lib/idb";
   import useMainModel from "./useMainModel.svelte";
@@ -16,6 +16,8 @@
     asyncWorkerClient(window.navigator.serviceWorker),
   );
   mainModel.setup();
+
+  let openCreateDocDialogs: Record<string, boolean> = $state({});
 
   $effect(() => {
     return () => { mainModel.dispose(); }
@@ -51,7 +53,6 @@
       ></SerialListView>
     {/if}
   </div>
-
   <div class="drawer-side">
     <div class="min-h-full w-80 p-4">
       <Header
@@ -64,13 +65,14 @@
       {#if mainModel.project }
         <ul class="menu text-base-content w-auto">
           {#each mainModel.project.shelves as shelf}
-             <li class="flex flex-row items-center group">
+            <li class="flex flex-row items-center group">
               <button
                 class="flex-1"
                 onclick={() => mainModel.show({ name: shelf.name })}
                 >{ shelf.name }</button>
               <button
                 class="flex-none btn btn-sm btn-ghost opacity-0 group-hover:opacity-100"
+                onclick={() => openCreateDocDialogs[shelf.name] = true}
               >+</button>
             </li>
           {/each}
@@ -79,3 +81,13 @@
     </div>
   </div>
 </div>
+{#if mainModel.project}
+  {#each mainModel.project.shelves as shelf}
+    <CreateDocDialog
+      bind:open={() => openCreateDocDialogs[shelf.name] || false, (v) => openCreateDocDialogs[shelf.name] = v}
+      {shelf}
+      rst2html={(content, key) => mainModel.rst2html(content, key)}
+      onSave={(content, key) => mainModel.saveDoc(shelf, content, key)}
+      ></CreateDocDialog>
+  {/each}
+{/if}

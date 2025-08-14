@@ -36,7 +36,7 @@
       // warm up
       client.rst2html("* foo").then(() => {
         Promise.all(i.map(async (item) => {
-          const html = await client.rst2html(item.content);
+          const { html } = await client.rst2html(item.content);
           return { html, item }
         })).then(ret => { items = ret; });
       });

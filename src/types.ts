@@ -42,6 +42,6 @@ export type IterSyncManager = SyncManager<
   string
 >
 export interface AsyncWorkerClient {
-  rst2html(rst: string): Promise<string>
+  rst2html(rst: string): Promise<{ title: string, html: string}>
   close(): void
 }

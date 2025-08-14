@@ -13,7 +13,7 @@ export default function asyncWorkerClient(
   const clientId = generateId();
   let count = 0;
 
-  function asyncMessage(_type: string, ...args: any[]) {
+  function asyncMessage<T>(_type: string, ...args: any[]): T {
     const _id = `id:${(new Date()).getTime()}-${clientId}-${count++}`;
     pool[_id] = Promise.withResolvers();
 
@@ -43,7 +43,7 @@ export default function asyncWorkerClient(
 
   return {
     rst2html: async (rst: string) => {
-      return asyncMessage("rst2html", rst);
+      return asyncMessage<{ title: string, html: string }>("rst2html", rst);
     },
     close() {
       worker.removeEventListener("message", onMessage);
