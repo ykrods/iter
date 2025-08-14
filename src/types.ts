@@ -2,10 +2,16 @@ import type { Collection } from "@signaldb/core";
 import type { SyncManager } from "@signaldb/sync";
 
 
+export interface Shelf {
+  type: "folder" | "note" | "serial"
+  name: string
+}
+
 export type Project = {
   id: string
   handle: FileSystemDirectoryHandle
   openedAt: Date
+  shelves: Shelf[]
 }
 
 export interface IterIDB {

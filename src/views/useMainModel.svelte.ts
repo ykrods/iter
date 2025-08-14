@@ -3,8 +3,9 @@ import type {
   Project,
   IterIDB,
   IterSyncManager,
-  Documents,
+  Documents as DocumentsType,
   Doc,
+  Shelf,
 } from "$src/types";
 
 import generateId from "$src/lib/generateId";
@@ -12,16 +13,13 @@ import rewriteHTML from "$src/lib/rewriteHTML";
 import createSyncManager from "$src/lib/createSyncManager";
 import createDocuments from "$src/lib/doc/createDocuments";
 
-type Routes = 
-  | { name: "docs" }
-  | { name: "journals" }
-  | { name: "decisions"}
-  | { name: "doc", doc: Doc };
+// FIXME: | { name: "doc", doc: Doc }
+type Routes = { name: string, doc?: Doc }
 
 type Opened = {
   project: Project,
   syncManager: IterSyncManager,
-  Documents: Documents,
+  Documents: DocumentsType,
 }
 
 async function getGranted(
@@ -48,7 +46,12 @@ export default function useMainModel(idb: IterIDB, client: AsyncWorkerClient) {
     get Documents() { return _opened?.Documents },
     get projects() { return _projects },
     get route() { return _route },
+    get routeShelf() {
+      if (!_route || !_opened)
+        return undefined;
 
+      return _opened.project.shelves.find(o => o.name === _route.name);
+    },
     async setup() {
       await this.loadProjects()
     },
@@ -67,6 +70,11 @@ export default function useMainModel(idb: IterIDB, client: AsyncWorkerClient) {
         id: handle.name,
         handle,
         openedAt: new Date(),
+        shelves: [
+          { name: "docs", type: "folder" },
+          { name: "journals", type: "note" },
+          { name: "decisions", type: "serial" },
+        ],
       };
       await idb.projects.put(project);
       await this.openProject(project);
@@ -115,6 +123,14 @@ export default function useMainModel(idb: IterIDB, client: AsyncWorkerClient) {
         origin: window.origin,
         project: _opened.project.id,
         key,
+      });
+    },
+    getCursor() {
+      const shelf = this.routeShelf;
+      if (!shelf || !_opened) throw new Error("unexpected");
+
+      return _opened.Documents.find({
+        key: new RegExp(`^${shelf.name}/`)
       });
     },
     openDoc(path: string) {

@@ -1,5 +1,6 @@
 <script lang="ts">
-  import type { Doc, Documents as DocumentsType } from "$src/types";
+  import type { Cursor } from "@signaldb/core";
+  import type { Shelf, Doc } from "$src/types";
 
   import DocViewer from "$src/ui/DocViewer.svelte";
   import Paper from "$src/ui/presentations/Paper.svelte";
@@ -12,11 +13,13 @@
   };
 
   let {
-    Documents,
+    shelf,
+    getCursor,
     onSelect,
     onNavigate,
   }: {
-    Documents: DocumentsType
+    shelf: Shelf
+    getCursor: () => Cursor<Doc, Doc>
     onSelect: (doc: Doc) => void
     onNavigate: (key: string) => void
   } = $props()
@@ -26,14 +29,14 @@
   let items = $state<Item[]>([])
 
   $effect(() => {
-    const cursor = Documents.find({ key: /^journals\// });
+    const cursor = getCursor();
 
     $effect(() => {
       const i = cursor.fetch()
       // warm up
       client.rst2html("* foo").then(() => {
         Promise.all(i.map(async (item) => {
-          const html = await client.rst2html(item.content)
+          const html = await client.rst2html(item.content);
           return { html, item }
         })).then(ret => { items = ret; });
       });
@@ -48,10 +51,10 @@
     return () => client.close()
   });
 </script>
-<h2>journals</h2>
-<ul class="journal-items">
+<h2>{ shelf.name }</h2>
+<ul>
   {#each items as { html, item } }
-    <li>
+    <li class="mt-5">
       <Paper>
         {#snippet meta()}
           <button class="btn btn-sm btn-ghost" onclick={() => onSelect(item)}>
@@ -64,17 +67,3 @@
     </li>
   {/each}
 </ul>
-<style>
-  ul.journal-items {
-    padding-left: 0;
-    margin: 0;
-
-    & > li {
-      list-style: none;
-
-      &:nth-child(n+2) {
-        margin-top: 20px;
-      }
-    }
-  }
-</style>
