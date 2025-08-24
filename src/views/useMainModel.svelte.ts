@@ -85,6 +85,8 @@ export default function useMainModel(idb: IterIDB, client: AsyncWorkerClient) {
   let _opened = $state<Opened | undefined>();
   let _projects = $state<Project[]>([]);
   let _route: Routes = $state({ name: "docs" });
+  let _editingDoc = $state<Doc | undefined>();
+  let _openEditDocDialog  = $state(false)
 
   return {
     get project() { return _opened?.project },
@@ -97,6 +99,9 @@ export default function useMainModel(idb: IterIDB, client: AsyncWorkerClient) {
 
       return _opened.project.shelves.find(o => o.name === _route.name);
     },
+    get editingDoc() { return _editingDoc; },
+    get openEditDocDialog() { return _openEditDocDialog },
+    set openEditDocDialog(v: boolean) { _openEditDocDialog = v },
     async setup() {
       await this.loadProjects()
     },
@@ -156,6 +161,11 @@ export default function useMainModel(idb: IterIDB, client: AsyncWorkerClient) {
         _opened?.Documents.insert(doc)
       }
     },
+    async updateDoc(doc: Doc, updates) {
+      if (_opened) {
+        _opened.Documents.updateOne(doc, { $set: updates });
+      }
+    },
     async rst2html(content: string, key: string) {
       if (!_opened) {
         return ""
@@ -184,6 +194,13 @@ export default function useMainModel(idb: IterIDB, client: AsyncWorkerClient) {
       if (doc) {
         this.show({ name: "doc",  doc })
       }
+    },
+    showEditDocDialog(doc: Doc) {
+      _editingDoc = doc;
+      _openEditDocDialog = true;
+    },
+    deleteDoc(doc: Doc) {
+      _opened?.Documents.removeOne({ id: doc.id });
     },
     dispose() {
       // TODO

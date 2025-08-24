@@ -6,6 +6,7 @@ import walk from "./fs/walk"
 import deserialize from "./doc/deserialize"
 import serialize from "./doc/serialize"
 import saveFile from "./fs/saveFile"
+import deleteFile from "./fs/deleteFile"
 
 export default function createSyncManager(
   id: string,
@@ -47,10 +48,13 @@ export default function createSyncManager(
           await saveFile(directoryHandle, doc.key, text)
         }))
         await Promise.all(changes.modified.map(async (item) => {
-          console.log(item)
+          const doc: Doc = item as Doc;
+          const text = serialize(doc);
+          await saveFile(directoryHandle, doc.key, text)
         }))
         await Promise.all(changes.removed.map(async (item) => {
-          console.log(item)
+          const doc: Doc = item as Doc;
+          await deleteFile(directoryHandle, doc.key);
         }))
       }
     }

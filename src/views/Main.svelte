@@ -5,6 +5,7 @@
   import SerialListView from "./SerialListView.svelte";
   import DocView from "./DocView.svelte";
   import CreateDocDialog from "./main/CreateDocDialog.svelte";
+  import EditDocDialog from "./main/EditDocDialog.svelte";
 
   import { getDB } from "$src/lib/idb";
   import useMainModel from "./useMainModel.svelte";
@@ -28,9 +29,12 @@
   <div class="drawer-content p-2">
     {#if mainModel.route.name === "doc" && mainModel.route.doc }
       <DocView
-        doc={ mainModel.route.doc }
-        rst2html={ (content, key) => mainModel.rst2html(content, key) }
-        onNavigate={ (key) => mainModel.openDoc(key) }
+        docKey={ mainModel.route.doc.key }
+        getCursor={(key) => mainModel.Documents.findOne({ key })}
+        rst2html={(content, key) => mainModel.rst2html(content, key)}
+        onNavigate={(key) => mainModel.openDoc(key)}
+        onEditClick={(doc) => mainModel.showEditDocDialog(doc)}
+        onDeleteClick={(doc) => mainModel.deleteDoc(doc)}
       ></DocView>
     {:else if mainModel.routeShelf?.type === "folder" }
       <FolderView
@@ -90,4 +94,12 @@
       onSave={(content, key) => mainModel.saveDoc(shelf, content, key)}
       ></CreateDocDialog>
   {/each}
+  {#if mainModel.editingDoc }
+    <EditDocDialog
+      bind:open={() => mainModel.openEditDocDialog, v => mainModel.openEditDocDialog = v}
+      doc={mainModel.editingDoc}
+      rst2html={(content, key) => mainModel.rst2html(content, key)}
+      onSave={(doc, updates) => mainModel.updateDoc(doc, updates)}
+    ></EditDocDialog>
+  {/if}
 {/if}
