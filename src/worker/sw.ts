@@ -24,8 +24,8 @@ let pyodideReadyPromise = (async () => {
 
   // TODO: serve wheel files
   await pyodide.loadPackage([
-    "https://cdn.jsdelivr.net/pyodide/v0.27.5/full/docutils-0.21.1-py3-none-any.whl",
-    "https://cdn.jsdelivr.net/pyodide/v0.27.5/full/pygments-2.17.2-py3-none-any.whl"
+    "https://cdn.jsdelivr.net/pyodide/v0.28.2/full/docutils-0.21.2-py3-none-any.whl",
+    "https://cdn.jsdelivr.net/pyodide/v0.28.2/full/pygments-2.19.1-py3-none-any.whl",
   ]);
 
   const oneShotRun = (code: string) => {
