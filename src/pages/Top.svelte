@@ -32,7 +32,7 @@
 </script>
 <ul>
   {#each projects as project}
-    <li><a use:link href={`/${project.id}/`}>{ project.id }</li>
+    <li><a use:link href="/{project.id}/">{ project.id }</a></li>
   {/each}
 </ul>
 <div>

@@ -6,7 +6,7 @@ import walk from "./fs/walk"
 import buildDoc from "./doc/buildDoc"
 
 
-function createSyncManager(
+export default function createSyncManager(
   id: string,
   directoryHandle: FileSystemDirectoryHandle
 ): IterSyncManager {
@@ -49,5 +49,3 @@ function createSyncManager(
     }
   })
 }
-
-export default createSyncManager

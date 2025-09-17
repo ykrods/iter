@@ -5,7 +5,7 @@ import svelteReactivityAdapter from "@signaldb/svelte";
 
 import { generateId } from "$src/lib/id";
 
-export function createDocuments(): Documents {
+export default function createDocuments(): Documents {
   return new Collection<Doc, string>({
     reactivity: svelteReactivityAdapter,
     primaryKeyGenerator: () => generateId(),
