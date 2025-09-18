@@ -1,22 +1,10 @@
 <script lang="ts">
-  import type useAppState from "$src/useAppState.svelte";
+  import EnsureWorkspaceAvailable from "$src/layout/EnsureWorkspaceAvailable.svelte";
 
-  let {
-    appState
-  }: {
-    appState: ReturnType<typeof useAppState>
-  } = $props()
-
-  let items = $derived(appState.workspace?.Documents.find({}).fetch() ?? []);
+  import Main from "./main/Main.svelte";
 </script>
-<div>
-  {#if appState.workspace }
-    <ul>
-      {#each items as item}
-        <li>{ item.key }</li>
-      {/each}
-    </ul>
-  {:else}
-    permission required <button onclick={() => appState.requestAccessPermission()}>grant</button>
-  {/if}
-</div>
+<EnsureWorkspaceAvailable>
+  {#snippet children(workspace)}
+    <Main {workspace}></Main>
+  {/snippet}
+</EnsureWorkspaceAvailable>

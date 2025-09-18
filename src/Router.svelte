@@ -1,9 +1,9 @@
 <script lang="ts">
   import type { Route } from "svelte-spa-history-router";
-
   import type { IterIDB } from "$src/types";
   import type Main from "$src/pages/Main.svelte";
 
+  import { setContext } from "svelte";
   import { Router, redirect } from "svelte-spa-history-router";
   import Top from "./pages/Top.svelte";
   import NotFound from "./pages/NotFound.svelte";
@@ -11,12 +11,13 @@
   import useAppState from "./useAppState.svelte";
 
   const appState = useAppState(getDB());
+  setContext("appState", appState);
 
   async function mainResolver(params: Record<string, string>) {
     const component = (await import("./pages/Main.svelte")).default
     try {
       await appState.openProject(params.projectId);
-      return { component, props: { appState }};
+      return { component, props: {} };
     } catch(e) {
       return redirect("/");
     }
