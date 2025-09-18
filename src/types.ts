@@ -36,6 +36,13 @@ export type IterSyncManager = SyncManager<
   CollectionItemBase,
   string
 >
+
+export type Workspace = {
+  project: Project,
+  syncManager: IterSyncManager,
+  Documents: Documents,
+}
+
 export interface AsyncWorkerClient {
   rst2html(rst: string): Promise<string>
   close(): void
