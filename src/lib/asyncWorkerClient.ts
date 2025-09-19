@@ -1,12 +1,20 @@
 import type { AsyncWorkerClient } from "$src/types"
 
+function generateId(): string {
+  const ary = new Uint32Array(1);
+  crypto.getRandomValues(ary);
+  return ary[0].toString(16);
+}
+
 export default function asyncWorkerClient(
   worker: ServiceWorkerContainer
 ): AsyncWorkerClient {
   const pool: Record<string, any> = {};
+  const clientId = generateId();
+  let count = 0;
 
-  function asyncMessage(_type: string, ...args: any[]) {
-    const _id = 'id' + (new Date()).getTime() + Math.floor(Math.random() * 1023).toString(16);
+  function asyncMessage<T>(_type: string, ...args: any[]): T {
+    const _id = `id:${(new Date()).getTime()}-${clientId}-${count++}`;
     pool[_id] = Promise.withResolvers();
 
     worker.controller?.postMessage({ _type, args, _id });
@@ -35,7 +43,7 @@ export default function asyncWorkerClient(
 
   return {
     rst2html: async (rst: string) => {
-      return asyncMessage("rst2html", rst);
+      return asyncMessage<{ title: string, html: string }>("rst2html", rst);
     },
     close() {
       worker.removeEventListener("message", onMessage);

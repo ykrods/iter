@@ -3,16 +3,16 @@
 
   import mermaid from "mermaid";
 
-  import "$src/styles/viewer.css";
   import "$src/styles/docutils-0.21.2/math.css";
   import "$src/styles/pygments-2.19.1/default.css";
+  import "$src/styles/viewer.css";
 
   let {
     html,
     onNavigate,
   } : {
     html: string
-    onNavigate: (string) => any
+    onNavigate: (path: string) => any
   } = $props();
 
   mermaid.initialize({ startOnLoad: false });
