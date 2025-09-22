@@ -1,5 +1,5 @@
 <script lang="ts">
-  import EnsureWorkspaceAvailable from "$src/layout/EnsureWorkspaceAvailable.svelte";
+  import EnsureWorkspaceAvailable from "$src/components/EnsureWorkspaceAvailable.svelte";
 
   import Main from "./main/Main.svelte";
 </script>

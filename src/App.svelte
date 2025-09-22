@@ -1,6 +1,6 @@
 <script lang="ts">
-  import EnsureFileSystemAccessAPI from "./EnsureFileSystemAccessAPI.svelte";
-  import EnsureServiceWorker from "./EnsureServiceWorker.svelte";
+  import EnsureFileSystemAccessAPI from "./components/EnsureFileSystemAccessAPI.svelte";
+  import EnsureServiceWorker from "./components/EnsureServiceWorker.svelte";
   import { SLApp } from "$src/ui/shoelace";
   import Router from "./Router.svelte";
 </script>
