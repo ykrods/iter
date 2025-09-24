@@ -42,6 +42,11 @@ export type Workspace = {
   Documents: Documents,
 }
 
+export interface Shelf {
+  type: "folder" | "note" | "serial"
+  name: string
+}
+
 export interface AsyncWorkerClient {
   rst2html(rst: string): Promise<{ title: string, html: string}>
   close(): void

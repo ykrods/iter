@@ -28,7 +28,7 @@
     const component = (await import("./pages/Document.svelte")).default
     try {
       await appState.openProject(params.projectId);
-      const Documents = appState.workspace.Documents;
+      const Documents = appState.workspace!.Documents;
       return {
         component,
         props: {
