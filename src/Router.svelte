@@ -2,6 +2,7 @@
   import type { Route } from "svelte-spa-history-router";
   import type { IterIDB } from "$src/types";
   import type Main from "$src/pages/Main.svelte";
+  import type ShelfPage from "$src/pages/Shelf.svelte";
   import type Document from "$src/pages/Document.svelte";
 
   import { setContext } from "svelte";
@@ -19,6 +20,19 @@
     try {
       await appState.openProject(params.projectId);
       return { component, props: {} };
+    } catch(e) {
+      return redirect("/");
+    }
+  }
+
+  async function shelfResolver(params: Record<string, string>) {
+    const component = (await import("./pages/Shelf.svelte")).default
+    try {
+      await appState.openProject(params.projectId);
+      const shelf = appState.workspace!.shelves.find(o => o.name === params.shelfName );
+      if (!shelf) { return redirect("/") }
+
+      return { component, props: { shelf } };
     } catch(e) {
       return redirect("/");
     }
@@ -45,6 +59,7 @@
   type Routes = [
     Route<typeof Top>,
     Route<typeof Main>,
+    Route<typeof ShelfPage>,
     Route<typeof Document>,
     Route<typeof NotFound>,
   ];
@@ -54,6 +69,10 @@
     {
       path: "/(?<projectId>([^/]|\S)+)/",
       resolver: mainResolver,
+    },
+    {
+      path: "/(?<projectId>([^/]|\S)+)/(?<shelfName>.+)/",
+      resolver: shelfResolver,
     },
     {
       path: "/(?<projectId>([^/]|\S)+)/(?<key>.+\.rst)",

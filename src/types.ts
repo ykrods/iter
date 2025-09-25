@@ -40,6 +40,7 @@ export type Workspace = {
   project: Project,
   syncManager: IterSyncManager,
   Documents: Documents,
+  shelves: Shelf[],
 }
 
 export interface Shelf {

@@ -29,7 +29,14 @@ function createWorkspace(project: Project): Workspace {
     name: "documents",
   });
   syncManager.syncAll()
-  return { project, syncManager, Documents }
+
+  const shelves = [
+    { type: "folder", name: "docs" },
+    { type: "note", name: "journals" },
+    { type: "serial", name: "decisions" },
+  ];
+
+  return { project, syncManager, Documents, shelves }
 }
 
 export default function useAppState(idb: IterIDB) {

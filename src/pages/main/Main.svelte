@@ -16,14 +16,11 @@
   );
 
   let openCreateDocDialogs: Record<string, boolean> = $state({});
-
-  let items = $derived(workspace.Documents.find({}).fetch());
-
 </script>
 <main>
   <ul>
-    {#each items as item}
-      <li><a use:link href="/{workspace.project.id}/{ item.key }">{ item.key } {item.title}</a></li>
+    {#each mainModel.shelves as shelf}
+      <li><a use:link href="/{workspace.project.id}/{shelf.name}/">{ shelf.name }</a></li>
     {/each}
   </ul>
   {#each mainModel.shelves as shelf}

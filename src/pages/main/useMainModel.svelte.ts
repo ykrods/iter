@@ -52,13 +52,7 @@ export default function useMainModel(
 ) {
   return {
     get Documents() { return workspace.Documents },
-    get shelves(): Shelf[] {
-      return [
-        { type: "folder", name: "docs" },
-        { type: "note", name: "journals" },
-        { type: "serial", name: "decisions" },
-      ];
-    },
+    get shelves(): Shelf[] { return workspace.shelves },
     async save(shelf: Shelf, key: string, content: string) {
       const builder = createDocBuilder(
         workspace.Documents,
