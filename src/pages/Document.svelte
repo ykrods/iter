@@ -5,6 +5,9 @@
   import asyncWorkerClient from "$src/lib/asyncWorkerClient";
   import rewriteHTML from "$src/lib/rewriteHTML";
   import DocViewer from "$src/ui/DocViewer.svelte";
+  import Paper from "$src/ui/Paper.svelte";
+  import FormatDateTime from "$src/ui/FormatDateTime.svelte";
+
 
   let {
     // FIXME: temporary variable for rewriteHTML
@@ -45,5 +48,13 @@
   <title>{ title }</title>
 </svelte:head>
 <main>
-  <DocViewer {html} onNavigate={(path) => push(path)}></DocViewer>
+  {#if html !== ""}
+    <Paper>
+      {#snippet meta()}
+        <span>ID:{ doc.key }</span>
+        <FormatDateTime value={ doc.createdAt }/>
+      {/snippet}
+      <DocViewer {html} onNavigate={(path) => push(path)}></DocViewer>
+    </Paper>
+  {/if}
 </main>

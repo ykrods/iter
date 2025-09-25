@@ -1,7 +1,10 @@
 :root {
-  --document-bg-color: #FFF;
+  --bg-color: #eceff1;
+  --document-bg-color: #f8f8f8;
 }
 
 body {
-  margin: 0;
+  margin: 20px; /* temp */
+  /* background-color: var(--sl-color-neutral-0); */
+  background-color: var(--bg-color);
 }

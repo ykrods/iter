@@ -5,6 +5,9 @@
   import { link, push } from "svelte-spa-history-router";
   import asyncWorkerClient from "$src/lib/asyncWorkerClient";
   import DocViewer from "$src/ui/DocViewer.svelte";
+  import Paper from "$src/ui/Paper.svelte";
+  import FormatDateTime from "$src/ui/FormatDateTime.svelte";
+
 
   type Item = {
     html: string
@@ -45,9 +48,25 @@
   <ul>
     {#each items as { item, html }}
       <li>
-        <a use:link href={docUrl(item)}>{ item.key }</a>
-        <DocViewer {html} onNavigate={(path) => push(path)}></DocViewer>
+        <Paper>
+          {#snippet meta()}
+            <a use:link href={docUrl(item)}>ID:{ item.key }</a>
+            <FormatDateTime value={ item.createdAt }/>
+          {/snippet}
+          <DocViewer {html} onNavigate={(path) => push(path)}></DocViewer>
+        </Paper>
+
       </li>
     {/each}
   </ul>
 </main>
+<style>
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    margin-bottom: 10px;
+  }
+</style>
