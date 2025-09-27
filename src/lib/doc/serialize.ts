@@ -15,7 +15,10 @@ export default function serialize(doc: Doc): string {
     } else {
       value = doc[key];
     }
+    if (value === "") {
+      return `  :it-${key}:`;
+    }
     return `  :it-${key}: ${value}`;
   });
-  return doc.content + "\n.. meta::\n" + metaLines.join("\n");
+  return doc.content + "\n\n.. meta::\n" + metaLines.join("\n");
 }

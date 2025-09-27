@@ -21,6 +21,7 @@ describe("deserialize", () => {
     foo
     =====
 
+
     .. meta::
       :it-key: foo-key
       :it-createdAt: 946684800000
