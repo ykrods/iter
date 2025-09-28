@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Route } from "svelte-spa-history-router";
-  import type { IterIDB } from "$src/types";
+  import type { Doc, Updates } from "$src/types";
   import type Main from "$src/pages/Main.svelte";
   import type ShelfPage from "$src/pages/Shelf.svelte";
   import type Document from "$src/pages/Document.svelte";
@@ -48,7 +48,9 @@
         props: {
           projectId: params.projectId,
           key: params.key,
-          getCursor: () => Documents.findOne({ key: params.key })
+          getCursor: () => Documents.findOne({ key: params.key }),
+          onUpdate: (doc: Doc, updates: Updates<Doc>) => Documents.updateOne(doc, { $set: updates }),
+          onDelete: (key: string) => Documents.removeOne({ key }),
         },
       };
     } catch(e) {

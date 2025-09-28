@@ -52,3 +52,5 @@ export interface AsyncWorkerClient {
   rst2html(rst: string): Promise<{ title: string, html: string}>
   close(): void
 }
+
+export type Updates<T> = Partial<Omit<T, "id" | "key" | "createdAt">>

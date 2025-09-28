@@ -34,7 +34,7 @@ export default defineConfig({
           src: "node_modules/@shoelace-style/shoelace/dist/assets",
           dest: "shoelace/assets",
           filter(src) {
-            const re = /.+\/(sun|moon|list|check2-circle|plus-square|x|trash|folder|arrow-clockwise|pencil|layout-split|code-square)\.svg$/;
+            const re = /.+\/(sun|moon|list|check2-circle|plus-square|x|trash|folder|arrow-clockwise|pencil|layout-split|code-square|three-dots)\.svg$/;
             return re.test(src);
           },
         }
