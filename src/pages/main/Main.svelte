@@ -1,36 +1,37 @@
 <script lang="ts">
-  import type { Workspace } from "$src/types";
+  import type { Shelf } from "$src/types";
 
   import { link } from "svelte-spa-history-router";
-
   import CreateDocDialog from "$src/ui/CreateDocDialog.svelte";
-  import useMainModel from "./useMainModel.svelte";
-  import asyncWorkerClient from "$src/lib/asyncWorkerClient";
 
-  let { workspace }: { workspace: Workspace } = $props();
-
-
-  const mainModel = useMainModel(
-    workspace,
-    asyncWorkerClient(window.navigator.serviceWorker),
-  );
-
-  let openCreateDocDialogs: Record<string, boolean> = $state({});
+  let {
+    shelves,
+    shelfUrl,
+    getOpenCreateDocDialog,
+    setOpenCreateDocDialog,
+    onSave,
+  }: {
+    shelves: Shelf[]
+    shelfUrl: (shelf: Shelf) => string
+    getOpenCreateDocDialog: (shelf: Shelf) => boolean
+    setOpenCreateDocDialog: (shelf: Shelf, v: boolean) => void
+    onSave: (shelf: Shelf, key: string, content: string) => Promise<any>
+  } = $props();
 </script>
 <main>
   <ul>
-    {#each mainModel.shelves as shelf}
-      <li><a use:link href="/{workspace.project.id}/{shelf.name}/">{ shelf.name }</a></li>
+    {#each shelves as shelf}
+      <li><a use:link href={shelfUrl(shelf)}>{ shelf.name }</a></li>
     {/each}
   </ul>
-  {#each mainModel.shelves as shelf}
-    <button onclick={() => { openCreateDocDialogs[shelf.name] = true }}>{ shelf.name } +</button>
+  {#each shelves as shelf}
+    <button onclick={() => setOpenCreateDocDialog(shelf, true)}>{ shelf.name } +</button>
   {/each}
 </main>
-{#each mainModel.shelves as shelf}
+{#each shelves as shelf}
   <CreateDocDialog
-    bind:open={() => openCreateDocDialogs[shelf.name] || false, (v) => openCreateDocDialogs[shelf.name] = v}
+    bind:open={() => getOpenCreateDocDialog(shelf), (v) => setOpenCreateDocDialog(shelf, v)}
     keyInput={shelf.type === "folder"}
-    onSave={(key, content) => mainModel.save(shelf, key, content)}
+    onSave={(key, content) => onSave(shelf, key, content)}
   ></CreateDocDialog>
 {/each}

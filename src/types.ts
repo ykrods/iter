@@ -29,7 +29,10 @@ export interface Doc extends CollectionItemBase {
   content: string
 }
 
+export type Updates<T> = Partial<Omit<T, "id" | "key" | "createdAt">>
+
 export type Documents = Collection<Doc, string>
+
 export type IterSyncManager = SyncManager<
   { name: string },
   CollectionItemBase,
@@ -53,4 +56,22 @@ export interface AsyncWorkerClient {
   close(): void
 }
 
-export type Updates<T> = Partial<Omit<T, "id" | "key" | "createdAt">>
+export interface WorkspaceState {
+  readonly openSidebar: boolean
+  toggleSidebar(): void
+  readonly shelves: Shelf[]
+  shelfUrl(shelf: Shelf): string
+  getOpenCreateDocDialog(shelf: Shelf): boolean
+  setOpenCreateDocDialog(shelf: Shelf, v: boolean): void
+  saveDoc(shelf: Shelf, key: string, content: string): Promise<any>
+  readonly Documents: Documents
+  docUrl(doc: Doc): string
+}
+
+export interface AppState {
+  readonly selected: Project | undefined
+  readonly workspace: Workspace | undefined
+  openProject(name: string): Promise<Workspace | undefined>
+  requestAccessPermission(): Promise<any>
+  readonly workspaceState: WorkspaceState | undefined
+}

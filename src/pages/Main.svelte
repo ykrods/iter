@@ -4,7 +4,13 @@
   import Main from "./main/Main.svelte";
 </script>
 <EnsureWorkspaceAvailable>
-  {#snippet children(workspace)}
-    <Main {workspace}></Main>
+  {#snippet children(workspaceState)}
+    <Main
+      shelves={workspaceState.shelves}
+      shelfUrl={workspaceState.shelfUrl}
+      getOpenCreateDocDialog={workspaceState.getOpenCreateDocDialog}
+      setOpenCreateDocDialog={workspaceState.setOpenCreateDocDialog}
+      onSave={workspaceState.saveDoc}
+    ></Main>
   {/snippet}
 </EnsureWorkspaceAvailable>

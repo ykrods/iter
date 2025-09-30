@@ -7,12 +7,17 @@
 
   import { setContext } from "svelte";
   import { Router, redirect } from "svelte-spa-history-router";
+  import asyncWorkerClient from "$src/lib/asyncWorkerClient";
   import Top from "./pages/Top.svelte";
   import NotFound from "./pages/NotFound.svelte";
   import { getDB } from "$src/lib/idb";
   import useAppState from "./useAppState.svelte";
 
-  const appState = useAppState(getDB());
+
+  const appState = useAppState(
+    getDB(),
+    asyncWorkerClient(window.navigator.serviceWorker),
+  );
   setContext("appState", appState);
 
   async function mainResolver(params: Record<string, string>) {

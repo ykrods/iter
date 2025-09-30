@@ -1,21 +1,20 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
-  import type useAppState from "$src/useAppState.svelte";
-  import type { Workspace } from "$src/types";
+  import type { AppState, WorkspaceState } from "$src/types";
 
   import { getContext } from "svelte";
 
-  const appState = getContext<ReturnType<typeof useAppState>>("appState");
+  const appState = getContext<AppState>("appState");
 
   let {
     children,
   }: {
-    children: Snippet<[Workspace]>
+    children: Snippet<[WorkspaceState]>
   } = $props();
 </script>
 <div>
-  {#if appState.workspace }
-    {@render children(appState.workspace)}
+  {#if appState.workspaceState }
+    {@render children(appState.workspaceState)}
   {:else}
     permission required <button onclick={() => appState.requestAccessPermission()}>grant</button>
   {/if}

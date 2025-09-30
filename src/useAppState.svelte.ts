@@ -1,11 +1,16 @@
 import type {
+  AppState,
   Project,
   Workspace,
+  WorkspaceState,
   IterIDB,
+  Shelf,
+  AsyncWorkerClient,
 } from "$src/types";
 
 import createSyncManager from "$src/lib/createSyncManager";
 import createDocuments from "$src/lib/doc/createDocuments";
+import useWorkspaceState from "$src/useWorkspaceState.svelte";
 
 
 async function getGranted(
@@ -30,7 +35,7 @@ function createWorkspace(project: Project): Workspace {
   });
   syncManager.syncAll()
 
-  const shelves = [
+  const shelves: Shelf[] = [
     { type: "folder", name: "docs" },
     { type: "note", name: "journals" },
     { type: "serial", name: "decisions" },
@@ -39,13 +44,19 @@ function createWorkspace(project: Project): Workspace {
   return { project, syncManager, Documents, shelves }
 }
 
-export default function useAppState(idb: IterIDB) {
+
+export default function useAppState(
+  idb: IterIDB,
+  client: AsyncWorkerClient,
+): AppState {
   let _selected = $state<Project | undefined>()
   let _workspace = $state<Workspace | undefined>()
+  let _workspaceState = $state<WorkspaceState>()
 
   const appState = {
     get selected() { return _selected },
     get workspace() { return _workspace },
+    get workspaceState() { return _workspaceState },
     async openProject(name: string): Promise<Workspace | undefined> {
       const project = await idb.projects.get(name);
       if (!project) {
@@ -71,6 +82,7 @@ export default function useAppState(idb: IterIDB) {
       }
       if (granted) {
         _workspace = createWorkspace(_selected!)
+        _workspaceState = useWorkspaceState(_workspace, client);
       } else {
         _workspace = undefined
       }

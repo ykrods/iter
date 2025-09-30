@@ -1,4 +1,11 @@
-import type { AsyncWorkerClient, Workspace, Shelf, Doc, Documents as DocumentsType } from "$src/types";
+import type {
+  AsyncWorkerClient,
+  Doc,
+  Documents as DocumentsType,
+  Workspace,
+  WorkspaceState,
+  Shelf,
+} from "$src/types";
 
 import generateId from "$src/lib/generateId";
 
@@ -46,20 +53,37 @@ function createDocBuilder(
   }
 }
 
-export default function useMainModel(
+export default function useWorkspaceState(
   workspace: Workspace,
   client: AsyncWorkerClient,
-) {
+): WorkspaceState {
+  let openSidebar = $state(true);
+  let openCreateDocDialogs = $state<Record<string, boolean>>({});
+
   return {
-    get Documents() { return workspace.Documents },
+    get openSidebar() { return openSidebar },
+    toggleSidebar() { openSidebar = !openSidebar },
     get shelves(): Shelf[] { return workspace.shelves },
-    async save(shelf: Shelf, key: string, content: string) {
+    shelfUrl(shelf: Shelf) {
+      return `/${workspace.project.id}/${shelf.name}/`;
+    },
+    getOpenCreateDocDialog(shelf: Shelf): boolean {
+      return openCreateDocDialogs[shelf.name] ?? false;
+    },
+    setOpenCreateDocDialog(shelf: Shelf, v: boolean) {
+      openCreateDocDialogs[shelf.name] = v
+    },
+    async saveDoc(shelf: Shelf, key: string, content: string) {
       const builder = createDocBuilder(
         workspace.Documents,
         client,
       );
       const doc = await builder.build(shelf, content, key);
       return workspace.Documents.insert(doc);
+    },
+    get Documents() { return workspace.Documents },
+    docUrl(doc: Doc) {
+      return `/${workspace.project.id}/${doc.key}`
     },
     update(doc: Doc) {
       const updates = {
@@ -70,10 +94,10 @@ export default function useMainModel(
       return workspace.Documents.updateOne(doc, { $set: updates });
     },
     remove(key: string) {
-      workspace.Documents.removeOne({ key })
+      return workspace.Documents.removeOne({ key })
     },
     rst2html(content: string) {
       return client.rst2html(content);
-    }
-  };
+    },
+  }
 }

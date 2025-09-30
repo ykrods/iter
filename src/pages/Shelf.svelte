@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Workspace, Shelf } from "$src/types";
+  import type { Shelf, Documents as DocumentsType } from "$src/types";
 
   import EnsureWorkspaceAvailable from "$src/components/EnsureWorkspaceAvailable.svelte";
   import Folder from "./shelf/Folder.svelte";
@@ -12,33 +12,33 @@
     shelf: Shelf
   } = $props()
 
-  function getCursor(workspace: Workspace) {
-    return workspace.Documents.find({
+  function getCursor(Documents: DocumentsType) {
+    return Documents.find({
         key: new RegExp(`^${shelf.name}/`)
     });
   }
 </script>
 <EnsureWorkspaceAvailable>
-  {#snippet children(workspace)}
+  {#snippet children(workspaceState)}
     {#if shelf.type === "folder"}
       <Folder
         {shelf}
-        getCursor={() => getCursor(workspace)}
-        docUrl={(doc) => `/${workspace.project.id}/${doc.key}`}
+        getCursor={() => getCursor(workspaceState.Documents)}
+        docUrl={workspaceState.docUrl}
       ></Folder>
     {/if}
     {#if shelf.type === "note"}
       <NoteList
         {shelf}
-        getCursor={() => getCursor(workspace)}
-        docUrl={(doc) => `/${workspace.project.id}/${doc.key}`}
+        getCursor={() => getCursor(workspaceState.Documents)}
+        docUrl={workspaceState.docUrl}
       ></NoteList>
     {/if}
     {#if shelf.type === "serial"}
       <SerialList
         {shelf}
-        getCursor={() => getCursor(workspace)}
-        docUrl={(doc) => `/${workspace.project.id}/${doc.key}`}
+        getCursor={() => getCursor(workspaceState.Documents)}
+        docUrl={workspaceState.docUrl}
       ></SerialList>
     {/if}
   {/snippet}
